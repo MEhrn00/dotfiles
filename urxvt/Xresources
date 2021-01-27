@@ -1,0 +1,69 @@
+! Set the font and size
+! Dependencies: adobe-source-code-pro-fonts
+URxvt.font: xft:Source Code Pro:size=10
+*.vt100.faceName: Source Code Pro:size=10
+
+! Disable iso keybinding
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
+! Get rid of padding for tmux bar
+URxvt.internalBorder: 0
+
+! Perl extensions
+! Dependencies: rxvt-unicode-cvs-patched-wideglyphs(AUR), urxvt-fullscreen(AUR), urxvt-tabbedex(AUR)
+URxvt.perl-ext-common: default,matcher,selection-to-clipboard,paste_clipboard,fullscreen,tabbedex
+
+! Fullscreen
+URxvt.keysym.F11: perl:fullscreen:switch
+
+! Hide the scrollbar
+URxvt.scrollBar: false
+
+! Clipboard keybinding
+URxvt.keysym.C-S-0x43: eval:selection_to_clipboard
+URxvt.keysym.C-S-0x56: eval:paste_clipboard
+
+! Make scrolling feel more natural
+URxvt.secondaryScreen: 1
+URxvt.secondaryScroll: 0
+
+! URL click options
+URxvt.url-launcher: /usr/bin/firefox
+URxvt.matcher.button: 1
+
+! Tabs
+URxvt.tabbed.tabbar-fg: 8
+URxvt.tabbed.tabbar-bg: 0
+URxvt.tabbed.tab-fg: 2
+URxvt.tabbed.tab-bg: 0
+URxvt.tabbed.autohide: true
+URxvt.keysym.M-i: perl:tabbedex:next_tab
+URxvt.keysym.M-u: perl:tabbedex:prev_tab
+URxvt.keysym.M-c: perl:tabbedex:new_tab
+
+! Extra xterm stuff
+*.vt100.locale: true
+*.vt100.metaSendsEscape: true
+
+! Colors
+*.foreground:   #BABABA
+*.background:   #222324
+*.cursorColor:  #ffffff
+
+*.color0:       #000000
+*.color1:       #E8341C
+*.color2:       #68C256
+*.color3:       #F2D42C
+*.color4:       #1C98E8
+*.color5:       #8E69C9
+*.color6:       #1C98E8
+*.color7:       #BABABA
+*.color8:       #666666
+*.color9:       #E8341C
+*.color10:      #77B869
+*.color11:      #EFD64B
+*.color12:      #387CD3
+*.color13:      #957BBE
+*.color14:      #3D97E2
+*.color15:      #BABABA
