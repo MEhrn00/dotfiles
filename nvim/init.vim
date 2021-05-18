@@ -2,13 +2,16 @@ filetype plugin indent on
 filetype plugin on
 syntax on
 
+" Vim defaults
+source /usr/share/vim/vim82/defaults.vim
+
 " Plugins
 source ~/.config/nvim/plugins.vim
 
 " Turn on numbering
 set number
 
-" Whitespace
+" Show trailng whitespace as a '-'
 set list
 
 " Turn on mouse
@@ -38,8 +41,8 @@ if exists('+termguicolors')
 endif
 
 " Cursor column
-set colorcolumn=80
-set tw=80
+set cc=90
+set tw=90
 hi ColorColumn ctermbg=grey guibg=lightgrey
 
 " Turn off search highlighting but on incsearch
@@ -77,6 +80,9 @@ set shortmess+=c
 " Live substitute
 set icm=nosplit
 
+" Write sudo
+cmap WW w !pkexec tee %
+
 " Terminal settings
 tnoremap <Esc> <C-\><C-n>
 
@@ -85,7 +91,15 @@ packadd termdebug
 let g:termdebug_wide=1
 
 " Ctags
-nnoremap <silent> <leader>c :!ctags -R .<CR>
+nnoremap <silent> <leader>c :!ctags --exclude=@$HOME/.config/git/ignore -R .<CR>
+
+function! RunCtagsBack()
+    if filereadable("tags")
+        :execute 'silent !ctags --exclude=@$HOME/.config/git/ignore &' | redraw!
+    endif
+endfunction
+autocmd BufWritePost * :call RunCtagsBack()
 
 " CtrlP
 let g:ctrlp_cmd = 'CtrlPTag'
+let g:ctrlp_working_path_mode = 'a'

@@ -8,6 +8,9 @@ unsetopt beep
 autoload -Uz compinit
 compinit
 
+# Share history
+setopt share_history
+
 # Set key timeout
 KEYTIMEOUT=1
 
@@ -42,6 +45,12 @@ alias grep="grep --color=auto"
 
 # Clipboard
 alias xclip="xclip -selection clipboard"
+
+# Ctags
+alias ctags="ctags --exclude=@$HOME/.config/git/ignore"
+
+# pwninit
+alias pwninit="pwninit --template-path ~/.config/nvim/snippets/pwninit-template.py --template-bin-name e"
 
 # Set go path
 export GOPATH=$HOME/.go

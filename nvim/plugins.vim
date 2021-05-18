@@ -6,8 +6,8 @@ Plug 'ctrlpvim/ctrlp.vim'
 
 Plug 'jremmen/vim-ripgrep'
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-
 Plug 'cespare/vim-toml'
+
+Plug 'udalov/kotlin-vim'
 
 call plug#end()
