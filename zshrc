@@ -30,8 +30,26 @@ autoload -Uz promptinit
 promptinit
 
 RETURN_CODE="%(?..%{%F{red}%}%? )%{%F{white}%}"
-
 PROMPT="%{%F{green}%}%n@%m%{%F{white}%} :: %{%F{blue}%}%~%{%F{white}%} $RETURN_CODE>> "
+
+# Set terminal title
+autoload -Uz add-zsh-hook
+
+function xterm_title_precmd () {
+    print -Pn -- '\e]2;%n@%m %~\a'
+    [[ "$TERM" == 'screen'* ]] && print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-}\e\\'
+}
+
+function xterm_title_preexec () {
+    print -Pn -- '\e]2;%n@%m %~ %# ' && print -n -- "${(q)1}\a"
+    [[ "$TERM" == 'screen'* ]] && { print -Pn -- '\e_\005{g}%n\005{-}@\005{m}%m\005{-} \005{B}%~\005{-} %# ' && print -n -- "${(q)1}\e\\"; }
+}
+
+if [[ "$TERM" == (Eterm*|alacritty*|aterm*|gnome*|konsole*|kterm*|putty*|rxvt*|screen*|tmux*|xterm*) ]]; then
+    add-zsh-hook -Uz precmd xterm_title_precmd
+    add-zsh-hook -Uz preexec xterm_title_preexec
+fi
+
 
 # Alias to disable aslr in a new session
 alias disable_aslr="setarch `uname -m` -R /bin/bash"
@@ -47,7 +65,7 @@ alias grep="grep --color=auto"
 alias xclip="xclip -selection clipboard"
 
 # Ctags
-alias ctags="ctags --exclude=@$HOME/.config/git/ignore"
+alias ctags="ctags --exclude=target --exclude=env --exclude=.vscode"
 
 # pwninit
 alias pwninit="pwninit --template-path ~/.config/nvim/snippets/pwninit-template.py --template-bin-name e"
@@ -64,9 +82,6 @@ export LESS_TERMCAP_so=$'\E[01;47;34m'
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;36m'
 export LESS=-r
-
-# Open new tab in CWD
-source /etc/profile.d/vte.sh
 
 # Plugins
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
