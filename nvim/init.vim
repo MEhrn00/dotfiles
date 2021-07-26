@@ -50,7 +50,8 @@ set nohlsearch
 set incsearch
 
 " Status line
-set laststatus=1
+set laststatus=0
+let g:loaded_airline = 1
 
 " Wildmenu
 set path+=**
@@ -59,7 +60,6 @@ set wildmenu
 " Screen buffer stuff
 nnoremap <silent> <Leader>] :bn<CR>
 nnoremap <silent> <Leader>[ :bp<CR>
-nnoremap <silent> <Leader>; :buffers<CR>
 nnoremap <silent> <Leader>d :bd<CR>
 
 " More natural splitting
@@ -91,15 +91,45 @@ packadd termdebug
 let g:termdebug_wide=1
 
 " Ctags
-nnoremap <silent> <leader>c :!ctags --exclude=@$HOME/.config/git/ignore -R .<CR>
+nnoremap <silent> <leader>c :!zsh -ic tgen<CR>
 
 function! RunCtagsBack()
     if filereadable("tags")
-        :execute 'silent !ctags --exclude=@$HOME/.config/git/ignore &' | redraw!
+        :execute 'silent !zsh -ic tgen &' | redraw!
     endif
 endfunction
 autocmd BufWritePost * :call RunCtagsBack()
 
-" CtrlP
-let g:ctrlp_cmd = 'CtrlPTag'
-let g:ctrlp_working_path_mode = 'a'
+" Telescope
+nnoremap <silent> <leader>t :Telescope tags<CR>
+nnoremap <silent> <leader>f :Telescope find_files<CR>
+nnoremap <silent> <leader>; :Telescope buffers<CR>
+
+lua << EOF
+require('telescope').setup{
+  defaults = {
+    layout_strategy = "vertical",
+    theme = "dropdown",
+  },
+
+  pickers = {
+    buffers = {
+      sort_lastused = true,
+      mappings = {
+        i = {
+          ["<c-d>"] = "delete_buffer",
+        },
+        n = {
+          ["<c-d>"] = "delete_buffer",
+        },
+      }
+    }
+  },
+
+}
+EOF
+
+function! IdeSetup()
+    source ~/.config/nvim/ide.vim
+endfunction
+command Ide call IdeSetup()
