@@ -4,8 +4,8 @@ syntax on
 
 " Source the vim8 defaults for file location caching, scrolloff and other stuff
 if has("unix")
-    if filereadable("/usr/share/vim/vim82/defaults.vim")
-        source /usr/share/vim/vim82/defaults.vim
+    if filereadable(glob("/usr/share/vim/vim8*/defaults.vim"))
+        exe 'source' glob("/usr/share/vim/vim8*/defaults.vim")
     endif
 elseif has("win32")
     echo "Neeed to source defaults"
@@ -14,7 +14,7 @@ endif
 " Plugins
 if has("unix")
     if filereadable(glob("~/.config/nvim/plugins.vim"))
-        source ~/.config/nvim/plugins.vim
+        exe 'source' glob("~/.config/nvim/plugins.vim")
     endif
 elseif has("win32")
     echo "Need to source plugins"
@@ -155,7 +155,7 @@ EOF
 " Function to setup ide configuration
 function! IdeSetup()
     if filereadable(glob("~/.config/nvim/ide.vim"))
-        source ~/.config/nvim/ide.vim
+        exe 'source' glob("~/.config/nvim/ide.vim")
     else
         echo "Ide.vim not found"
     endif
