@@ -1,4 +1,6 @@
+" Add spellcheck since markdown is mostly English
 setlocal spell
 
-setlocal tabstop=2
-setlocal shiftwidth=2
+" Set tabs equal to 2 spaces
+setlocal ts=2
+setlocal sw=2

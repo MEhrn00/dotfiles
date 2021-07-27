@@ -1,7 +1,11 @@
+" 'IDE mode' extra configuration
+
+" Set colors to signify change in mode
 let g:vscode_style = "dark"
 colo vscode
 set title
 
+" Make completions work better with nvim lsp
 set completeopt=menuone,longest,noselect,noinsert
 
 " Disable GUI Tabline
@@ -19,27 +23,34 @@ if exists(':GuiScrollBar')
     GuiScrollBar 0
 endif
 
-" Right Click Context Menu (Copy-Cut-Paste)
-nnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>
-inoremap <silent><RightMouse> <Esc>:call GuiShowContextMenu()<CR>
-vnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>gv
+" Right Click Context Menu (Copy-Cut-Paste) for gui
+if has('gui_running')
+    nnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>
+    inoremap <silent><RightMouse> <Esc>:call GuiShowContextMenu()<CR>
+    vnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>gv
+endif
 
+" Disable netrw and use nerdtree instead
 let loaded_netrwPlugin = 1
-let g:loaded_airline = 0
 
 lua <<EOF
+-- Setup nvim lsp
 local nvim_lsp = require('lspconfig')
 
 local on_attach = function(client, bufnr)
     require'completion'.on_attach(client)
 end
 
+-- Rust analyzer setup
 require'lspconfig'.rust_analyzer.setup{
     cmd = { "rust-analyzer" },
     filetypes = { "rust" },
 }
 
+-- Golang setup
 require'lspconfig'.gopls.setup{}
+
+-- Clangd setup
 require'lspconfig'.clangd.setup{
     cmd = { "clangd",
             "--background-index",
@@ -52,6 +63,7 @@ require'lspconfig'.clangd.setup{
 }
 
 
+-- Show lsp diagnostics
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   vim.lsp.diagnostic.on_publish_diagnostics, {
     virtual_text = true,
@@ -60,6 +72,7 @@ vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
   }
 )
 
+-- Setup format on save for rust, go and c++
 require('formatter').setup({
     logging = false,
     filetype = {
@@ -95,6 +108,7 @@ require('formatter').setup({
     }
 })
 
+-- Launch nvim lsp automatically based on file type
 local servers = { "rust_analyzer", "gopls", "clangd" }
 for _, lsp in ipairs(servers) do
   nvim_lsp[lsp].setup {
@@ -106,16 +120,20 @@ for _, lsp in ipairs(servers) do
 end
 EOF
 
+" Format on save write hook
 augroup Format
     autocmd!
     autocmd BufWritePost *.rs,*.go,*.cc,*.cpp silent! FormatWrite
 augroup END
 
+" Floating terminal
 let g:floaterm_keymap_toggle = '<space>f'
 let g:floaterm_shell = 'zsh'
 
+" Activate completion menu on <C-x><C-o>
 imap <C-x><C-o> <Plug>(completion_smart_tab)
 
+" Command keybinds for nvim lsp such as documentation and goto implementation
 nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
@@ -127,16 +145,19 @@ nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
 
+" Idk what this is I saw it on stack overflow I think
 set updatetime=300
 autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
 
+" Cycle nvim lsp diagnostic windows
 nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
+" Idk
 set signcolumn=yes
 
-let g:airline_theme='tomorrow'
+" Open nerdtree with keybind (might get rid of in favor of telescope)
+nnoremap <silent> <space>f :NERDTreeToggle<CR>
 
-nnoremap <silent> <leader>f :NERDTreeToggle<CR>
-
+" Disable neovide cursor animations if I'm using neovide
 let g:neovide_cursor_animation_length=0

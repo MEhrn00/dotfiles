@@ -2,22 +2,38 @@ filetype plugin indent on
 filetype plugin on
 syntax on
 
-" Vim defaults
-source /usr/share/vim/vim82/defaults.vim
+" Source the vim8 defaults for file location caching, scrolloff and other stuff
+if has("unix")
+    if filereadable("/usr/share/vim/vim82/defaults.vim")
+        source /usr/share/vim/vim82/defaults.vim
+    endif
+elseif has("win32")
+    echo "Neeed to source defaults"
+endif
 
 " Plugins
-source ~/.config/nvim/plugins.vim
+if has("unix")
+    if filereadable(glob("~/.config/nvim/plugins.vim"))
+        source ~/.config/nvim/plugins.vim
+    endif
+elseif has("win32")
+    echo "Need to source plugins"
+endif
 
 " Turn on numbering
 set number
 
-" Show trailng whitespace as a '-'
+" Show trailng whitespace as '-' and hard tabs as '>'
 set list
+set listchars=tab:>\ ,trail:-
 
 " Turn on mouse
 set mouse=a
 
-" Set tabs equal to 4 spaces
+" Disable netrw history
+let g:netrw_dirhistmax = 0
+
+" Set tabs equal to 4 spaces by default
 set expandtab
 set tabstop=4
 set shiftwidth=4
@@ -28,7 +44,7 @@ set autoindent
 set noshowmode
 set noshowcmd
 
-" Set color
+" Set colors
 colo delek
 set bg=light
 hi Pmenu ctermbg=235 ctermfg=white
@@ -40,24 +56,23 @@ if exists('+termguicolors')
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
-" Cursor column
+" Column line and text wrapping
 set cc=90
 set tw=90
 hi ColorColumn ctermbg=grey guibg=lightgrey
 
-" Turn off search highlighting but on incsearch
+" Turn off search highlighting but turn incremental search on
 set nohlsearch
 set incsearch
 
-" Status line
+" Disable neovim status line because it's ugly
 set laststatus=0
-let g:loaded_airline = 1
 
 " Wildmenu
 set path+=**
 set wildmenu
 
-" Screen buffer stuff
+" Screen buffer navigation
 nnoremap <silent> <Leader>] :bn<CR>
 nnoremap <silent> <Leader>[ :bp<CR>
 nnoremap <silent> <Leader>d :bd<CR>
@@ -67,9 +82,13 @@ set splitbelow
 set splitright
 
 " Pwn snippet
-nnoremap <silent> ,e :-1read $HOME/.config/nvim/snippets/skeleton-pwn.py<CR>3j$i
+if filereadable(glob("~/.config/nvim/snippets/skeleton-pwn.py"))
+    nnoremap <silent> ,e :-1read $HOME/.config/nvim/snippets/skeleton-pwn.py<CR>3j$i
+else
+    nnoremap <silent> ,e :echo "Pwn snippet not found"<CR>
+endif
 
-" Clipboard
+" Use '\y' to copy text to system clipboard
 noremap <Leader>y "+y
 
 " General Completion
@@ -81,7 +100,9 @@ set shortmess+=c
 set icm=nosplit
 
 " Write sudo
-cmap WW w !pkexec tee %
+if has("unix")
+    cmap WW w !pkexec tee %
+endif
 
 " Terminal settings
 tnoremap <Esc> <C-\><C-n>
@@ -90,22 +111,24 @@ tnoremap <Esc> <C-\><C-n>
 packadd termdebug
 let g:termdebug_wide=1
 
-" Ctags
-nnoremap <silent> <leader>c :!zsh -ic tgen<CR>
+" Ctags setup to run ctags in the background on save using `tgen` zsh alias if the tags file exists
+if has("unix")
+    nnoremap <silent> <leader>c :!zsh -ic tgen<CR>
+    function! RunCtagsBack()
+        if filereadable("tags")
+            :execute 'silent !zsh -ic tgen &' | redraw!
+        endif
+    endfunction
+    autocmd BufWritePost * :call RunCtagsBack()
+endif
 
-function! RunCtagsBack()
-    if filereadable("tags")
-        :execute 'silent !zsh -ic tgen &' | redraw!
-    endif
-endfunction
-autocmd BufWritePost * :call RunCtagsBack()
-
-" Telescope
+" Telescope keybinds
 nnoremap <silent> <leader>t :Telescope tags<CR>
 nnoremap <silent> <leader>f :Telescope find_files<CR>
 nnoremap <silent> <leader>; :Telescope buffers<CR>
 
 lua << EOF
+-- Setup telescope
 require('telescope').setup{
   defaults = {
     layout_strategy = "vertical",
@@ -129,7 +152,12 @@ require('telescope').setup{
 }
 EOF
 
+" Function to setup ide configuration
 function! IdeSetup()
-    source ~/.config/nvim/ide.vim
+    if filereadable(glob("~/.config/nvim/ide.vim"))
+        source ~/.config/nvim/ide.vim
+    else
+        echo "Ide.vim not found"
+    endif
 endfunction
 command Ide call IdeSetup()
