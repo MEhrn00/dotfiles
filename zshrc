@@ -18,7 +18,7 @@ KEYTIMEOUT=1
 if [ -f ~/.dircolors ]; then
     eval "$(dircolors ~/.dircolors)"
 else
-    echo "[*] Dircolors file not found (dircolors -p > ~/.dircolors)"
+    echo "[*] Dircolors file not found (dircolors -p > ~/.dircolors)!!!"
 fi
 
 # Set up completion
@@ -103,30 +103,39 @@ if [ -f /etc/profile.d/vte.sh ]; then
     source /etc/profile.d/vte.sh
 fi
 
-# Zsh history substring search plugin `pacman -S zsh-history-substring-search`
+# Zsh history substring search plugin `pacman zsh-history-substring-search`
+# Not found for apt
 if [ -f /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh ]; then
     source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
-else
-    echo "[*] Zsh history substring search not found"
 fi
 
-# Zsh autosuggestions `pacman -S zsh-autosuggestions`
+# Zsh autosuggestions `(pacman/apt) zsh-autosuggestions`
 if [ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
     source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+elif [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
+    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 else
-    echo "[*] Zsh autosuggestions not found"
+    echo "[*] Zsh autosuggestions not found!!!"
 fi
 
-# Zsh syntax highlighting `pacman -S zsh-syntax-highlighting`
+# Zsh syntax highlighting `(pacman/apt) zsh-syntax-highlighting`
 if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh ]; then
     source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+elif [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
+    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 else
-    echo "[*] Zsh syntax highlighting not found"
+    echo "[*] Zsh syntax highlighting not found!!!"
 fi
 
 # Command not found handler `pacman -S pkgfile && pkgfile -u`
+# apt: `apt install command-not-found`
 if [ -f /usr/share/doc/pkgfile/command-not-found.zsh ]; then
     source /usr/share/doc/pkgfile/command-not-found.zsh
+elif [ -f /etc/zsh_command_not_found ]; then
+    source /etc/zsh_command_not_found
 else
-    echo "[*] Command not found handler not found"
+    echo "[*] Command not found handler not found!!!"
 fi
+
+# Disable cursor blinking on wsl because windows terminal is dumb
+echo -e "\e[2 q"
