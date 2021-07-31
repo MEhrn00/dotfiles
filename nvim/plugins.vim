@@ -1,4 +1,10 @@
-call plug#begin('~/.config/nvim/plugged')
+if has('win32')
+    let plug_path = '$HOMEPATH/AppData/Local/nvim/plugged'
+else
+    let plug_path = '~/.config/nvim/pluged'
+endif
+
+call plug#begin(plug_path)
 
 " Preview markdown in web browser
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}

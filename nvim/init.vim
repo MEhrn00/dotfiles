@@ -8,7 +8,9 @@ if has("unix")
         exe 'source' glob("/usr/share/vim/vim8*/defaults.vim")
     endif
 elseif has("win32")
-    echo "Neeed to source defaults"
+    if filereadable(glob("C:/tools/vim/vim82/defaults.vim"))
+        exe 'source' glob("C:/tools/vim/vim82/defaults.vim")
+    endif
 endif
 
 " Plugins
@@ -17,7 +19,9 @@ if has("unix")
         exe 'source' glob("~/.config/nvim/plugins.vim")
     endif
 elseif has("win32")
-    echo "Need to source plugins"
+    if filereadable(glob("$HOMEPATH/AppData/Local/nvim/plugins.vim"))
+        exe 'source' glob("$HOMEPATH/AppData/Local/nvim/plugins.vim")
+    endif
 endif
 
 " Turn on numbering
@@ -154,10 +158,14 @@ EOF
 
 " Function to setup ide configuration
 function! IdeSetup()
-    if filereadable(glob("~/.config/nvim/ide.vim"))
-        exe 'source' glob("~/.config/nvim/ide.vim")
-    else
-        echo "Ide.vim not found"
+    if has("unix")
+        if filereadable(glob("~/.config/nvim/ide.vim"))
+            exe 'source' glob("~/.config/nvim/ide.vim")
+        endif
+    elseif has("win32")
+        if filereadable(glob("$HOMEPATH/AppData/Local/nvim/ide.vim"))
+            exe 'source' glob("$HOMEPATH/AppData/Local/nvim/ide.vim")
+        endif
     endif
 endfunction
 command Ide call IdeSetup()

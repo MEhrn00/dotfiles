@@ -41,9 +41,18 @@ local on_attach = function(client, bufnr)
     require'completion'.on_attach(client)
 end
 
+-- Windows || linux config
+if vim.fn.has('win32') == 1 then
+    local rustlsp_cmd = "rust-analyzer.exe"
+    local clangd_cmd = "clangd.exe"
+else
+    local rustlsp_cmd = "rust-analyzer"
+    local clangd_cmd = "clangd"
+end
+
 -- Rust analyzer setup
 require'lspconfig'.rust_analyzer.setup{
-    cmd = { "rust-analyzer" },
+    cmd = { rustlspcmd },
     filetypes = { "rust" },
 }
 
@@ -52,7 +61,7 @@ require'lspconfig'.gopls.setup{}
 
 -- Clangd setup
 require'lspconfig'.clangd.setup{
-    cmd = { "clangd",
+    cmd = { clangdcmd,
             "--background-index",
             "-Werror",
             "--clang-tidy",
@@ -128,7 +137,12 @@ augroup END
 
 " Floating terminal
 let g:floaterm_keymap_toggle = '<space>f'
-let g:floaterm_shell = 'zsh'
+
+if has("win32")
+    let g:floaterm_shell = 'powershell.exe'
+else
+    let g:floaterm_shell = 'zsh'
+endif
 
 " Activate completion menu on <C-x><C-o>
 imap <C-x><C-o> <Plug>(completion_smart_tab)
