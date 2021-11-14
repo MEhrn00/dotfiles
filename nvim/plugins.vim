@@ -9,9 +9,6 @@ call plug#begin(plug_path)
 " Preview markdown in web browser
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
-" Ripgrep
-Plug 'jremmen/vim-ripgrep'
-
 " Toml syntax support
 Plug 'cespare/vim-toml'
 
