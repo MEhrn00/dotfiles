@@ -1,7 +1,7 @@
 if has('win32')
     let plug_path = '$HOMEPATH/AppData/Local/nvim/plugged'
 else
-    let plug_path = '~/.config/nvim/pluged'
+    let plug_path = '~/.config/nvim/plugged'
 endif
 
 call plug#begin(plug_path)
