@@ -1,5 +1,7 @@
 " 'IDE mode' extra configuration
 
+let g:ide_loaded = 1
+
 " Set colors to signify change in mode
 let g:vscode_style = "dark"
 colo vscode
@@ -20,11 +22,11 @@ endif
 
 " Enable GUI ScrollBar
 if exists(':GuiScrollBar')
-    GuiScrollBar 0
+    GuiScrollBar 1
 endif
 
 " Right Click Context Menu (Copy-Cut-Paste) for gui
-if has('gui_running')
+if exists('GuiLoaded')
     nnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>
     inoremap <silent><RightMouse> <Esc>:call GuiShowContextMenu()<CR>
     vnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>gv
@@ -34,52 +36,57 @@ endif
 let loaded_netrwPlugin = 1
 
 lua <<EOF
--- Setup nvim lsp
-local nvim_lsp = require('lspconfig')
+-- Setup completion
+local nvim_lsp = require'lspconfig'
 
-local on_attach = function(client, bufnr)
-    require'completion'.on_attach(client)
-end
+require('rust-tools').setup({})
+require('rust-tools.inlay_hints').toggle_inlay_hints()
+require('rust-tools.inlay_hints').set_inlay_hints()
+require('rust-tools.inlay_hints').disable_inlay_hints()
 
--- Windows || linux config
-if vim.fn.has('win32') == 1 then
-    local rustlsp_cmd = "rust-analyzer.exe"
-    local clangd_cmd = "clangd.exe"
-else
-    local rustlsp_cmd = "rust-analyzer"
-    local clangd_cmd = "clangd"
-end
+local cmp = require'cmp'
+cmp.setup({
+    snippet = {
+        expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+    end,
+    },
+    mapping = {
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        -- Add tab support
+        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping({
+            i = cmp.mapping.abort(),
+            c = cmp.mapping.close(),
+        }),
+        ['<Tab>'] = cmp.mapping.confirm({
+            behavior = cmp.ConfirmBehavior.Insert,
+            select = true,
+        })
+    },
 
--- Rust analyzer setup
-require'lspconfig'.rust_analyzer.setup{
-    cmd = { rustlspcmd },
-    filetypes = { "rust" },
-}
+    -- Installed sources
+    sources = {
+        { name = 'nvim_lsp' },
+        { name = 'buffer' },
+    },
+})
 
--- Golang setup
-require'lspconfig'.gopls.setup{}
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
--- Clangd setup
-require'lspconfig'.clangd.setup{
-    cmd = { clangdcmd,
-            "--background-index",
-            "-Werror",
-            "--clang-tidy",
-            "--clang-tidy-checks='modernize-*,cert-*,performance-*,portability-*'",
-            "--suggest-missing-includes"},
-
-    filetypes = { "c", "cpp" }
-}
-
-
--- Show lsp diagnostics
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    virtual_text = true,
-    signs = true,
-    update_in_insert = true,
+local servers = { 'rust_analyzer' }
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    capabilities = capabilities,
+    flags = {
+      debounce_text_changes = 150,
+    }
   }
-)
+end
 
 -- Setup format on save for rust, go and c++
 require('formatter').setup({
@@ -116,17 +123,6 @@ require('formatter').setup({
       },
     }
 })
-
--- Launch nvim lsp automatically based on file type
-local servers = { "rust_analyzer", "gopls", "clangd" }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
-end
 EOF
 
 " Format on save write hook
@@ -136,7 +132,14 @@ augroup Format
 augroup END
 
 " Floating terminal
-let g:floaterm_keymap_toggle = '<space>f'
+nnoremap <silent> <F5> :FloatermToggle<CR>
+inoremap <silent> <F5> :FloatermToggle<CR>
+vnoremap <silent> <F5> :FloatermToggle<CR>
+tnoremap <silent> <F5> <C-\><C-n>:FloatermToggle<CR>
+
+nnoremap <silent> <space>t :FloatermToggle<CR>
+
+let g:floaterm_wintype='vsplit'
 
 if has("win32")
     let g:floaterm_shell = 'powershell.exe'
@@ -144,17 +147,17 @@ else
     let g:floaterm_shell = 'zsh'
 endif
 
-" Activate completion menu on <C-x><C-o>
-imap <C-x><C-o> <Plug>(completion_smart_tab)
-
 " Command keybinds for nvim lsp such as documentation and goto implementation
 nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
 nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> gr    :Telescope lsp_references<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> ge    <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
+nnoremap <silent> gE    <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
+nnoremap <silent> <leader>e :Telescope lsp_workspace_diagnostics<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
@@ -162,10 +165,6 @@ nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
 " Idk what this is I saw it on stack overflow I think
 set updatetime=300
 autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
-
-" Cycle nvim lsp diagnostic windows
-nnoremap <silent> g[ <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <silent> g] <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 
 " Idk
 set signcolumn=yes

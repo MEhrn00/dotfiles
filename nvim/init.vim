@@ -70,7 +70,7 @@ set nohlsearch
 set incsearch
 
 " Disable neovim status line because it's ugly
-set laststatus=0
+set laststatus=1
 
 " Wildmenu
 set path+=**
@@ -158,13 +158,15 @@ EOF
 
 " Function to setup ide configuration
 function! IdeSetup()
-    if has("unix")
-        if filereadable(glob("~/.config/nvim/ide.vim"))
-            exe 'source' glob("~/.config/nvim/ide.vim")
-        endif
-    elseif has("win32")
-        if filereadable(glob("$HOMEPATH/AppData/Local/nvim/ide.vim"))
-            exe 'source' glob("$HOMEPATH/AppData/Local/nvim/ide.vim")
+    if !exists('g:ide_loaded')
+        if has("unix")
+            if filereadable(glob("~/.config/nvim/ide.vim"))
+                exe 'source' glob("~/.config/nvim/ide.vim")
+            endif
+        elseif has("win32")
+            if filereadable(glob("$HOMEPATH/AppData/Local/nvim/ide.vim"))
+                exe 'source' glob("$HOMEPATH/AppData/Local/nvim/ide.vim")
+            endif
         endif
     endif
 endfunction
