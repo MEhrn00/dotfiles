@@ -4,10 +4,6 @@ HISTSIZE=1000
 SAVEHIST=1000
 unsetopt beep
 
-# Start completion
-autoload -Uz compinit
-compinit
-
 # Share history between sessions
 setopt share_history
 
@@ -18,10 +14,12 @@ KEYTIMEOUT=1
 if [ -f ~/.dircolors ]; then
     eval "$(dircolors ~/.dircolors)"
 else
-    echo "[*] Dircolors file not found (dircolors -p > ~/.dircolors)!!!"
+    echo "[*] Dircolors file not found (dircolors -p > ~/.dircolors)"
 fi
 
 # Set up completion
+autoload -Uz compinit
+compinit
 zstyle ':completion:*' menu select
 zstyle ':completion:*' list-suffixes
 zstyle ':completion:*' expand prefix suffix
@@ -33,9 +31,36 @@ bindkey '^[[Z' reverse-menu-complete
 autoload -Uz promptinit
 promptinit
 
-RETURN_CODE="%(?..%{%F{red}%}%? )%{%F{white}%}"
+## Git prompt status
+autoload -Uz vcs_info
+setopt promptsubst
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' unstagedstr ":U"
+zstyle ':vcs_info:git:*' formats "(%s)-[%b%u]%c"
 
-PROMPT="%{%F{green}%}%n@%m%{%F{white}%} :: %{%F{blue}%}%~%{%F{white}%} $RETURN_CODE>> "
+RETURN_CODE="%(?..%{%F{red}%}%? )%{%F{white}%}"
+draw_prompt() {
+    vcs_info
+    PROMPT=""
+    if [[ "$VIRTUAL_ENV" != '' ]]
+    then
+        PROMPT+="(%{%F{red}%}`basename $VIRTUAL_ENV`%{%F{white}%}) "
+    fi
+
+    PROMPT+="%{%F{green}%}%n@%m%{%F{white}%} :: %{%F{blue}%}%~%{%F{white}%} "
+
+    if [[ "${vcs_info_msg_0_}" != '' ]]
+    then
+        PROMPT+='%{%F{yellow}%}${vcs_info_msg_0_}%{%F{white}%} '
+    else
+        PROMPT+=''
+    fi
+
+    PROMPT+="$RETURN_CODE>> "
+}
+
+#precmd_functions+=(precmd_vcs_info)
+precmd_functions+=(draw_prompt)
 
 # Alias to disable aslr in a new session since setting /proc/sys/kernel/randomize_va_space
 # for system wide aslr is a terrible practice
@@ -51,7 +76,7 @@ alias grep="grep --color=auto"
 # Make xclip more like pbcopy on mac
 alias xclip="xclip -selection clipboard"
 
-# Zsh function containing common excludes for ctags and to parse .git and .ctagsignore
+# Zsh function containing common excludes for ctags and to parse .gitignore and .ctagsignore
 # files for excludes list
 tgen() {
     # Make default excludes for ctags (only need .idea because everything is in gitignore)
@@ -98,44 +123,38 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;36m'
 export LESS=-r
 
+# Add local path
+export PATH=$PATH:/home/matt/.local/bin
+
 # Open new tab in CWD (old gnome terminal thing)
 if [ -f /etc/profile.d/vte.sh ]; then
     source /etc/profile.d/vte.sh
 fi
 
-# Zsh history substring search plugin `pacman zsh-history-substring-search`
-# Not found for apt
+# Zsh history substring search plugin `pacman -S zsh-history-substring-search`
 if [ -f /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh ]; then
     source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+else
+    echo "[*] Zsh history substring search not found"
 fi
 
-# Zsh autosuggestions `(pacman/apt) zsh-autosuggestions`
+# Zsh autosuggestions `pacman -S zsh-autosuggestions`
 if [ -f /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
     source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-elif [ -f /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]; then
-    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 else
-    echo "[*] Zsh autosuggestions not found!!!"
+    echo "[*] Zsh autosuggestions not found"
 fi
 
-# Zsh syntax highlighting `(pacman/apt) zsh-syntax-highlighting`
+# Zsh syntax highlighting `pacman -S zsh-syntax-highlighting`
 if [ -f /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh ]; then
     source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
-elif [ -f /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]; then
-    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 else
-    echo "[*] Zsh syntax highlighting not found!!!"
+    echo "[*] Zsh syntax highlighting not found"
 fi
 
 # Command not found handler `pacman -S pkgfile && pkgfile -u`
-# apt: `apt install command-not-found`
 if [ -f /usr/share/doc/pkgfile/command-not-found.zsh ]; then
     source /usr/share/doc/pkgfile/command-not-found.zsh
-elif [ -f /etc/zsh_command_not_found ]; then
-    source /etc/zsh_command_not_found
 else
-    echo "[*] Command not found handler not found!!!"
+    echo "[*] Command not found handler not found"
 fi
-
-# Disable cursor blinking on wsl because windows terminal is dumb
-echo -e "\e[2 q"
