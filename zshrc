@@ -73,7 +73,7 @@ alias la="ls -A"
 alias l="ls -CF"
 alias grep="grep --color=auto"
 
-# Make xclip more like pbcopy on mac
+# Set xclip to copy to system clipboard by default
 alias xclip="xclip -selection clipboard"
 
 # Zsh function containing common excludes for ctags and to parse .gitignore and .ctagsignore
