@@ -40,6 +40,7 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'simrat39/rust-tools.nvim'
+Plug 'williamboman/nvim-lsp-installer'
 
 " Float Term for IDE
 Plug 'voldikss/vim-floaterm'

@@ -88,6 +88,24 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+-- Lsp installer
+local lsp_installer = require("nvim-lsp-installer")
+
+-- Register a handler that will be called for all installed servers.
+-- Alternatively, you may also register handlers on specific server instances instead (see example below).
+lsp_installer.on_server_ready(function(server)
+    local opts = {}
+
+    -- (optional) Customize the options passed to the server
+    -- if server.name == "tsserver" then
+    --     opts.root_dir = function() ... end
+    -- end
+
+    -- This setup() function is exactly the same as lspconfig's setup function.
+    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
+    server:setup(opts)
+end)
+
 -- Setup format on save for rust, go and c++
 require('formatter').setup({
     logging = false,
@@ -115,12 +133,24 @@ require('formatter').setup({
           function()
               return {
                   exe = "clang-format",
-                  args = {"-style=LLVM"},
+                  args = {'-style="{BasedOnStyle: llvm, IndentWidth: 4, AllowShortFunctionsOnASingleLine: None}"'},
                   stdin = true,
                   cwd = vim.fn.expand('%:p:h')
               }
           end
       },
+
+      c = {
+          function()
+              return {
+                  exe = "clang-format",
+                  args = {'-style="{BasedOnStyle: llvm, IndentWidth: 4, AllowShortFunctionsOnASingleLine: None}"'},
+                  stdin = true,
+                  cwd = vim.fn.expand('%:p:h')
+              }
+          end
+      },
+
     }
 })
 EOF
@@ -128,12 +158,12 @@ EOF
 " Format on save write hook
 augroup Format
     autocmd!
-    autocmd BufWritePost *.rs,*.go,*.cc,*.cpp silent! FormatWrite
+    autocmd BufWritePost *.rs,*.go,*.cpp,*.c,*.h silent! FormatWrite
 augroup END
 
 " Floating terminal
 nnoremap <silent> <F5> :FloatermToggle<CR>
-inoremap <silent> <F5> :FloatermToggle<CR>
+inoremap <silent> <F5> <Esc>:FloatermToggle<CR>
 vnoremap <silent> <F5> :FloatermToggle<CR>
 tnoremap <silent> <F5> <C-\><C-n>:FloatermToggle<CR>
 
@@ -148,7 +178,6 @@ else
 endif
 
 " Command keybinds for nvim lsp such as documentation and goto implementation
-nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
