@@ -10,11 +10,9 @@ setopt share_history
 # Set key timeout
 KEYTIMEOUT=1
 
-# Set the dircolors (removes sticky directory highlighting for wsl)
+# Set the dircolors if the file exists
 if [ -f ~/.dircolors ]; then
     eval "$(dircolors ~/.dircolors)"
-else
-    echo "[*] Dircolors file not found (dircolors -p > ~/.dircolors)"
 fi
 
 # Set up completion
@@ -59,8 +57,22 @@ draw_prompt() {
     PROMPT+="$RETURN_CODE>> "
 }
 
+alacritty_pwd() {
+    case ${TERM} in
+      xterm*|rxvt*|Eterm|aterm|kterm|gnome*)
+         PROMPT_COMMAND='printf "\033]0;%s@%s:%s\007" "${USER}" "$(</etc/hostname)" "${PWD/#$HOME/~}"'
+
+        ;;
+      screen*)
+        PROMPT_COMMAND='printf "\033_%s@%s:%s\033\\" "${USER}" "${HOSTNAME%%.*}" "${PWD/#$HOME/~}"'
+        ;;
+    esac
+    eval "$PROMPT_COMMAND"
+}
+
 #precmd_functions+=(precmd_vcs_info)
 precmd_functions+=(draw_prompt)
+precmd_functions+=(alacritty_pwd)
 
 # Alias to disable aslr in a new session since setting /proc/sys/kernel/randomize_va_space
 # for system wide aslr is a terrible practice
@@ -73,6 +85,7 @@ alias la="ls -A"
 alias l="ls -CF"
 alias grep="grep --color=auto"
 
+
 # Set xclip to copy to system clipboard by default
 alias xclip="xclip -selection clipboard"
 
@@ -80,10 +93,9 @@ alias xclip="xclip -selection clipboard"
 # files for excludes list
 tgen() {
     # Make default excludes for ctags (only need .idea because everything is in gitignore)
-    local excludes="--exclude=.idea --exclude=.git"
+    local excludes="--exclude=.git"
 
-    # Add global gitignore to tagslist (need to change this eventually because ctags
-    # doesn't support wildcards and gitignore does)
+    # Add global gitignore to tagslist
     if [[ -f "$HOME/.config/git/ignore" ]]; then
         while IFS= read -r line; do
             excludes+=" --exclude=$line"
@@ -104,7 +116,11 @@ tgen() {
         done < ".ctagsignore"
     fi
 
-    ctags -R `echo -n $excludes` .
+    if [[ "$1" == "-e" ]]; then
+        ctags -e -R $(echo -n $excludes) .
+    else
+        ctags -R $(echo -n $excludes) .
+    fi
 }
 
 # pwninit using my template (needs my fork of pwninit using handlebars templating)
@@ -123,8 +139,8 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;36m'
 export LESS=-r
 
-# Add local path
-export PATH=$PATH:/home/matt/.local/bin
+# Add .local/bin to path
+export PATH=$PATH:$HOME/.local/bin
 
 # Open new tab in CWD (old gnome terminal thing)
 if [ -f /etc/profile.d/vte.sh ]; then
@@ -158,3 +174,5 @@ if [ -f /usr/share/doc/pkgfile/command-not-found.zsh ]; then
 else
     echo "[*] Command not found handler not found"
 fi
+
+eval "$(pyenv init -)"

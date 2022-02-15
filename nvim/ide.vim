@@ -39,11 +39,6 @@ lua <<EOF
 -- Setup completion
 local nvim_lsp = require'lspconfig'
 
-require('rust-tools').setup({})
-require('rust-tools.inlay_hints').toggle_inlay_hints()
-require('rust-tools.inlay_hints').set_inlay_hints()
-require('rust-tools.inlay_hints').disable_inlay_hints()
-
 local cmp = require'cmp'
 cmp.setup({
     snippet = {
@@ -78,31 +73,11 @@ cmp.setup({
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
 
-local servers = { 'rust_analyzer' }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    capabilities = capabilities,
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
-end
-
--- Lsp installer
+-- Lsp Config
 local lsp_installer = require("nvim-lsp-installer")
 
--- Register a handler that will be called for all installed servers.
--- Alternatively, you may also register handlers on specific server instances instead (see example below).
 lsp_installer.on_server_ready(function(server)
     local opts = {}
-
-    -- (optional) Customize the options passed to the server
-    -- if server.name == "tsserver" then
-    --     opts.root_dir = function() ... end
-    -- end
-
-    -- This setup() function is exactly the same as lspconfig's setup function.
-    -- Refer to https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
     server:setup(opts)
 end)
 
@@ -133,7 +108,7 @@ require('formatter').setup({
           function()
               return {
                   exe = "clang-format",
-                  args = {'-style="{BasedOnStyle: llvm, IndentWidth: 4, AllowShortFunctionsOnASingleLine: None}"'},
+                  args = {'-style="{BasedOnStyle: llvm, IndentWidth: 4, AllowShortFunctionsOnASingleLine: None, AlignArrayOfStructures: Right, AlignConsecutiveMacros: Consecutive, AlignConsecutiveAssignments: None}"'},
                   stdin = true,
                   cwd = vim.fn.expand('%:p:h')
               }
@@ -144,10 +119,20 @@ require('formatter').setup({
           function()
               return {
                   exe = "clang-format",
-                  args = {'-style="{BasedOnStyle: llvm, IndentWidth: 4, AllowShortFunctionsOnASingleLine: None}"'},
+                  args = {'-style="{BasedOnStyle: llvm, IndentWidth: 4, AllowShortFunctionsOnASingleLine: None, AlignArrayOfStructures: Right, AlignConsecutiveMacros: Consecutive, AlignConsecutiveAssignments: None}"'},
                   stdin = true,
                   cwd = vim.fn.expand('%:p:h')
               }
+          end
+      },
+
+      python = {
+          function()
+              return {
+                  exe = "black",
+                  args = {"--no-color"},
+                  stdin = false,
+          }
           end
       },
 
@@ -158,10 +143,10 @@ EOF
 " Format on save write hook
 augroup Format
     autocmd!
-    autocmd BufWritePost *.rs,*.go,*.cpp,*.c,*.h silent! FormatWrite
+    autocmd BufWritePost *.rs,*.go,*.cpp,*.c,*.h,*.py silent! FormatWrite
 augroup END
 
-" Floating terminal
+" Floating terminal keybinds
 nnoremap <silent> <F5> :FloatermToggle<CR>
 inoremap <silent> <F5> <Esc>:FloatermToggle<CR>
 vnoremap <silent> <F5> :FloatermToggle<CR>
@@ -177,23 +162,23 @@ else
     let g:floaterm_shell = 'zsh'
 endif
 
+" Telescope grep
+nnoremap <silent> <leader>g :Telescope live_grep<CR>
+
 " Command keybinds for nvim lsp such as documentation and goto implementation
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
 nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
-nnoremap <silent> gr    :Telescope lsp_references<CR>
-nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> <leader>r    :Telescope lsp_references<CR>
 nnoremap <silent> ge    <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
 nnoremap <silent> gE    <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> <leader>e :Telescope lsp_workspace_diagnostics<CR>
-nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
 
 " Idk what this is I saw it on stack overflow I think
 set updatetime=300
-autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+"autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
 
 " Idk
 set signcolumn=yes
