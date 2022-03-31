@@ -1,3 +1,3 @@
 " Set tabs equal to 2 spaces
-setlocal tw=2
-setlocal sw=2
+setlocal tw=4
+setlocal sw=4

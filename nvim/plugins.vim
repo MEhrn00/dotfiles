@@ -41,6 +41,15 @@ Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'williamboman/nvim-lsp-installer'
 
+" Debugging
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'theHamsta/nvim-dap-virtual-text'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-telescope/telescope-dap.nvim'
+Plug 'leoluz/nvim-dap-go'
+Plug 'mfussenegger/nvim-dap-python'
+
 " Float Term
 Plug 'voldikss/vim-floaterm'
 

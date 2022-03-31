@@ -139,13 +139,8 @@ export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;36m'
 export LESS=-r
 
-# Add .local/bin to path
-export PATH=$PATH:$HOME/.local/bin
-
-# Open new tab in CWD (old gnome terminal thing)
-if [ -f /etc/profile.d/vte.sh ]; then
-    source /etc/profile.d/vte.sh
-fi
+# Add .local/bin and .go/bin to path
+export PATH=$PATH:$HOME/.local/bin:$GOPATH/bin
 
 # Zsh history substring search plugin `pacman -S zsh-history-substring-search`
 if [ -f /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh ]; then
