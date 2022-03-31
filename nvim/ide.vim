@@ -81,6 +81,74 @@ lsp_installer.on_server_ready(function(server)
     server:setup(opts)
 end)
 
+-- Setup debugging
+options = { noremap = true, silent = true }
+vim.api.nvim_set_keymap("n", "<F2>", ":lua require'dapui'.toggle()<CR>", options)
+vim.api.nvim_set_keymap("n", "<F6>", ":lua require'dap'.terminate()<CR>", options)
+vim.api.nvim_set_keymap("n", "<F5>", ":lua require'dap'.continue()<CR>", options)
+vim.api.nvim_set_keymap("n", "<F8>", ":lua require'dap'.step_over()<CR>", options)
+vim.api.nvim_set_keymap("n", "<F9>", ":lua require'dap'.step_into()<CR>", options)
+vim.api.nvim_set_keymap("n", "<F10>", ":lua require'dap'.step_out()<CR>", options)
+vim.api.nvim_set_keymap("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>", options)
+vim.api.nvim_set_keymap("n", "<leader>B", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", options)
+vim.api.nvim_set_keymap("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>", options)
+vim.api.nvim_set_keymap("v", "<M-k>", ":lua require'dapui'.eval()<CR>", options)
+
+local dapui = require('dapui')
+local dap = require('dap')
+require('dap-go').setup()
+require('dap-python').setup("/usr/bin/python")
+require("nvim-dap-virtual-text").setup()
+require('telescope').load_extension('dap')
+
+-- Debug adapters
+dap.adapters.lldb = {
+    type = "executable",
+    command = "lldb-vscode",
+    name = "lldb",
+}
+
+-- Language configurations
+dap.configurations.c = {
+    {
+        name = "Launch",
+        type = "lldb",
+        request = "launch",
+        program = function()
+            return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+        end,
+        cwd = '${workspaceFolder}',
+        stopOnEntry = true,
+        args = {},
+        runInTerminal = false,
+    },
+}
+
+dap.configurations.cpp = dap.configurations.c
+dap.configurations.rust = dap.configurations.c
+
+dap.configurations.go = {
+    {
+        name = "Debug",
+        type = "go",
+        request = "launch",
+        program = "${file}",
+    },
+}
+
+-- Debug UI
+dap.listeners.after.event_initialized["dapui_config"] = function()
+  dapui.open()
+end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+  dapui.close()
+end
+dap.listeners.before.event_exited["dapui_config"] = function()
+  dapui.close()
+end
+
+dapui.setup()
+
 -- Setup format on save for rust, go and c++
 require('formatter').setup({
     logging = false,
@@ -108,7 +176,7 @@ require('formatter').setup({
           function()
               return {
                   exe = "clang-format",
-                  args = {'-style="{BasedOnStyle: llvm, IndentWidth: 4, AllowShortFunctionsOnASingleLine: None, AlignArrayOfStructures: Right, AlignConsecutiveMacros: Consecutive, AlignConsecutiveAssignments: None}"'},
+                  args = {'-style="{BasedOnStyle: llvm, IndentWidth: 4, AllowShortFunctionsOnASingleLine: None, AllowShortBlocksOnASingleLine: Empty, AlignArrayOfStructures: Right, AlignConsecutiveMacros: Consecutive, AlignConsecutiveAssignments: None}"'},
                   stdin = true,
                   cwd = vim.fn.expand('%:p:h')
               }
@@ -119,7 +187,7 @@ require('formatter').setup({
           function()
               return {
                   exe = "clang-format",
-                  args = {'-style="{BasedOnStyle: llvm, IndentWidth: 4, AllowShortFunctionsOnASingleLine: None, AlignArrayOfStructures: Right, AlignConsecutiveMacros: Consecutive, AlignConsecutiveAssignments: None}"'},
+                  args = {'-style="{BasedOnStyle: llvm, IndentWidth: 4, AllowShortFunctionsOnASingleLine: None, AllowShortBlocksOnASingleLine: Empty, AlignArrayOfStructures: Right, AlignConsecutiveMacros: Consecutive, AlignConsecutiveAssignments: None}"'},
                   stdin = true,
                   cwd = vim.fn.expand('%:p:h')
               }
@@ -136,6 +204,15 @@ require('formatter').setup({
           end
       },
 
+      tf = {
+          function()
+              return {
+                  exe = "terraform",
+                  args = {"fmt", "-no-color", "-"},
+                  stdin = true,
+              }
+          end
+      },
     }
 })
 EOF
@@ -143,14 +220,14 @@ EOF
 " Format on save write hook
 augroup Format
     autocmd!
-    autocmd BufWritePost *.rs,*.go,*.cpp,*.c,*.h,*.py silent! FormatWrite
+    autocmd BufWritePost *.rs,*.go,*.cpp,*.c,*.h,*.py,*.tf silent! FormatWrite
 augroup END
 
 " Floating terminal keybinds
-nnoremap <silent> <F5> :FloatermToggle<CR>
-inoremap <silent> <F5> <Esc>:FloatermToggle<CR>
-vnoremap <silent> <F5> :FloatermToggle<CR>
-tnoremap <silent> <F5> <C-\><C-n>:FloatermToggle<CR>
+nnoremap <silent> <F1> :FloatermToggle<CR>
+inoremap <silent> <F1> <Esc>:FloatermToggle<CR>
+vnoremap <silent> <F1> :FloatermToggle<CR>
+tnoremap <silent> <F1> <C-\><C-n>:FloatermToggle<CR>
 
 nnoremap <silent> <space>t :FloatermToggle<CR>
 
