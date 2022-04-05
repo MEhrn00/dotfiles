@@ -239,9 +239,6 @@ else
     let g:floaterm_shell = 'zsh'
 endif
 
-" Telescope grep
-nnoremap <silent> <leader>g :Telescope live_grep<CR>
-
 " Command keybinds for nvim lsp such as documentation and goto implementation
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
@@ -262,6 +259,3 @@ set signcolumn=yes
 
 " Open nerdtree with keybind (might get rid of in favor of telescope)
 nnoremap <silent> <space>f :NERDTreeToggle<CR>
-
-" Disable neovide cursor animations if I'm using neovide
-let g:neovide_cursor_animation_length=0

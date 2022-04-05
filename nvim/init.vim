@@ -126,10 +126,22 @@ if has("unix")
     autocmd BufWritePost * :call RunCtagsBack()
 endif
 
+" Neovide settings
+if has("win32")
+    set guifont=Consolas:h9
+else
+    set guifont=Source\ Code\ Pro:h9
+endif
+let g:neovide_fullscreen=v:false
+let g:neovide_remember_window_size=v:true
+let g:neovide_cursor_vfx_mode = "sonicboom"
+
 " Telescope keybinds
 nnoremap <silent> <leader>t :Telescope tags<CR>
 nnoremap <silent> <leader>f :Telescope find_files<CR>
 nnoremap <silent> <leader>; :Telescope buffers<CR>
+nnoremap <silent> <leader>g :Telescope live_grep<CR>
+
 
 lua << EOF
 -- Setup telescope
