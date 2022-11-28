@@ -91,7 +91,7 @@ window:
   #
   # Override the variant of the GTK theme. Commonly supported values are `dark`
   # and `light`. Set this to `None` to use the default theme variant.
-  gtk_theme_variant: dark
+  decorations_theme_variant: dark
 
 #scrolling:
   # Maximum number of lines in the scrollback buffer.
@@ -150,7 +150,7 @@ font:
     #style: Bold Italic
 
   # Point size
-  size: 9.0
+  size: 5.0
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -172,127 +172,126 @@ font:
   # it is recommended to set `use_thin_strokes` to `false`.
   #use_thin_strokes: true
 
+  scale_with_dpi: false
+
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: false
 
-# Colors (Tomorrow Night)
-colors:
-  # Default colors
-  primary:
-    background: '#222324'
-    foreground: '#bababa'
+schemes:
+  myscheme: &myscheme
+    primary:
+      background: '#222324'
+      foreground: '#bababa'
 
-    # Bright and dim foreground colors
-    #
-    # The dimmed foreground color is calculated automatically if it is not
-    # present. If the bright foreground color is not set, or
-    # `draw_bold_text_with_bright_colors` is `false`, the normal foreground
-    # color will be used.
-    #dim_foreground: '#828482'
-    #bright_foreground: '#eaeaea'
+    normal:
+      black:   '#000000'
+      red:     '#e8341c'
+      green:   '#68c256'
+      yellow:  '#f2d42c'
+      blue:    '#1c98e8'
+      magenta: '#8e69c9'
+      cyan:    '#1c98e8'
+      white:   '#bababa'
 
-  # Cursor colors
-  #
-  # Colors which should be used to draw the terminal cursor.
-  #
-  # Allowed values are CellForeground and CellBackground, which reference the
-  # affected cell, or hexadecimal colors like #ff00ff.
-  #cursor:
-  #  text: CellBackground
-  #  cursor: CellForeground
+    bright:
+      black:   '#666666'
+      red:     '#e8341c'
+      green:   '#77b869'
+      yellow:  '#efd64b'
+      blue:    '#387cd3'
+      magenta: '#957bbe'
+      cyan:    '#3d97e2'
+      white:   '#bababa'
 
-  # Vi mode cursor colors
-  #
-  # Colors for the cursor when the vi mode is active.
-  #
-  # Allowed values are CellForeground and CellBackground, which reference the
-  # affected cell, or hexadecimal colors like #ff00ff.
-  #vi_mode_cursor:
-  #  text: CellBackground
-  #  cursor: CellForeground
+    dim:
+      black:   '#131415'
+      red:     '#e8e41c'
+      green:   '#777c44'
+      yellow:  '#efd64b'
+      blue:    '#556a7d'
+      magenta: '#75617b'
+      cyan:    '#5b7d78'
+      white:   '#828482'
 
-  # Search colors
-  #
-  # Colors used for the search bar and match highlighting.
-  #search:
-    # Allowed values are CellForeground and CellBackground, which reference the
-    # affected cell, or hexadecimal colors like #ff00ff.
-    #matches:
-    #  foreground: '#000000'
-    #  background: '#ffffff'
-    #focused_match:
-    #  foreground: CellBackground
-    #  background: CellForeground
+  terminalapp: &terminalapp
+    primary:
+      background: '#000000'
+      foreground: '#b6b6b6'
 
-    #bar:
-    #  background: '#c5c8c6'
-    #  foreground: '#1d1f21'
+    normal:
+      black:   '#000000'
+      red:     '#990000'
+      green:   '#00a600'
+      yellow:  '#999900'
+      blue:    '#0000b2'
+      magenta: '#b200b2'
+      cyan:    '#00a6b2'
+      white:   '#bfbfbf'
 
-  # Line indicator
-  #
-  # Color used for the indicator displaying the position in history during
-  # search and vi mode.
-  #
-  # By default, these will use the opposing primary color.
-  #line_indicator:
-  #  foreground: None
-  #  background: None
+    bright:
+      black:   '#666666'
+      red:     '#e50000'
+      green:   '#00d900'
+      yellow:  '#e5e500'
+      blue:    '#0000ff'
+      magenta: '#e500e5'
+      cyan:    '#00e5e5'
+      white:   '#e5e5e5'
 
-  # Selection colors
-  #
-  # Colors which should be used to draw the selection area.
-  #
-  # Allowed values are CellForeground and CellBackground, which reference the
-  # affected cell, or hexadecimal colors like #ff00ff.
-  #selection:
-  #  text: CellBackground
-  #  background: CellForeground
+  bloodmoon: &bloodmoon
+    primary:
+      background: '#10100E'
+      foreground: '#C6C6C4'
 
   # Normal colors
-  normal:
-    black:   '#000000'
-    red:     '#e8341c'
-    green:   '#68c256'
-    yellow:  '#f2d42c'
-    blue:    '#1c98e8'
-    magenta: '#8e69c9'
-    cyan:    '#1c98e8'
-    white:   '#bababa'
+    normal:
+      black:   '#10100E'
+      red:     '#C40233'
+      green:   '#009F6B'
+      yellow:  '#FFD700'
+      blue:    '#0087BD'
+      magenta: '#9A4EAE'
+      cyan:    '#20B2AA'
+      white:   '#C6C6C4'
 
-  # Bright colors
-  bright:
-    black:   '#666666'
-    red:     '#e8e41c'
-    green:   '#77b869'
-    yellow:  '#efd64b'
-    blue:    '#387cd3'
-    magenta: '#957bbe'
-    cyan:    '#3d97e2'
-    white:   '#bababa'
+    # Bright colors
+    bright:
+      black:   '#696969'
+      red:     '#FF2400'
+      green:   '#03C03C'
+      yellow:  '#FDFF00'
+      blue:    '#007FFF'
+      magenta: '#FF1493'
+      cyan:    '#00CCCC'
+      white:   '#FFFAFA'
 
-  # Dim colors
-  #
-  # If the dim colors are not set, they will be calculated automatically based
-  # on the `normal` colors.
-  dim:
-    black:   '#131415'
-    red:     '#e8e41c'
-    green:   '#777c44'
-    yellow:  '#e8e41c'
-    blue:    '#556a7d'
-    magenta: '#75617b'
-    cyan:    '#5b7d78'
-    white:   '#828482'
+  eldorado: &eldorado
+    primary:
+      background: '#292929'
+      foreground: '#a2a2a2'
 
-  # Indexed Colors
-  #
-  # The indexed colors include all colors from 16 to 256.
-  # When these are not set, they're filled with sensible defaults.
-  #
-  # Example:
-  #   `- { index: 16, color: '#ff00ff' }`
-  #
-  #indexed_colors: []
+    normal:
+      black:   '#4e4e4e'
+      red:     '#a9635d'
+      green:   '#468459'
+      yellow:  '#84763d'
+      blue:    '#5879af'
+      magenta: '#9c6594'
+      cyan:    '#008592'
+      white:   '#cfcfcf'
+
+    bright:
+      black:   '#777777'
+      red:     '#ffbbb2'
+      green:   '#9ddeaf'
+      yellow:  '#e0ce91'
+      blue:    '#b3d1ff'
+      magenta: '#fabdf0'
+      cyan:    '#79e0ed'
+      white:   '#ffffff'
+
+
+colors: *myscheme
 
 # Bell
 #

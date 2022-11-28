@@ -4,12 +4,12 @@ syntax on
 
 " Source the vim8 defaults for file location caching, scrolloff and other stuff
 if has("unix")
-    if filereadable(glob("/usr/share/vim/vim8*/defaults.vim"))
-        exe 'source' glob("/usr/share/vim/vim8*/defaults.vim")
+    if filereadable(glob("/usr/share/vim/vim9*/defaults.vim"))
+        exe 'source' glob("/usr/share/vim/vim9*/defaults.vim")
     endif
 elseif has("win32")
-    if filereadable(glob("C:/tools/vim/vim82/defaults.vim"))
-        exe 'source' glob("C:/tools/vim/vim82/defaults.vim")
+    if filereadable(glob("C:/tools/vim/vim90/defaults.vim"))
+        exe 'source' glob("C:/tools/vim/vim90/defaults.vim")
     endif
 endif
 
@@ -34,6 +34,9 @@ set listchars=tab:>\ ,trail:-
 " Turn on mouse
 set mouse=a
 
+" Set the title to display the file name
+set title
+
 " Disable netrw history
 let g:netrw_dirhistmax = 0
 
@@ -48,10 +51,14 @@ set autoindent
 set noshowmode
 set noshowcmd
 
+" Term GUI colors
+"set termguicolors
+
 " Set colors
-colo delek
-set bg=light
-hi Pmenu ctermbg=235 ctermfg=white
+set bg=dark
+hi Pmenu ctermbg=235 ctermfg=white guibg=235 guifg=white
+hi clear MatchParen
+hi MatchParen cterm=underline gui=underline
 hi Search ctermfg=black ctermbg=white
 hi StatusLine ctermfg=0 ctermbg=white
 hi StatusLineNC ctermfg=white ctermbg=black
@@ -80,6 +87,13 @@ set wildmenu
 nnoremap <silent> <Leader>] :bn<CR>
 nnoremap <silent> <Leader>[ :bp<CR>
 nnoremap <silent> <Leader>d :bd<CR>
+
+" Multiple tabbing
+vnoremap < <gv
+vnoremap > >gv
+
+" Map ctrl-c to Esc
+noremap <C-C> <Esc>
 
 " More natural splitting
 set splitbelow
@@ -115,12 +129,14 @@ tnoremap <Esc> <C-\><C-n>
 packadd termdebug
 let g:termdebug_wide=1
 
+set shellcmdflag=-ic
+
 " Ctags setup to run ctags in the background on save using `tgen` zsh alias if the tags file exists
 if has("unix")
-    nnoremap <silent> <leader>c :!zsh -ic tgen<CR>
+    nnoremap <silent> <leader>c :!tgen<CR>
     function! RunCtagsBack()
         if filereadable("tags")
-            :execute 'silent !zsh -ic tgen &' | redraw!
+            :execute 'silent !tgen &' | redraw!
         endif
     endfunction
     autocmd BufWritePost * :call RunCtagsBack()
@@ -141,6 +157,7 @@ nnoremap <silent> <leader>t :Telescope tags<CR>
 nnoremap <silent> <leader>f :Telescope find_files<CR>
 nnoremap <silent> <leader>; :Telescope buffers<CR>
 nnoremap <silent> <leader>g :Telescope live_grep<CR>
+nnoremap <silent> <leader>s :Telescope grep_string<CR>
 
 
 lua << EOF
