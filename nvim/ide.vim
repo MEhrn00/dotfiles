@@ -3,9 +3,10 @@
 let g:ide_loaded = 1
 
 " Set colors to signify change in mode
-let g:vscode_style = "dark"
-colo vscode
-set title
+let g:edge_style = 'aura'
+colo codedark
+hi clear MatchParen
+hi MatchParen cterm=underline gui=underline
 
 " Make completions work better with nvim lsp
 set completeopt=menuone,longest,noselect,noinsert
@@ -70,8 +71,7 @@ cmp.setup({
     },
 })
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 -- Lsp Config
 local lsp_installer = require("nvim-lsp-installer")
@@ -166,7 +166,11 @@ require('formatter').setup({
           function()
               return {
                   exe = "rustfmt",
-                  args = {"--emit=stdout"},
+                  args = {
+                      "--emit=stdout",
+                      "--edition=2021",
+                      "--color=never",
+                  },
                   stdin = true
               }
           end
@@ -176,8 +180,8 @@ require('formatter').setup({
           function()
               return {
                   exe = "clang-format",
-                  args = {'-style="{BasedOnStyle: llvm, IndentWidth: 4, AllowShortFunctionsOnASingleLine: None, AllowShortBlocksOnASingleLine: Empty, AlignArrayOfStructures: Right, AlignConsecutiveMacros: Consecutive, AlignConsecutiveAssignments: None}"'},
-                  stdin = true,
+                  args = {'-i', "-style=file"},
+                  stdin = false,
                   cwd = vim.fn.expand('%:p:h')
               }
           end
@@ -187,8 +191,8 @@ require('formatter').setup({
           function()
               return {
                   exe = "clang-format",
-                  args = {'-style="{BasedOnStyle: llvm, IndentWidth: 4, AllowShortFunctionsOnASingleLine: None, AllowShortBlocksOnASingleLine: Empty, AlignArrayOfStructures: Right, AlignConsecutiveMacros: Consecutive, AlignConsecutiveAssignments: None}"'},
-                  stdin = true,
+                  args = {'-i', '-style=file'},
+                  stdin = false,
                   cwd = vim.fn.expand('%:p:h')
               }
           end
@@ -213,8 +217,62 @@ require('formatter').setup({
               }
           end
       },
+
     }
 })
+
+-- Treesitter
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+
+  indent = {
+    enable = true
+  },
+}
+
+require'treesitter-context'.setup{
+    enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+    max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+    trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+    patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+        -- For all filetypes
+        -- Note that setting an entry here replaces all other patterns for this entry.
+        -- By setting the 'default' entry below, you can control which nodes you want to
+        -- appear in the context window.
+        default = {
+            'class',
+            'function',
+            'method',
+            -- 'for', -- These won't appear in the context
+            -- 'while',
+            -- 'if',
+            -- 'switch',
+            -- 'case',
+        },
+        -- Example for a specific filetype.
+        -- If a pattern is missing, *open a PR* so everyone can benefit.
+        --   rust = {
+        --       'impl_item',
+        --   },
+    },
+    exact_patterns = {
+        -- Example for a specific filetype with Lua patterns
+        -- Treat patterns.rust as a Lua pattern (i.e "^impl_item$" will
+        -- exactly match "impl_item" only)
+        -- rust = true,
+    },
+
+    -- [!] The options below are exposed but shouldn't require your attention,
+    --     you can safely ignore them.
+
+    zindex = 20, -- The Z-index of the context window
+    mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+    separator = nil, -- Separator between context and content. Should be a single character string, like '-'.
+}
+
 EOF
 
 " Format on save write hook
@@ -249,6 +307,7 @@ nnoremap <silent> gE    <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
 nnoremap <silent> <leader>e :Telescope lsp_workspace_diagnostics<CR>
 nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
 nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
+
 
 " Idk what this is I saw it on stack overflow I think
 set updatetime=300

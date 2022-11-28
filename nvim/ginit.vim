@@ -1,15 +1,3 @@
-if has("unix")
-    if filereadable(glob("~/.config/nvim/ide.vim"))
-        exe 'source' glob("~/.config/nvim/ide.vim")
-    endif
-elseif has("win32")
-    if filereadable(glob("$HOMEPATH/AppData/Local/nvim/ide.vim"))
-        if !exists('neovide')
-            exe 'source' glob("$HOMEPATH/AppData/Local/nvim/ide.vim")
-        endif
-    endif
-endif
-
 let s:fontsize = 9
 function! AdjustFontSize(amount)
   let s:fontsize = s:fontsize+a:amount

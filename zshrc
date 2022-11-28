@@ -84,6 +84,9 @@ alias ll="ls -alF"
 alias la="ls -A"
 alias l="ls -CF"
 alias grep="grep --color=auto"
+alias k="kubectl"
+alias ec="emacsclient"
+alias open="xdg-open"
 
 
 # Set xclip to copy to system clipboard by default
@@ -142,6 +145,8 @@ export LESS=-r
 # Add .local/bin and .go/bin to path
 export PATH=$PATH:$HOME/.local/bin:$GOPATH/bin
 
+export PATH=$PATH:/home/matt/.local/share/solana/install/active_release/bin
+
 # Zsh history substring search plugin `pacman -S zsh-history-substring-search`
 if [ -f /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh ]; then
     source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
@@ -169,5 +174,20 @@ if [ -f /usr/share/doc/pkgfile/command-not-found.zsh ]; then
 else
     echo "[*] Command not found handler not found"
 fi
+
+# Fzf
+if [ -f /usr/share/fzf/key-bindings.zsh ]; then
+    source /usr/share/fzf/key-bindings.zsh
+else
+    echo "[*] Fzf keybindings not found"
+fi
+
+# Kubectl completion
+if [ -x "$(which kubectl)" ]; then
+    source <(kubectl completion zsh)
+fi
+
+# Set the ssh-agent socket to the gnome-keyring-daemon socket
+export SSH_AUTH_SOCK=/run/user/$(id -u)/gcr/ssh
 
 eval "$(pyenv init -)"
