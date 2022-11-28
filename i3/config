@@ -190,6 +190,8 @@ bindsym $mod+r mode "resize"
 #}
 
 bindsym $mod+shift+x exec betterlockscreen -l
+bindsym $mod+shift+less move workspace to output left
+bindsym $mod+shift+greater move workspace to output right
 
 exec --no-startup-id ~/.screenlayout/multimonitor.sh
 exec --no-startup-id /usr/bin/dbus-update-activation-environment --all
