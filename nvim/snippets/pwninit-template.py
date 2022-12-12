@@ -6,8 +6,8 @@ if args.REMOTE:
     p = remote()
 else:
     p = process(binary, env = {'LD_PRELOAD': '{{ libc }}'})
-if args.GDB:
-    gdb.attach(p)
+    if args.GDB:
+        gdb.attach(p)
 
 e = ELF('{{ exe }}')
 libc = ELF('{{ libc }}')

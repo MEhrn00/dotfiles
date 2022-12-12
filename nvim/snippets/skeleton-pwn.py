@@ -6,8 +6,8 @@ if args.REMOTE:
     p = remote()
 else:
     p = process(binary)
-if args.GDB:
-    gdb.attach(p)
+    if args.GDB:
+        gdb.attach(p)
 
 e = ELF(binary)
 rop = ROP(e)

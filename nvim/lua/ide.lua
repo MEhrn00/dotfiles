@@ -1,42 +1,23 @@
-" 'IDE mode' extra configuration
+-- 'IDE mode' extra configuration
 
-let g:ide_loaded = 1
+vim.g.ide_loaded = true
 
-" Set colors to signify change in mode
-let g:edge_style = 'aura'
-colo codedark
-hi clear MatchParen
-hi MatchParen cterm=underline gui=underline
+-- Set colors to signify change in mode
+vim.cmd('colo codedark')
 
-" Make completions work better with nvim lsp
-set completeopt=menuone,longest,noselect,noinsert
+-- Make completions work better with nvim lsp
+vim.opt.completeopt = 'menuone,longest,noselect,noinsert'
 
-" Disable GUI Tabline
-if exists(':GuiTabline')
-    GuiTabline 0
-endif
+-- Right Click Context Menu (Copy-Cut-Paste) for gui
+if vim.fn.exists('GuiLoaded') then
+    keymap('n', '<RightMouse>', ':call GuiShowContextMenu()<CR>', { silent = true })
+    keymap('i', '<RightMouse>', '<Esc>:call GuiShowContextMenu()<CR>', { silent = true })
+    keymap('v', '<RightMouse>', ':call GuiShowContextMenu()<CR>', { silent = true })
+end
 
-" Disable GUI Popupmenu
-if exists(':GuiPopupmenu')
-    GuiPopupmenu 0
-endif
+-- Disable netrw and use nerdtree instead
+vim.g.loaded_netrwPlugin = 1
 
-" Enable GUI ScrollBar
-if exists(':GuiScrollBar')
-    GuiScrollBar 1
-endif
-
-" Right Click Context Menu (Copy-Cut-Paste) for gui
-if exists('GuiLoaded')
-    nnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>
-    inoremap <silent><RightMouse> <Esc>:call GuiShowContextMenu()<CR>
-    vnoremap <silent><RightMouse> :call GuiShowContextMenu()<CR>gv
-endif
-
-" Disable netrw and use nerdtree instead
-let loaded_netrwPlugin = 1
-
-lua <<EOF
 -- Setup completion
 local nvim_lsp = require'lspconfig'
 
@@ -83,12 +64,12 @@ end)
 
 -- Setup debugging
 options = { noremap = true, silent = true }
-vim.api.nvim_set_keymap("n", "<F2>", ":lua require'dapui'.toggle()<CR>", options)
-vim.api.nvim_set_keymap("n", "<F6>", ":lua require'dap'.terminate()<CR>", options)
+vim.api.nvim_set_keymap("n", "<F3>", ":lua require'dapui'.toggle()<CR>", options)
+vim.api.nvim_set_keymap("n", "<F4>", ":lua require'dap'.terminate()<CR>", options)
 vim.api.nvim_set_keymap("n", "<F5>", ":lua require'dap'.continue()<CR>", options)
-vim.api.nvim_set_keymap("n", "<F8>", ":lua require'dap'.step_over()<CR>", options)
-vim.api.nvim_set_keymap("n", "<F9>", ":lua require'dap'.step_into()<CR>", options)
-vim.api.nvim_set_keymap("n", "<F10>", ":lua require'dap'.step_out()<CR>", options)
+vim.api.nvim_set_keymap("n", "<F6>", ":lua require'dap'.step_over()<CR>", options)
+vim.api.nvim_set_keymap("n", "<F7>", ":lua require'dap'.step_into()<CR>", options)
+vim.api.nvim_set_keymap("n", "<F8>", ":lua require'dap'.step_out()<CR>", options)
 vim.api.nvim_set_keymap("n", "<leader>b", ":lua require'dap'.toggle_breakpoint()<CR>", options)
 vim.api.nvim_set_keymap("n", "<leader>B", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>", options)
 vim.api.nvim_set_keymap("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>", options)
@@ -273,48 +254,30 @@ require'treesitter-context'.setup{
     separator = nil, -- Separator between context and content. Should be a single character string, like '-'.
 }
 
-EOF
-
-" Format on save write hook
+-- Format on save write hook
+vim.cmd [[
 augroup Format
     autocmd!
     autocmd BufWritePost *.rs,*.go,*.cpp,*.c,*.h,*.py,*.tf silent! FormatWrite
 augroup END
+]]
 
-" Floating terminal keybinds
-nnoremap <silent> <F1> :FloatermToggle<CR>
-inoremap <silent> <F1> <Esc>:FloatermToggle<CR>
-vnoremap <silent> <F1> :FloatermToggle<CR>
-tnoremap <silent> <F1> <C-\><C-n>:FloatermToggle<CR>
+-- Command keybinds for nvim lsp such as documentation and goto implementation
+keymap('n', 'K', ':lua vim.lsp.buf.hover()<CR>', { silent = true })
+keymap('n', 'gD', 'vim.lsp.buf.implementation()', { silent = true, expr = true })
+keymap('n', '<C-k>', 'vim.lsp.buf.signature_help()', { silent = true, expr = true })
+keymap('n', '<leader>r', ':Telescope lsp_references<CR>', { silent = true })
+keymap('n', 'ge', 'vim.lsp.diagnostic.goto_next()', { silent = true, expr = true })
+keymap('n', 'gE', 'vim.lsp.diagnostic.goto_prev()', { silent = true, expr = true })
+keymap('n', '<leader>e', ':Telescope lsp_workspace_diagnostics<CR>', { silent = true })
+keymap('n', 'gd', 'vim.lsp.buf.declaration()', { silent = true, expr = true })
+keymap('n', 'ga', ':lua vim.lsp.buf.code_action()<CR>', { silent = true })
 
-nnoremap <silent> <space>t :FloatermToggle<CR>
+-- Idk what this is I saw it on stack overflow I think
+vim.opt.updatetime = 300
 
-let g:floaterm_wintype='vsplit'
+-- Idk
+vim.opt.signcolumn = 'yes'
 
-if has("win32")
-    let g:floaterm_shell = 'powershell.exe'
-else
-    let g:floaterm_shell = 'zsh'
-endif
-
-" Command keybinds for nvim lsp such as documentation and goto implementation
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gD    <cmd>lua vim.lsp.buf.implementation()<CR>
-nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
-nnoremap <silent> <leader>r    :Telescope lsp_references<CR>
-nnoremap <silent> ge    <cmd>lua vim.lsp.diagnostic.goto_next()<CR>
-nnoremap <silent> gE    <cmd>lua vim.lsp.diagnostic.goto_prev()<CR>
-nnoremap <silent> <leader>e :Telescope lsp_workspace_diagnostics<CR>
-nnoremap <silent> gd    <cmd>lua vim.lsp.buf.declaration()<CR>
-nnoremap <silent> ga    <cmd>lua vim.lsp.buf.code_action()<CR>
-
-
-" Idk what this is I saw it on stack overflow I think
-set updatetime=300
-"autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
-
-" Idk
-set signcolumn=yes
-
-" Open nerdtree with keybind (might get rid of in favor of telescope)
-nnoremap <silent> <space>f :NERDTreeToggle<CR>
+-- Open nerdtree with keybind
+keymap('n', '<space>f', ':NERDTreeToggle<CR>', { silent = true })
