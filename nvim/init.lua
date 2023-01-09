@@ -123,6 +123,7 @@ end
 
 -- Use '\y' to copy text to the system clipboard
 keymap('n', '<Leader>y', '"+y')
+keymap('v', '<Leader>y', '"+y')
 
 -- Basic general completion settings
 vim.opt.omnifunc = 'syntaxcomplete#Complete'
