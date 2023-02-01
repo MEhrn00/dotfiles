@@ -43,6 +43,7 @@ vim.opt.showcmd = false
 
 -- Set colors
 vim.opt.bg = 'dark'
+vim.opt.termguicolors = true
 
 local highlights = {
     {'Pmenu', { ctermbg = 235, ctermfg = 'white', guibg = 235, guifg = 'white' }},
@@ -148,11 +149,15 @@ if vim.fn.has('unix') then
     keymap('n', '<leader>c', ':!tgen<CR>', { silent = true })
 
     local function RunCtagsBack()
-        if vim.fn.filereadable("tags") then
-            vim.cmd(':execute \'silent !tgen &\' | redraw!')
+        if vim.fn.filereadable("tags") == 1 then
+            vim.cmd(':execute \'silent !tgen\' | redraw!')
         end
     end
 
+    vim.api.nvim_create_autocmd("BufWritePost", {
+        pattern = "*",
+        callback = function() vim.schedule(RunCtagsBack) end,
+    })
     --vim.cmd('autocmd BufWritePost * :call RunCtagsBack()')
 end
 
@@ -187,11 +192,11 @@ keymap('n', '<F2>', ':make<CR>', { silent = true })
 vim.g.floaterm_wintype = 'vsplit'
 
 -- Set the terminal shell
-if vim.fn.has('win32') then
-    vim.g.floaterm_shell = 'powershell.exe'
-else
+--if vim.fn.has('win32') then
+--    vim.g.floaterm_shell = 'powershell.exe'
+--else
     vim.g.floaterm_shell = 'zsh'
-end
+--end
 
 -- Setup telescope
 require('telescope').setup{
