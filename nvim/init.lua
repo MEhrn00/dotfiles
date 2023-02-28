@@ -178,6 +178,9 @@ keymap('n', '<leader>;', ':Telescope buffers<CR>', { silent = true })
 keymap('n', '<leader>g', ':Telescope live_grep<CR>', { silent = true })
 keymap('n', '<leader>s', ':Telescope grep_string<CR>', { silent = true })
 
+-- Don't remove split if buffer is deleted
+keymap('n', '<leader>d', ':bp|bd #<CR>', { silent = true})
+
 -- Floating terminal keybinds
 keymap('n', '<space>t', ':FloatermToggle<CR>', { silent = true })
 keymap('n', '<F1>', ':FloatermToggle<CR>', { silent = true })
