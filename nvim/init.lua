@@ -1,11 +1,17 @@
 -- Plugins
 require('plugins')
 
+-- Keybindings
+require('keymaps')
+
 -- Turn on line numbers
 vim.opt.number = true
 
 -- Set the scrolloff
 vim.opt.scrolloff = 5
+
+-- Set the colorscheme
+vim.cmd('colo codedark')
 
 -- Save cursor position in file
 vim.cmd [[
@@ -91,40 +97,9 @@ vim.opt.path = {
 -- Turn on the wildmenu
 vim.opt.wildmenu = true
 
-function keymap(mode, lhs, rhs, opts)
-    local options = { noremap = true }
-    if opts then
-        options = vim.tbl_extend("force", options, opts)
-    end
-
-    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
-
--- Screen buffer navigation
-keymap('n', '<Leader>]', ':bn<CR>', { silent = true })
-keymap('n', '<Leader>[', ':bp<CR>', { silent = true })
-keymap('n', '<Leader>d', ':bd<CR>', { silent = true })
-
--- Multiple shifting using angle brackets
-keymap('v', '<', '<gv')
-keymap('v', '>', '>gv')
-
 -- More natural splits
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-
--- Set undo to only undo lines in insert mode
-keymap('i', '<C-U>', '<C-G>u<C-U>')
-
--- Pwn snippet
-local pwnsnippet = vim.fn.stdpath('config') .. '/snippets/skeleton-pwn.py'
-if vim.fn.filereadable(pwnsnippet) then
-    keymap('n', ',e', ':-1read ' .. pwnsnippet .. '<CR>3j$i', { silent = true })
-end
-
--- Use '\y' to copy text to the system clipboard
-keymap('n', '<Leader>y', '"+y')
-keymap('v', '<Leader>y', '"+y')
 
 -- Basic general completion settings
 vim.opt.omnifunc = 'syntaxcomplete#Complete'
@@ -134,32 +109,12 @@ vim.opt.shortmess = 'filnxtToOFc'
 -- Live substitute
 vim.opt.icm = 'nosplit'
 
--- Terminal escape
-keymap('t', '<Esc>', '<C-\\><C-n>')
-
 -- Enable termdebug
 vim.cmd [[packadd termdebug]]
 vim.g.termdebug_wide = 1
 
 -- Include .zshrc when issuing shell commands
 vim.opt.shellcmdflag = '-ic'
-
--- Run ctags in the background using tgen if the tags file exists
-if vim.fn.has('unix') then
-    keymap('n', '<leader>c', ':!tgen<CR>', { silent = true })
-
-    local function RunCtagsBack()
-        if vim.fn.filereadable("tags") == 1 then
-            vim.cmd(':execute \'silent !tgen\' | redraw!')
-        end
-    end
-
-    vim.api.nvim_create_autocmd("BufWritePost", {
-        pattern = "*",
-        callback = function() vim.schedule(RunCtagsBack) end,
-    })
-    --vim.cmd('autocmd BufWritePost * :call RunCtagsBack()')
-end
 
 -- Neovide settings
 if vim.fn.has('win32') then
@@ -171,64 +126,19 @@ vim.g.neovide_fullscreen = 'v:false'
 vim.g.neovide_remember_window_size = 'v:true'
 vim.g.neovide_cursor_vfx_mode = 'sonicboom'
 
--- Telescope keybinds
-keymap('n', '<leader>t', ':Telescope tags<CR>', { silent = true })
-keymap('n', '<leader>f', ':Telescope find_files<CR>', { silent = true })
-keymap('n', '<leader>;', ':Telescope buffers<CR>', { silent = true })
-keymap('n', '<leader>g', ':Telescope live_grep<CR>', { silent = true })
-keymap('n', '<leader>s', ':Telescope grep_string<CR>', { silent = true })
+-- Make completions work better with nvim lsp
+vim.opt.completeopt = 'menuone,longest,noselect,noinsert'
 
--- Don't remove split if buffer is deleted
-keymap('n', '<leader>d', ':bp|bd #<CR>', { silent = true})
+-- Disable netrw and use nerdtree instead
+vim.g.loaded_netrwPlugin = 1
 
--- Floating terminal keybinds
-keymap('n', '<space>t', ':FloatermToggle<CR>', { silent = true })
-keymap('n', '<F1>', ':FloatermToggle<CR>', { silent = true })
-keymap('i', '<F1>', '<Esc>:FloatermToggle<CR>', { silent = true })
-keymap('v', '<F1>', ':FloatermToggle<CR>', { silent = true })
-keymap('t', '<F1>', '<C-\\><C-n>:FloatermToggle<CR>', { silent = true })
 
--- Bind make to F2
-keymap('n', '<F2>', ':make<CR>', { silent = true })
+-- Idk what this is I saw it on stack overflow I think
+vim.opt.updatetime = 300
 
--- Set floating terminal to be a vsplit
-vim.g.floaterm_wintype = 'vsplit'
+-- Idk
+vim.opt.signcolumn = 'yes'
 
--- Set the terminal shell
---if vim.fn.has('win32') then
---    vim.g.floaterm_shell = 'powershell.exe'
---else
-    vim.g.floaterm_shell = 'zsh'
---end
+-- Settings for extensions
+require('extsettings')
 
--- Setup telescope
-require('telescope').setup{
-  defaults = {
-    layout_strategy = "vertical",
-    theme = "dropdown",
-  },
-
-  pickers = {
-    buffers = {
-      sort_lastused = true,
-      mappings = {
-        i = {
-          ["<c-d>"] = "delete_buffer",
-        },
-        n = {
-          ["<c-d>"] = "delete_buffer",
-        },
-      }
-    }
-  },
-}
-
-vim.api.nvim_create_user_command(
-    'Ide',
-    function()
-        if not vim.g.ide_loaded then
-            require('ide')
-        end
-    end,
-    { desc = 'Setup IDE settings' }
-)

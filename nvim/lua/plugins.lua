@@ -4,12 +4,6 @@ return require('packer').startup(function(use)
   -- Packer
   use 'wbthomason/packer.nvim'
 
-  -- Markdown preview
-  use {
-      'iamcco/markdown-preview.nvim',
-      run = 'cd app && yarn install',
-  }
-
   -- Toml syntax support
   use 'cespare/vim-toml'
 
@@ -23,9 +17,6 @@ return require('packer').startup(function(use)
 
   -- Colors
   use 'tomasiser/vim-code-dark'
-
-  -- Nerdtree
-  use 'preservim/nerdtree'
 
   -- Format on save
   use 'mhartington/formatter.nvim'
@@ -75,4 +66,60 @@ return require('packer').startup(function(use)
 
   -- HCL
   use 'jvirtanen/vim-hcl'
+
+  -- Status line
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+  }
+
+  -- File tree
+  use {
+  "nvim-neo-tree/neo-tree.nvim",
+    branch = "v2.x",
+    requires = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+      "MunifTanjim/nui.nvim",
+    }
+  }
+
+  -- Git stuff
+  use {
+    'TimUntersberger/neogit',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'sindrets/diffview.nvim'
+    }
+  }
+
+  -- Dev icons
+  use 'nvim-tree/nvim-web-devicons'
+
+  -- LSP initialization status
+  use 'j-hui/fidget.nvim'
+
+  -- LSP context info
+  use({
+    "utilyre/barbecue.nvim",
+    tag = "*",
+    requires = {
+      "SmiteshP/nvim-navic",
+      "nvim-tree/nvim-web-devicons", -- optional dependency
+    },
+    after = "nvim-web-devicons", -- keep this if you're using NvChad
+    config = function()
+      require("barbecue").setup()
+    end,
+  })
+
+  -- Buffer info
+  use {'romgrk/barbar.nvim', requires = 'nvim-web-devicons'}
+
+  -- Build Tasks
+  use {
+    'stevearc/overseer.nvim',
+    config = function() require('overseer').setup() end
+  }
+
 end)
