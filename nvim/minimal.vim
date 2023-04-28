@@ -49,10 +49,8 @@ nnoremap <silent> <Leader>; :ls<CR>
 set vb
 set t_vb=
 
-" Set the guifont for windows
-if has('win32')
-    set guifont=Consolas:h10
-endif
+" Set the guifont
+set guifont=Consolas:h10
 
 " Set the scrolloff to 5 lines
 set scrolloff=5
@@ -71,3 +69,6 @@ let g:netrw_dirhistmax=0
 
 " Enable vim wildmenu
 set wildmenu
+
+" Show a preview when doing search and replace
+set icm=nosplit
