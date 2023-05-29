@@ -36,6 +36,25 @@ zstyle ':vcs_info:git:*' check-for-changes true
 zstyle ':vcs_info:git:*' unstagedstr ":U"
 zstyle ':vcs_info:git:*' formats "(%s)-[%b%u]%c"
 
+# Better make completion
+zstyle ':completion::complete:make::' tag-order 'targets variables'
+
+PROMPT_OPTION=short
+
+toggle_prompt_option() {
+    if [ "$PROMPT_OPTION" = short ]; then
+        PROMPT_OPTION=long
+    else
+        PROMPT_OPTION=short
+    fi
+
+    draw_prompt
+    zle reset-prompt
+}
+
+zle -N toggle_prompt_option
+bindkey "\C-o" toggle_prompt_option
+
 RETURN_CODE="%(?..%{%F{red}%}%? )%{%F{white}%}"
 draw_prompt() {
     vcs_info
@@ -45,7 +64,18 @@ draw_prompt() {
         PROMPT+="(%{%F{red}%}`basename $VIRTUAL_ENV`%{%F{white}%}) "
     fi
 
-    PROMPT+="%{%F{green}%}%n@%m%{%F{white}%} :: %{%F{blue}%}%~%{%F{white}%} "
+    PROMPT_PATH="%{%F{blue}%}"
+
+    if [ "$PROMPT_OPTION" = short ]; then
+        PROMPT_PATH+="%~"
+    else
+        PROMPT_PATH+="$(echo $PWD | sed -E "s|$HOME|~|g" | sed -E 's/(\w)[^\/]+\//\1\//g')"
+    fi
+
+    PROMPT_PATH+="%{%F{white}%}"
+
+    PROMPT+="%{%F{green}%}%n@%m%{%F{white}%} :: $PROMPT_PATH "
+
 
     if [[ "${vcs_info_msg_0_}" != '' ]]
     then
@@ -129,6 +159,9 @@ tgen() {
 # pwninit using my template (needs my fork of pwninit using handlebars templating)
 alias pwninit="pwninit --template-path ~/.config/nvim/snippets/pwninit-template.py --template-bin-name e"
 
+# CTF flag
+alias flag="printf 'flag{%s}' $(head /dev/urandom | md5sum | cut -d' ' -f1)"
+
 # Set go path to a hidden dir
 export GOPATH=$HOME/.go
 
@@ -188,6 +221,6 @@ if [ -x "$(which kubectl)" ]; then
 fi
 
 # Set the ssh-agent socket to the gnome-keyring-daemon socket
-export SSH_AUTH_SOCK=/run/user/$(id -u)/gcr/ssh
+export SSH_AUTH_SOCK=/run/user/$(id -u)/ssh-agent.socket
 
 eval "$(pyenv init -)"
