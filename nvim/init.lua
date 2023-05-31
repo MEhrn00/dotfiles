@@ -117,10 +117,14 @@ vim.g.termdebug_wide = 1
 vim.opt.shellcmdflag = '-ic'
 
 -- Neovide settings
-if vim.fn.has('win32') then
+if vim.fn.has('win32') == 1 then
     vim.opt.guifont = 'Consolas:h9'
 else
+  if vim.g.neovide then
+    vim.opt.guifont = 'Source Code Pro:h5'
+  else
     vim.opt.guifont = 'Source Code Pro:h9'
+  end
 end
 vim.g.neovide_fullscreen = 'v:false'
 vim.g.neovide_remember_window_size = 'v:true'

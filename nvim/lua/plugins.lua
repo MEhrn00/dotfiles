@@ -93,6 +93,13 @@ return require('packer').startup(function(use)
     }
   }
 
+  use {
+    'lewis6991/gitsigns.nvim',
+    config = function()
+      require('gitsigns').setup()
+    end
+  }
+
   -- Dev icons
   use 'nvim-tree/nvim-web-devicons'
 
@@ -121,5 +128,12 @@ return require('packer').startup(function(use)
     'stevearc/overseer.nvim',
     config = function() require('overseer').setup() end
   }
+
+  -- Markdown previewer
+  use {
+    'toppair/peek.nvim',
+    run = 'deno task --quiet build:fast'
+  }
+
 
 end)

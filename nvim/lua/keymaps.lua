@@ -34,7 +34,7 @@ keymap('v', '<Leader>y', '"+y')
 keymap('t', '<Esc>', '<C-\\><C-n>')
 
 -- Run ctags in the background using tgen if the tags file exists
-if vim.fn.has('unix') then
+if vim.fn.has('unix') == 1 then
     keymap('n', '<leader>c', ':!tgen<CR>', { silent = true })
 
     local function RunCtagsBack()
@@ -71,10 +71,10 @@ keymap('t', '<F1>', '<C-\\><C-n>:FloatermToggle<CR>', { silent = true })
 keymap('n', '<F2>', ':make<CR>', { silent = true })
 
 -- Right Click Context Menu (Copy-Cut-Paste) for gui
-if vim.fn.exists('GuiLoaded') then
-    keymap('n', '<RightMouse>', ':call GuiShowContextMenu()<CR>', { silent = true })
-    keymap('i', '<RightMouse>', '<Esc>:call GuiShowContextMenu()<CR>', { silent = true })
-    keymap('v', '<RightMouse>', ':call GuiShowContextMenu()<CR>', { silent = true })
+if vim.fn.exists('GuiLoaded') == 1 then
+  keymap('n', '<RightMouse>', ':call GuiShowContextMenu()<CR>', { silent = true })
+  keymap('i', '<RightMouse>', '<Esc>:call GuiShowContextMenu()<CR>', { silent = true })
+  keymap('v', '<RightMouse>', ':call GuiShowContextMenu()<CR>', { silent = true })
 end
 
 -- Setup debugging
@@ -114,3 +114,7 @@ map('n', '<leader>9', '<Cmd>BufferGoto 9<CR>', opts)
 map('n', '<leader>0', '<Cmd>BufferPin<CR>', opts)
 -- Close buffer
 map('n', '<leader>d', '<Cmd>BufferClose<CR>', opts)
+
+-- Markdown preview
+vim.api.nvim_create_user_command('PeekOpen', require('peek').open, {})
+vim.api.nvim_create_user_command('PeekClose', require('peek').close, {})
