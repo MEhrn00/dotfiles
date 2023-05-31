@@ -37,7 +37,7 @@ set sb
 set mouse=a
 
 " Map <leader>y to copy selection to system clipboard
-vnoremap <silent> <Leader>y "+y
+nnoremap <silent> <Leader>y "+y
 
 " Buffer navigation
 nnoremap <silent> <Leader>] :bn<CR>
