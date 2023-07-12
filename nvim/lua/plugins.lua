@@ -75,7 +75,7 @@ return require('packer').startup(function(use)
 
   -- File tree
   use {
-  "nvim-neo-tree/neo-tree.nvim",
+    "nvim-neo-tree/neo-tree.nvim",
     branch = "v2.x",
     requires = {
       "nvim-lua/plenary.nvim",
@@ -93,6 +93,7 @@ return require('packer').startup(function(use)
     }
   }
 
+  -- Git icons
   use {
     'lewis6991/gitsigns.nvim',
     config = function()
@@ -104,10 +105,13 @@ return require('packer').startup(function(use)
   use 'nvim-tree/nvim-web-devicons'
 
   -- LSP initialization status
-  use 'j-hui/fidget.nvim'
+  use {
+    'j-hui/fidget.nvim',
+    tag = 'legacy',
+  }
 
   -- LSP context info
-  use({
+  use {
     "utilyre/barbecue.nvim",
     tag = "*",
     requires = {
@@ -118,10 +122,16 @@ return require('packer').startup(function(use)
     config = function()
       require("barbecue").setup()
     end,
-  })
+  }
 
   -- Buffer info
-  use {'romgrk/barbar.nvim', requires = 'nvim-web-devicons'}
+  use {
+    'romgrk/barbar.nvim',
+    requires = {
+      'nvim-tree/nvim-web-devicons',
+      'lewis6991/gitsigns.nvim',
+    }
+  }
 
   -- Build Tasks
   use {
