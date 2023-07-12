@@ -29,6 +29,10 @@ bindkey '^[[Z' reverse-menu-complete
 autoload -Uz promptinit
 promptinit
 
+# Set word delimeters to bash word delimeters
+autoload -U select-word-style
+select-word-style bash
+
 ## Git prompt status
 autoload -Uz vcs_info
 setopt promptsubst
@@ -221,6 +225,6 @@ if [ -x "$(which kubectl)" ]; then
 fi
 
 # Set the ssh-agent socket to the gnome-keyring-daemon socket
-export SSH_AUTH_SOCK=/run/user/$(id -u)/ssh-agent.socket
+export SSH_AUTH_SOCK=/run/user/$(id -u)/gcr/ssh
 
 eval "$(pyenv init -)"
