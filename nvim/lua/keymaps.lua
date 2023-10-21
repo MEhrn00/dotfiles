@@ -90,8 +90,11 @@ keymap("n", "<leader>B", ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpo
 keymap("n", "<leader>dr", ":lua require'dap'.repl.open()<CR>", options)
 keymap("v", "<M-k>", ":lua require'dapui'.eval()<CR>", options)
 
--- Open nerdtree with keybind
-keymap('n', '<space>f', ':NeoTreeFocusToggle<CR>', { silent = true })
+-- Open NeoTree with keybind
+keymap('n', '<space>f', ':Neotree toggle<CR>', { silent = true })
+
+-- Open Neogit
+keymap('n', '<space>g', ':Neogit<CR>', { silent = true })
 
 -- Top status bar keybinds
 local map = vim.api.nvim_set_keymap
