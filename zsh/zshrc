@@ -1,0 +1,7 @@
+if [ -f "${XDG_CONFIG_HOME}/zsh/init.zsh" ]; then
+    source "${XDG_CONFIG_HOME}/zsh/init.zsh"
+elif [ -f "${HOME}/.zsh/init.zsh" ]; then
+    source "${HOME}/.zsh/init.zsh"
+else
+    echo "[!] Could not source zsh directory."
+fi
