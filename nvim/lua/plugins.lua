@@ -18,9 +18,6 @@ return require('packer').startup(function(use)
   -- Colors
   use 'tomasiser/vim-code-dark'
 
-  -- Format on save
-  use 'mhartington/formatter.nvim'
-
   -- Treesitter
   use {
       'nvim-treesitter/nvim-treesitter',
@@ -32,25 +29,36 @@ return require('packer').startup(function(use)
   -- Completion
   use {
       'VonHeikemen/lsp-zero.nvim',
-      branch = 'v1.x',
+      branch = 'v3.x',
       requires = {
           -- LSP Support
-          {'neovim/nvim-lspconfig'},             -- Required
-          {'williamboman/mason.nvim'},           -- Optional
-          {'williamboman/mason-lspconfig.nvim'}, -- Optional
+          {'neovim/nvim-lspconfig'},
+
+          -- LSP Management
+          {'williamboman/mason.nvim'},
+          {'williamboman/mason-lspconfig.nvim'},
 
           -- Autocompletion
-          {'hrsh7th/nvim-cmp'},         -- Required
-          {'hrsh7th/cmp-nvim-lsp'},     -- Required
-          {'hrsh7th/cmp-buffer'},       -- Optional
-          {'hrsh7th/cmp-path'},         -- Optional
-          {'saadparwaiz1/cmp_luasnip'}, -- Optional
-          {'hrsh7th/cmp-nvim-lua'},     -- Optional
+          {'hrsh7th/nvim-cmp'},
+          {'hrsh7th/cmp-nvim-lsp'},
+          {'hrsh7th/cmp-buffer'},
+          {'hrsh7th/cmp-path'},
+          {'hrsh7th/cmp-nvim-lua'},
 
           -- Snippets
-          {'L3MON4D3/LuaSnip'},             -- Required
-          {'rafamadriz/friendly-snippets'}, -- Optional
+          {'saadparwaiz1/cmp_luasnip'},
       }
+  }
+
+  -- Snippets
+  use {
+    'L3MON4D3/LuaSnip',
+    tag = 'v2.*',
+    run = 'make install_jsregexp',
+
+    requires = {
+      'rafamadriz/friendly-snippets'
+    }
   }
 
   -- Debugging
@@ -64,9 +72,6 @@ return require('packer').startup(function(use)
   -- Float Term
   use 'voldikss/vim-floaterm'
 
-  -- HCL
-  use 'jvirtanen/vim-hcl'
-
   -- Status line
   use {
     'nvim-lualine/lualine.nvim',
@@ -76,7 +81,7 @@ return require('packer').startup(function(use)
   -- File tree
   use {
     "nvim-neo-tree/neo-tree.nvim",
-    branch = "v2.x",
+    branch = "v3.x",
     requires = {
       "nvim-lua/plenary.nvim",
       "nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
