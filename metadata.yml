@@ -5,6 +5,12 @@ modules:
       - src: alacritty
         dest: "${XDG_CONFIG_HOME}/alacritty"
 
+  - name: clang-format
+    install: true
+    paths:
+      - src: clang-format/clang-format
+        dest: "${HOME}/.clang-format"
+
   - name: git
     install: true
     paths:
