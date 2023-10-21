@@ -1,7 +1,7 @@
--- Plugins
+-- Load 'lua/plugins.lua'
 require('plugins')
 
--- Keybindings
+-- Load 'lua/keymaps.lua'
 require('keymaps')
 
 -- Turn on line numbers
@@ -133,9 +133,8 @@ vim.g.neovide_cursor_vfx_mode = 'sonicboom'
 -- Make completions work better with nvim lsp
 vim.opt.completeopt = 'menuone,longest,noselect,noinsert'
 
--- Disable netrw and use nerdtree instead
+-- Disable netrw and use Neotree instead
 vim.g.loaded_netrwPlugin = 1
-
 
 -- Idk what this is I saw it on stack overflow I think
 vim.opt.updatetime = 300
@@ -145,4 +144,3 @@ vim.opt.signcolumn = 'yes'
 
 -- Settings for extensions
 require('extsettings')
-
