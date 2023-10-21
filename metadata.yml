@@ -1,0 +1,74 @@
+modules:
+  - name: alacritty
+    install: false
+    paths:
+      - src: alacritty
+        dest: "${XDG_CONFIG_HOME}/alacritty"
+
+  - name: git
+    install: true
+    paths:
+      - src: git/gitignore
+        dest: "${XDG_CONFIG_HOME}/gitignore"
+
+  - name: i3
+    install: false
+    paths:
+      - src: i3
+        dest: "${XDG_CONFIG_HOME}/i3"
+
+  - name: libinput-gestures
+    install: false
+    paths:
+      - src: libinput-gestures/libinput-gestures.conf
+        dest: "${XDG_CONFIG_HOME}/libinput-gestures.conf"
+
+  - name: nvim
+    install: true
+    paths:
+      - src: nvim
+        dest: "${XDG_CONFIG_HOME}/nvim"
+
+  - name: polybar
+    install: false
+    paths:
+      - src: polybar
+        dest: "${XDG_CONFIG_HOME}/polybar"
+
+  - name: pwn
+    install: true
+    paths:
+      - src: pwn/pwn.conf
+        dest: "${HOME}/.pwn.conf"
+
+  - name: sway
+    install: false
+    paths:
+      - src: sway
+        dest: "${XDG_CONFIG_HOME}/sway"
+
+  - name: tmux
+    install: true
+    paths:
+      - src: tmux/tmux.conf
+        dest: "${HOME}/.tmux.conf"
+
+  - name: urxvt
+    install: false
+    paths:
+      - src: urxvt/Xresources
+        dest: "${HOME}/.Xresources"
+
+  - name: vim
+    install: true
+    paths:
+      - src: vim/vimrc
+        dest: "${HOME}/.vimrc"
+
+  - name: zsh
+    install: true
+    paths:
+      - src: zsh/zshrc
+        dest: "${HOME}/.zshrc"
+      - src: zsh/zsh
+        dest: "${XDG_CONFIG_HOME}/zsh"
