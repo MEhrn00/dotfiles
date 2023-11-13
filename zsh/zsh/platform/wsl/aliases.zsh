@@ -21,6 +21,12 @@ alias xclip=/mnt/c/WINDOWS/system32/clip.exe
 alias cmd.exe=/mnt/c/Windows/System32/cmd.exe
 alias cmd=/mnt/c/Windows/System32/cmd.exe
 
+# Function to display desktop notifications
 function notify-send {
     /mnt/c/Users/matth/.local/bin/wsl-notify-send.exe --category $WSL_DISTRO_NAME "${@}";
 }
+
+# Vagrant WSL setup
+export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+export VAGRANT_WSL_WINDOWS_ACCESS_USER_HOME_PATH="/mnt/c/Users/matth/"
+export VAGRANT_DEFAULT_PROVIDER="hyperv"
