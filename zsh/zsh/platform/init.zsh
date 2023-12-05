@@ -12,7 +12,7 @@ else
     PLATFORM=native
 fi
 
-ZSHFILES=($(find ~/.zsh/platform/${PLATFORM}/ -type f -name "*.zsh" | tr '\n' ' '))
+ZSHFILES=($(find ${_zshdir}/platform/${PLATFORM}/ -type f -name "*.zsh" 2>/dev/null | tr '\n' ' '))
 for FILE in $ZSHFILES; do
     source $FILE
 done

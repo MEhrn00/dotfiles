@@ -6,6 +6,9 @@ alias disable_aslr="setarch `uname -m` -R /bin/bash"
 # Display colors with ls
 alias ls="ls --color=auto"
 
+# Kubernetes kubectl
+alias k="kubectl"
+
 # ls is hard
 alias ll="ls -alF"
 alias la="ls -A"
@@ -22,3 +25,11 @@ alias pwninit="pwninit --template-path ${XDG_CONFIG_HOME}/nvim/snippets/pwninit-
 
 # CTF flag
 alias flag="printf 'flag{%s}' $(head /dev/urandom | md5sum | cut -d' ' -f1)"
+
+# Generic open
+function open () {
+    xdg-open "$*" &
+}
+
+# Neovim neogit alias
+alias neogit='vi -c "Neogit kind=replace"'

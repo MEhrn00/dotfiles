@@ -9,14 +9,14 @@ for _setting in ${_settings[@]}; do
 done
 
 # Load other platform/distro specific zsh settings
-if [ -f ~/.zsh/distro/init.zsh ]; then
-    source ~/.zsh/distro/init.zsh
+if [ -f ${_zshdir}/distro/init.zsh ]; then
+    source ${_zshdir}/distro/init.zsh
 else
-    echo "[!] Failed to find '~/.zsh/distro/init.zsh'"
+    echo "[!] Failed to find '${_zshdir}/distro/init.zsh'"
 fi
 
-if [ -f ~/.zsh/platform/init.zsh ]; then
-    source ~/.zsh/platform/init.zsh
+if [ -f ${_zshdir}/platform/init.zsh ]; then
+    source ${_zshdir}/platform/init.zsh
 else
-    echo "[!] Failed to find '~/.zsh/platform/init.zsh'"
+    echo "[!] Failed to find '${_zshdir}/platform/init.zsh'"
 fi
