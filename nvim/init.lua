@@ -1,17 +1,8 @@
--- Load 'lua/plugins.lua'
-require('plugins')
-
--- Load 'lua/keymaps.lua'
-require('keymaps')
-
 -- Turn on line numbers
 vim.opt.number = true
 
 -- Set the scrolloff
 vim.opt.scrolloff = 5
-
--- Set the colorscheme
-vim.cmd('colo codedark')
 
 -- Save cursor position in file
 vim.cmd [[
@@ -27,10 +18,10 @@ augroup vimStartup
 vim.opt.list = true
 vim.opt.listchars = 'tab:> ,trail:-'
 
--- Turn on mouse
+-- Turn on the mouse
 vim.opt.mouse = 'a'
 
--- Set the title to display the file name
+-- Set the buffer title to display the file name
 vim.opt.title = true
 
 -- Disable netrw history
@@ -43,7 +34,7 @@ vim.opt.shiftwidth = 4
 vim.opt.smartindent = true
 vim.opt.autoindent = true
 
--- Don't show mode
+-- Don't show the vim mode
 vim.opt.showmode = false
 vim.opt.showcmd = false
 
@@ -60,7 +51,7 @@ local highlights = {
     {'ColorColumn', { ctermbg = 'lightgrey', guibg = 'lightgrey' }},
 }
 
-local set_highlight = function(group, opts)
+local setHighlight = function(group, opts)
     local ctermbg = opts.ctermbg == nil and '' or 'ctermbg=' .. opts.ctermbg
     local ctermfg = opts.ctermfg == nil and '' or 'ctermfg=' .. opts.ctermfg
     local guibg = opts.guibg == nil and '' or 'guibg=' .. opts.guibg
@@ -73,10 +64,10 @@ end
 
 vim.cmd('hi clear MatchParen')
 for _, highlight in ipairs(highlights) do
-    set_highlight(highlight[1], highlight[2])
+    setHighlight(highlight[1], highlight[2])
 end
 
--- Column line and text wrapping
+-- Show a visible column line at 90 characters
 vim.opt.colorcolumn = '90'
 vim.opt.textwidth = 90
 
@@ -136,11 +127,109 @@ vim.opt.completeopt = 'menuone,longest,noselect,noinsert'
 -- Disable netrw and use Neotree instead
 vim.g.loaded_netrwPlugin = 1
 
--- Idk what this is I saw it on stack overflow I think
-vim.opt.updatetime = 300
-
--- Idk
+-- Allow symbols in the column
 vim.opt.signcolumn = 'yes'
 
--- Settings for extensions
-require('extsettings')
+-- Function for generating a ctags file
+function ctags(command)
+  -- Default list of ctags excludes
+  local ctagsExcludes = {
+    ".git",
+    "target",
+    "Cargo.lock",
+    "go.mod",
+    "go.sum"
+  }
+
+  -- Add global gitignore file to the excludes list
+  local gitConfigFile = io.open(vim.env.HOME .. "/.gitconfig", "r")
+  if gitConfigFile then
+    local gitConfigContent = gitConfigFile:read "*a"
+    gitConfigFile:close()
+
+    local gitExcludesPath = string.match(gitConfigContent, "excludesFile = ([%w%p]+)")
+
+    if gitExcludesPath then
+      for line in io.lines(gitExcludesPath) do
+        if not(string.find(line, "^%s*#")) then
+          ctagsExcludes[#ctagsExcludes+1] = line
+        end
+      end
+    end
+  end
+
+  -- Add local .gitignore files to the excludes list
+  local gitIgnoreFile = io.open(".gitignore", "r")
+  if gitIgnoreFile then
+    gitIgnoreFile:close()
+
+    for line in io.lines(".gitignore") do
+      if not(string.find(line, "^%s*#")) then
+        ctagsExcludes[#ctagsExcludes+1] = line
+      end
+    end
+  end
+
+  -- Add .ctagsignore files to the excludes list
+  local ctagsIgnoreFile = io.open(".ctagsignore", "r")
+  if ctagsIgnoreFile then
+    ctagsIgnoreFile:close()
+
+    for line in io.lines(".ctagsignore") do
+      if not(string.find(line, "^%s*#")) then
+        ctagsExcludes[#ctagsExcludes+1] = line
+      end
+    end
+  end
+
+
+  local ctagsExcludesArguments = ""
+  for _, exclude in ipairs(ctagsExcludes) do
+    ctagsExcludesArguments = ctagsExcludesArguments .. string.format('--exclude="%s" ', exclude)
+  end
+
+  local tagsUpdated = false
+  local tagsFile = io.open("tags", "r")
+  if tagsFile then
+    tagsUpdated = true
+    tagsFile:close()
+  end
+
+  local ctagsCommand = "ctags -R " .. ctagsExcludesArguments .. "." .. " 2>&1"
+  local handle = io.popen(ctagsCommand)
+  local output = handle:read("*a")
+  local rc = handle:close()
+
+  if rc == nil then
+    print(output)
+  elseif not tagsUpdated then
+    print("Tags file generated")
+  end
+
+end
+
+-- Add more specific filetype detections
+local function yaml_ftdetect(path, bufnr)
+  if vim.fn.glob(vim.fn.getcwd() .. "/**/ansible.cfg") ~= "" then
+    return "yaml.ansible"
+  end
+  return "yaml"
+end
+
+vim.filetype.add({
+  extension = {
+    yaml = yaml_ftdetect,
+    yml = yaml_ftdetect,
+  }
+})
+
+vim.api.nvim_create_user_command("Ctags", ctags, {
+  nargs = '?',
+  desc = "Run ctags"
+})
+
+-- Load general keymaps and the keymap function
+require('keymaps')
+
+-- Load plugins
+require('plugins')
