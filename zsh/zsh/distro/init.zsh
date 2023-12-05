@@ -30,7 +30,7 @@ elif type lsb_release >/dev/null 2>&1; then
     DISTRO=$(lsb_release -si | tr '[:upper:]' '[:lower:]')
 fi
 
-ZSHFILES=($(find ~/.zsh/distro/${DISTRO}/ -type f -name "*.zsh" | tr '\n' ' '))
+ZSHFILES=($(find ${_zshdir}/distro/${DISTRO}/ -type f -name "*.zsh" 2>/dev/null | tr '\n' ' '))
 for FILE in $ZSHFILES; do
     source $FILE
 done

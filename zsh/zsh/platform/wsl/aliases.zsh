@@ -4,10 +4,6 @@ alias code='/mnt/c/Users/matth/AppData/Local/Programs/Microsoft\ VS\ Code/bin/co
 # Share gpg keys with Windows
 #alias gpg='/mnt/c/Program\ Files\ \(x86\)/gnupg/bin/gpg.exe'
 
-# Share Kubernetes settings with Windows
-alias kubecomplete='source <(kubectl completion zsh)'
-alias k=kubectl
-
 # Share podman with Windows
 alias winpodman='/mnt/c/Program\ Files/RedHat/Podman//podman.exe'
 
@@ -20,6 +16,9 @@ alias xclip=/mnt/c/WINDOWS/system32/clip.exe
 
 alias cmd.exe=/mnt/c/Windows/System32/cmd.exe
 alias cmd=/mnt/c/Windows/System32/cmd.exe
+
+# Firefox
+alias firefox='/mnt/c/Program\ Files/Mozilla\ Firefox/firefox.exe'
 
 # Function to display desktop notifications
 function notify-send {

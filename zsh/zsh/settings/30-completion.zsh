@@ -1,8 +1,8 @@
 # ZSH Completion settings
 
-# Load compinit and complist
-autoload -Uz compinit
-compinit
+# Load compinit, bashcompinit and complist
+autoload bashcompinit && bashcompinit
+autoload -Uz compinit && compinit
 zmodload zsh/complist
 
 # Enable _extensions, _complete and _approximate
@@ -87,12 +87,45 @@ fi
 zstyle ':completion:*:*:(ssh|scp|sftp|rsync):*' hosts $_h
 
 
-_u=()
-if [[ -r "${HOME}/.ssh/config" ]]; then
-fi
-
 # Add make command completion for make targets and variables
 zstyle ':completion::complete:make::' tag-order 'targets variables'
 
 # Add kubectl completions
-source <(kubectl completion zsh)
+if command -v kubectl &> /dev/null; then
+    source <(kubectl completion zsh)
+fi
+
+# Add helm completion
+if command -v helm &> /dev/null; then
+    source <(helm completion zsh)
+fi
+
+# Add terraform completion
+if command -v terraform &> /dev/null; then
+    complete -o nospace -C $(which terraform) terraform
+fi
+
+# Add step cli completion
+if command -v step &> /dev/null; then
+    source <(step completion zsh)
+fi
+
+# Add skaffold completion
+if command -v skaffold &> /dev/null; then
+    source <(skaffold completion zsh)
+fi
+
+# Add doctl completion
+if command -v doctl &> /dev/null; then
+    source <(doctl completion zsh)
+fi
+
+# Add awscli completion
+if command -v aws &> /dev/null; then
+    complete -C "$(which aws_completer)" aws
+fi
+
+# Add azure-cli completion
+if [[ -f /usr/share/bash-completion/completions/azure-cli ]]; then
+    source /usr/share/bash-completion/completions/azure-cli
+fi
