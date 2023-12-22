@@ -24,8 +24,9 @@ return require('packer').startup(function(use)
   -- Colors
   use {
     "tomasiser/vim-code-dark",
-    config = function() require("plugin-configs/colorscheme") end
+    config = function() require("plugin-configs/colors") end
   }
+
 
   -- Treesitter
   use {
@@ -57,6 +58,7 @@ return require('packer').startup(function(use)
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
       "hrsh7th/cmp-nvim-lua",
 
       -- Icons
@@ -99,11 +101,10 @@ return require('packer').startup(function(use)
     config = function() require("plugin-configs/dap") end
   }
 
-  -- Float Term
+  -- Terminal
   use {
-    'voldikss/vim-floaterm',
-
-    config = function() require("plugin-configs/floaterm") end
+    "akinsho/toggleterm.nvim",
+    config = function() require("plugin-configs.toggleterm") end
   }
 
   -- Status line
@@ -129,6 +130,11 @@ return require('packer').startup(function(use)
     config = function() require("plugin-configs/neotree") end
   }
 
+  use {
+    "s1n7ax/nvim-window-picker",
+    config = function() require("plugin-configs.window-picker") end
+  }
+
   -- Git stuff
   use {
     'TimUntersberger/neogit',
@@ -144,13 +150,13 @@ return require('packer').startup(function(use)
   -- Git icons
   use {
     'lewis6991/gitsigns.nvim',
-    config = function() require("plugin-configs/gitsigns") end
+    config = function() require("plugin-configs.gitsigns") end
   }
 
   -- LSP initialization status
   use {
     'j-hui/fidget.nvim',
-    config = function() require('fidget').setup{} end,
+    config = function() require("plugin-configs.fidget") end,
   }
 
   -- LSP context info
@@ -172,13 +178,13 @@ return require('packer').startup(function(use)
       'nvim-tree/nvim-web-devicons',
       'lewis6991/gitsigns.nvim',
     },
-    config = function() require("plugin-configs/barbar") end
+    config = function() require("plugin-configs.barbar") end
   }
 
   -- Build Tasks
   use {
     'stevearc/overseer.nvim',
-    config = function() require('overseer').setup() end,
+    config = function() require("plugin-configs.overseer") end,
   }
 
   -- Markdown previewer

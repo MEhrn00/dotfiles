@@ -26,6 +26,10 @@ telescope.setup{
       }
     },
 
+    diagnostics = {
+      theme = "ivy"
+    },
+
     find_files = {
       theme = "ivy"
     },
@@ -86,6 +90,7 @@ vim.keymap.set('n', '<leader>t', builtin.tags, opts)
 vim.keymap.set('n', '<leader>f', builtin.find_files, opts)
 vim.keymap.set('n', '<leader>;', builtin.buffers, opts)
 vim.keymap.set('n', '<leader>g', builtin.live_grep, opts)
+vim.keymap.set('n', '<leader>r', builtin.lsp_references, opts)
 vim.keymap.set('v', '<leader>g', function()
   local selectionText = vim.getVisualSelection()
   builtin.live_grep({ default_text = selectionText })

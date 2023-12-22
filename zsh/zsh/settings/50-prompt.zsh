@@ -95,7 +95,18 @@ precmd_functions+=(draw_prompt)
 # TODO: preexec_function which sets the terminal/tmux title to long running commands and then
 # switches the title back to the regular prompt when finished. This setting will depend on
 # what `TERM` is set, if there is a tmux session and whether or not in WSL.
-#testing() {
-#    echo "lol"
-#}
-#preexec_functions+=(testing)
+tmux_set_window_title() {
+    if [[ "${TMUX}" ]]; then
+        cmd=$(echo "$1" | sed 's/\(.\{25\}\).*/\1.../')
+        printf "\033k%s\033\\" "$cmd"
+    fi
+}
+
+tmux_restore_window_title() {
+    if [[ "${TMUX}" ]]; then
+        cmd=$(ps -ho comm $$)
+        printf "\033k%s\033\\" "$cmd"
+    fi
+}
+preexec_functions+=(tmux_set_window_title)
+precmd_functions+=(tmux_restore_window_title)

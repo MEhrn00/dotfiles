@@ -20,6 +20,18 @@ keymap('v', '>', '>gv')
 -- Set undo to only undo lines in insert mode
 keymap('i', '<C-U>', '<C-G>u<C-U>')
 
+-- Bind C-c to escape when not in normal mode
+keymap('i', '<C-c>', '<Esc>')
+keymap('v', '<C-c>', '<Esc>')
+keymap('o', '<C-c>', '<Esc>')
+
+-- Command entry emacs keybinds
+keymap('c', '<C-a>', '<Home>')
+keymap('c', '<C-f>', '<Right>')
+keymap('c', '<M-f>', '<S-Right>')
+keymap('c', '<C-b>', '<Left>')
+keymap('c', '<M-b>', '<S-Left>')
+
 -- Load pwn snippet
 local pwnsnippet = vim.fn.stdpath('config') .. '/snippets/skeleton-pwn.py'
 if vim.fn.filereadable(pwnsnippet) then
@@ -35,9 +47,6 @@ keymap('t', '<Esc>', '<C-\\><C-n>')
 
 -- Don't remove split if buffer is deleted
 keymap('n', '<leader>d', ':bp|bd #<CR>', { silent = true})
-
--- Bind make to F2
-keymap('n', '<F2>', ':make<CR>', { silent = true })
 
 -- Right Click Context Menu (Copy-Cut-Paste) for gui
 if vim.fn.exists('GuiLoaded') == 1 then

@@ -41,7 +41,12 @@ lsp_zero.set_sign_icons({
 })
 
 
-require('mason').setup({}) -- Mason for handling language servers
+require('mason').setup({
+  ui = {
+    border = "single"
+  }
+})
+
 local inlayHints = require("lsp-inlayhints")
 inlayHints.setup()
 
@@ -137,8 +142,45 @@ cmp.setup({
       maxwidth = 50,
       ellipsis_char = "...",
     })
+  },
+
+  enabled = function()
+    -- disable completion in comments
+    local context = require 'cmp.config.context'
+    -- keep command mode completion enabled when cursor is in a comment
+    if vim.api.nvim_get_mode().mode == 'c' then
+      return true
+    else
+      return not context.in_treesitter_capture("comment")
+        and not context.in_syntax_group("Comment")
+    end
+  end,
+})
+
+cmp.setup.cmdline({ '/', '?' }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
   }
 })
+
+local _border = "single"
+
+vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+  vim.lsp.handlers.hover, {
+    border = _border
+  }
+)
+
+vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+  vim.lsp.handlers.signature_help, {
+    border = _border
+  }
+)
+
+require("lspconfig.ui.windows").default_options = {
+  border = _border
+}
 
 vim.diagnostic.config({
     virtual_text = true,
@@ -146,6 +188,6 @@ vim.diagnostic.config({
     update_in_insert = false,
     underline = true,
     severity_sort = false,
-    float = true,
+    float = { border = _border },
 })
 

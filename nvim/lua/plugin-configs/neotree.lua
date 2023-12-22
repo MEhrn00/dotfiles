@@ -22,3 +22,4 @@ require("neo-tree").setup({
 })
 
 keymap('n', '<space>f', ':Neotree toggle<CR>', { silent = true })
+vim.api.nvim_set_hl(0, "NeoTreeTitleBar", { link = "StatusLine" })
