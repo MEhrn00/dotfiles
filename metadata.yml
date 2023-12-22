@@ -56,8 +56,8 @@ modules:
   - name: tmux
     install: true
     paths:
-      - src: tmux/tmux.conf
-        dest: "${HOME}/.tmux.conf"
+      - src: tmux
+        dest: "${XDG_CONFIG_HOME}/tmux"
 
   - name: urxvt
     install: false
