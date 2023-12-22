@@ -4,7 +4,7 @@ require('nvim-web-devicons').setup()
 -- Setup status line
 require('lualine').setup{
   options = {
-    theme = 'nord'
+    theme = "nord"
   },
 
   sections = {
@@ -14,10 +14,12 @@ require('lualine').setup{
     lualine_x = {
       'encoding',
       'fileformat',
-      'filetype'
+      'filetype',
     },
     lualine_y = {'progress'},
-    lualine_z = {'location'},
+    lualine_z = {
+      "location"
+    },
   },
 
   tabline = {}

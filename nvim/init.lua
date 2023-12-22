@@ -38,34 +38,9 @@ vim.opt.autoindent = true
 vim.opt.showmode = false
 vim.opt.showcmd = false
 
--- Set colors
+-- Set color options
 vim.opt.bg = 'dark'
 vim.opt.termguicolors = true
-
-local highlights = {
-    {'Pmenu', { ctermbg = 235, ctermfg = 'white', guibg = 235, guifg = 'white' }},
-    {'MatchParen', { cterm = 'underline', gui = 'underline' }},
-    {'Search', { ctermfg = 'black', ctermbg = 'white' }},
-    {'StatusLine', { ctermfg = 'black', ctermbg = 'white' }},
-    {'StatusLineNC', { ctermfg = 'white', ctermbg = 'black' }},
-    {'ColorColumn', { ctermbg = 'lightgrey', guibg = 'lightgrey' }},
-}
-
-local setHighlight = function(group, opts)
-    local ctermbg = opts.ctermbg == nil and '' or 'ctermbg=' .. opts.ctermbg
-    local ctermfg = opts.ctermfg == nil and '' or 'ctermfg=' .. opts.ctermfg
-    local guibg = opts.guibg == nil and '' or 'guibg=' .. opts.guibg
-    local guifg = opts.guifg == nil and '' or 'guifg=' .. opts.guifg
-    local cterm = opts.cterm == nil and '' or 'cterm=' .. opts.cterm
-    local gui = opts.gui == nil and '' or 'gui=' .. opts.gui
-
-    vim.cmd(string.format('hi %s %s %s %s %s %s %s', group, cterm, gui, ctermbg, ctermfg, guibg, guifg))
-end
-
-vim.cmd('hi clear MatchParen')
-for _, highlight in ipairs(highlights) do
-    setHighlight(highlight[1], highlight[2])
-end
 
 -- Show a visible column line at 90 characters
 vim.opt.colorcolumn = '90'
