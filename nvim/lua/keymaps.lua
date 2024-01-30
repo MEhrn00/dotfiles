@@ -53,4 +53,6 @@ if vim.fn.exists('GuiLoaded') == 1 then
   keymap('n', '<RightMouse>', ':call GuiShowContextMenu()<CR>', { silent = true })
   keymap('i', '<RightMouse>', '<Esc>:call GuiShowContextMenu()<CR>', { silent = true })
   keymap('v', '<RightMouse>', ':call GuiShowContextMenu()<CR>', { silent = true })
+
+  keymap('i', '<C-v>', '<C-R>+', { silent = true, noremap = false })
 end
