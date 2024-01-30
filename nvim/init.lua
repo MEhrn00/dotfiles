@@ -19,7 +19,7 @@ augroup vimStartup
 
 -- Show trailing whitespace as '-' and hard tabs as '>'
 vim.opt.list = true
-vim.opt.listchars = 'tab:> ,trail:-'
+vim.opt.listchars = 'tab:→ ,trail:-'
 
 -- Turn on the mouse
 vim.opt.mouse = 'a'
