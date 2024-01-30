@@ -1,6 +1,9 @@
 -- Turn on line numbers
 vim.opt.number = true
 
+-- Enable filetype plugin
+vim.cmd("filetype plugin on")
+
 -- Set the scrolloff
 vim.opt.scrolloff = 5
 
