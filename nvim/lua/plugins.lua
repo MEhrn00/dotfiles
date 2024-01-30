@@ -195,4 +195,10 @@ return require('packer').startup(function(use)
   }
 
 
+  -- Indent guides
+  use {
+    "lukas-reineke/indent-blankline.nvim",
+    config = function() require("plugin-configs.indentguide") end,
+  }
+
 end)
