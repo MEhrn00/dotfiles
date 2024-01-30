@@ -27,7 +27,7 @@ local colorMaps = {
   },
 
   ErrorMsg = {
-    fg = "NvimLightRed",
+    fg = "LightRed",
     bg = "NONE"
   },
 
@@ -45,5 +45,5 @@ local colorMaps = {
 }
 
 for group, opt in pairs(colorMaps) do
-  vim.api.nvim_set_hl(0, group, opt)
+  --vim.api.nvim_set_hl(0, group, opt)
 end

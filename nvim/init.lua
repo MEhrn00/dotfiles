@@ -87,7 +87,7 @@ vim.opt.shellcmdflag = '-ic'
 
 -- Neovide settings
 if vim.fn.has('win32') == 1 then
-    vim.opt.guifont = 'Consolas:h9'
+    vim.opt.guifont = 'SauceCodePro Nerd Font Mono:h9'
 else
   if vim.g.neovide then
     vim.opt.guifont = 'Source Code Pro:h5'
