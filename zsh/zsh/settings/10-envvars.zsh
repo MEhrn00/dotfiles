@@ -31,3 +31,6 @@ export AWS_PAGER='less -F -X'
 
 # Set the Bitwarden CLI data directory
 export BITWARDENCLI_APPDATA_DIR="${XDG_CONFIG_HOME}/bitwarden"
+
+# Java
+export JAVA_HOME=/etc/alternatives/java_sdk_openjdk
