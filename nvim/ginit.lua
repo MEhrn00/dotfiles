@@ -4,7 +4,7 @@ vim.s.fontsize = 9
 local function AdjustFontSize(amt)
     vim.s.fontsize = vim.s.fontsize + vim.a.amt
     if vim.fn.has('win32') == 1 then
-        vim.opt.guifont = "Consolas:h" . vim.s.fontsize
+        vim.opt.guifont = "SauceCode Pro Nerd Font Mono:h" . vim.s.fontsize
     else
         vim.opt.guifont = "Source Code Pro:h" . vim.s.fontsize
     end

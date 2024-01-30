@@ -27,7 +27,6 @@ return require('packer').startup(function(use)
     config = function() require("plugin-configs/colors") end
   }
 
-
   -- Treesitter
   use {
     "nvim-treesitter/nvim-treesitter",
@@ -117,6 +116,7 @@ return require('packer').startup(function(use)
     config = function() require("plugin-configs/lualine") end
   }
 
+
   -- File tree
   use {
     "nvim-neo-tree/neo-tree.nvim",
@@ -154,10 +154,10 @@ return require('packer').startup(function(use)
   }
 
   -- LSP initialization status
-  use {
-    'j-hui/fidget.nvim',
-    config = function() require("plugin-configs.fidget") end,
-  }
+  --use {
+  --  'j-hui/fidget.nvim',
+  --  config = function() require("plugin-configs.fidget") end,
+  --}
 
   -- LSP context info
   use {
