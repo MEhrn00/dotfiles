@@ -23,7 +23,7 @@ export COLORTERM=truecolor
 export PATH=$PATH:$HOME/.local/bin:$GOPATH/bin
 
 # Add golang install to path
-#export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/usr/local/go/bin
 
 # AWS settings
 export AWS_DEFAULT_PROFILE='mehrn00'
@@ -34,3 +34,6 @@ export BITWARDENCLI_APPDATA_DIR="${XDG_CONFIG_HOME}/bitwarden"
 
 # Java
 export JAVA_HOME=/etc/alternatives/java_sdk_openjdk
+
+# Vagrant
+export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
