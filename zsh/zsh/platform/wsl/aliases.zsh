@@ -21,7 +21,7 @@ alias cmd=/mnt/c/Windows/System32/cmd.exe
 alias firefox='/mnt/c/Program\ Files/Mozilla\ Firefox/firefox.exe'
 
 # Function to display desktop notifications
-function notify-send {
+function wsl-notify-send {
     /mnt/c/Users/matth/.local/bin/wsl-notify-send.exe --category $WSL_DISTRO_NAME "${@}";
 }
 

@@ -33,3 +33,6 @@ function open () {
 
 # Neovim neogit alias
 alias neogit='vi -c "Neogit kind=replace"'
+
+# Neovim
+alias vi='nvim'
