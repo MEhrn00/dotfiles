@@ -32,6 +32,9 @@ export AWS_PAGER='less -F -X'
 # Set the Bitwarden CLI data directory
 export BITWARDENCLI_APPDATA_DIR="${XDG_CONFIG_HOME}/bitwarden"
 
+# Set the Bitwarden Secrets Manager CLI config path
+export BWS_CONFIG_FILE="${XDG_CONFIG_HOME}/bws/config"
+
 # Java
 export JAVA_HOME=/etc/alternatives/java_sdk_openjdk
 
