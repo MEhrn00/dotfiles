@@ -1,64 +1,6 @@
--- Helper function for mapping keys
-function keymap(mode, lhs, rhs, opts)
-    local options = { noremap = true, silent = true }
-    if opts then
-        options = vim.tbl_extend("force", options, opts)
-    end
+local M = {}
 
-    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
-end
-
--- Default screen buffer navigation (this gets overridden by Barbar when it is loaded)
-keymap('n', '<Leader>]', ':bn<CR>', { silent = true })
-keymap('n', '<Leader>[', ':bp<CR>', { silent = true })
-keymap('n', '<Leader>d', ':bd<CR>', { silent = true })
-
--- Multiple tab shifting using angle brackets
-keymap('v', '<', '<gv')
-keymap('v', '>', '>gv')
-
--- Set undo to only undo lines in insert mode
-keymap('i', '<C-U>', '<C-G>u<C-U>')
-
--- Bind C-c to escape when not in normal mode
-keymap('i', '<C-c>', '<Esc>')
-keymap('v', '<C-c>', '<Esc>')
-keymap('o', '<C-c>', '<Esc>')
-
--- Command entry emacs keybinds
-keymap('c', '<C-a>', '<Home>')
-keymap('c', '<C-f>', '<Right>')
-keymap('c', '<M-f>', '<S-Right>')
-keymap('c', '<C-b>', '<Left>')
-keymap('c', '<M-b>', '<S-Left>')
-
--- Load pwn snippet
-local pwnsnippet = vim.fn.stdpath('config') .. '/snippets/skeleton-pwn.py'
-if vim.fn.filereadable(pwnsnippet) then
-    keymap('n', ',e', ':-1read ' .. pwnsnippet .. '<CR>3j$i', { silent = true })
-end
-
--- Use '\y' to copy text to the system clipboard
-keymap('n', '<Leader>y', '"+y')
-keymap('v', '<Leader>y', '"+y')
-
--- Set escape to be the terminal escape character
-keymap('t', '<Esc>', '<C-\\><C-n>')
-
--- Don't remove split if buffer is deleted
-keymap('n', '<leader>d', ':bp|bd #<CR>', { silent = true})
-
--- Right Click Context Menu (Copy-Cut-Paste) for gui
-if vim.fn.exists('GuiLoaded') == 1 then
-  keymap('n', '<RightMouse>', ':call GuiShowContextMenu()<CR>', { silent = true })
-  keymap('i', '<RightMouse>', '<Esc>:call GuiShowContextMenu()<CR>', { silent = true })
-  keymap('v', '<RightMouse>', ':call GuiShowContextMenu()<CR>', { silent = true })
-
-  keymap('i', '<C-v>', '<C-R>+', { silent = true, noremap = false })
-end
-
--- Toggle line comments on visual mode selection
-local function toggleCommentBlock()
+local function toggleBlockComment()
   local cms = vim.bo.cms
   if cms == nil or cms == '' then
     print("Comment string is empty for filetype: " .. vim.bo.filetype)
@@ -120,7 +62,7 @@ local function toggleCommentBlock()
   vim.api.nvim_win_set_cursor(0, cursorPos)
 end
 
-local function toggleComment()
+local function toggleLineComment()
   local cms = vim.bo.cms
   if cms == nil or cms == '' then
     print("Comment string is empty for filetype: " .. vim.bo.filetype)
@@ -150,5 +92,23 @@ local function toggleComment()
   vim.api.nvim_win_set_cursor(0, cursorPos)
 end
 
-vim.keymap.set('v', "<C-_>", toggleCommentBlock)
-vim.keymap.set('n', "<C-_>", toggleComment)
+function M.setup()
+  local keymaps = require('general.keymaps')
+
+  keymaps.add({
+    mode = 'v',
+    keys = '<C-_>',
+    action = toggleBlockComment,
+    desc = 'Toggle comment block',
+  })
+
+  keymaps.add({
+    mode = 'n',
+    keys = '<C-_>',
+    action = toggleLineComment,
+    desc = 'Toggle line comment',
+  })
+
+end
+
+return M
