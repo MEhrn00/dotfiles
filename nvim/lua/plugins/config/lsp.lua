@@ -63,69 +63,6 @@ return {
 
 		keymaps.add({
 			mode = "n",
-			keys = "K",
-			action = vim.lsp.buf.hover,
-			desc = "Display hover information",
-		})
-
-		keymaps.add({
-			mode = "n",
-			keys = "gd",
-			action = vim.lsp.buf.definition,
-			desc = "Go to definition",
-		})
-
-		keymaps.add({
-			mode = "n",
-			keys = "gD",
-			action = vim.lsp.buf.declaration,
-			desc = "Go to declaration",
-		})
-
-		keymaps.add({
-			mode = "n",
-			keys = "gi",
-			action = vim.lsp.buf.implementation,
-			desc = "List implementations",
-		})
-
-		keymaps.add({
-			mode = "n",
-			keys = "go",
-			action = vim.lsp.buf.type_definition,
-			desc = "Go to type definition",
-		})
-
-		keymaps.add({
-			mode = "n",
-			keys = "gr",
-			action = vim.lsp.buf.references,
-			desc = "List references",
-		})
-
-		keymaps.add({
-			mode = "n",
-			keys = "<C-k>",
-			action = vim.lsp.buf.signature_help,
-			desc = "Display signature help",
-		})
-
-		keymaps.add({
-			mode = "n",
-			keys = "crn",
-			action = vim.lsp.buf.rename,
-			desc = "Rename symbol",
-		})
-
-		keymaps.add({
-			mode = "n",
-			keys = "ga",
-			action = vim.lsp.buf.code_action,
-			desc = "Perform code action",
-		})
-
-		keymaps.add({
-			mode = "n",
 			keys = "gl",
 			action = vim.diagnostic.open_float,
 			desc = "Open diagnostic window",
@@ -143,6 +80,83 @@ return {
 			keys = "gE",
 			action = vim.diagnostic.goto_prev,
 			desc = "Go to next diagnostic",
+		})
+
+		vim.api.nvim_create_autocmd('LspAttach', {
+			callback = function(ev)
+				local opts = { buffer = ev.buf }
+				keymaps.add({
+					mode = "n",
+					keys = "K",
+					action = vim.lsp.buf.hover,
+					desc = "Display hover information",
+					opts = opts,
+				})
+
+				keymaps.add({
+					mode = "n",
+					keys = "gd",
+					action = vim.lsp.buf.definition,
+					desc = "Go to definition",
+					opts = opts,
+				})
+
+				keymaps.add({
+					mode = "n",
+					keys = "gD",
+					action = vim.lsp.buf.declaration,
+					desc = "Go to declaration",
+					opts = opts,
+				})
+
+				keymaps.add({
+					mode = "n",
+					keys = "gi",
+					action = vim.lsp.buf.implementation,
+					desc = "List implementations",
+					opts = opts,
+				})
+
+				keymaps.add({
+					mode = "n",
+					keys = "go",
+					action = vim.lsp.buf.type_definition,
+					desc = "Go to type definition",
+					opts = opts,
+				})
+
+				keymaps.add({
+					mode = "n",
+					keys = "gr",
+					action = vim.lsp.buf.references,
+					desc = "List references",
+					opts = opts,
+				})
+
+				keymaps.add({
+					mode = "n",
+					keys = "<C-k>",
+					action = vim.lsp.buf.signature_help,
+					desc = "Display signature help",
+					opts = opts,
+				})
+
+				keymaps.add({
+					mode = "n",
+					keys = "crn",
+					action = vim.lsp.buf.rename,
+					desc = "Rename symbol",
+					opts = opts,
+				})
+
+				keymaps.add({
+					mode = "n",
+					keys = "ga",
+					action = vim.lsp.buf.code_action,
+					desc = "Perform code action",
+					opts = opts,
+				})
+			end,
 		})
 
 		cmp.setup({
