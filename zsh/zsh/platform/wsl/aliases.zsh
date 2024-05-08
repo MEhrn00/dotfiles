@@ -11,14 +11,14 @@ alias winpodman='/mnt/c/Program\ Files/RedHat/Podman//podman.exe'
 #alias ssh=/mnt/c/WINDOWS/System32/OpenSSH//ssh.exe
 #alias ssh-add=/mnt/c/WINDOWS/System32/OpenSSH//ssh-add.exe
 
-# Set the 'xclip' alias to link with the Windows clipboard
-alias xclip=/mnt/c/WINDOWS/system32/clip.exe
-
 alias cmd.exe=/mnt/c/Windows/System32/cmd.exe
 alias cmd=/mnt/c/Windows/System32/cmd.exe
 
 # Firefox
 alias firefox='/mnt/c/Program\ Files/Mozilla\ Firefox/firefox.exe'
+
+# xdg open
+alias xdg-open='wslview'
 
 # Function to display desktop notifications
 function wsl-notify-send {
