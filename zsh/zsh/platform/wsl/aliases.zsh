@@ -14,9 +14,6 @@ alias winpodman='/mnt/c/Program\ Files/RedHat/Podman//podman.exe'
 alias cmd.exe=/mnt/c/Windows/System32/cmd.exe
 alias cmd=/mnt/c/Windows/System32/cmd.exe
 
-# Firefox
-alias firefox='/mnt/c/Program\ Files/Mozilla\ Firefox/firefox.exe'
-
 # xdg open
 alias xdg-open='wslview'
 
