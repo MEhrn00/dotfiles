@@ -82,7 +82,7 @@ return {
 			desc = "Go to next diagnostic",
 		})
 
-		vim.api.nvim_create_autocmd('LspAttach', {
+		vim.api.nvim_create_autocmd("LspAttach", {
 			callback = function(ev)
 				local opts = { buffer = ev.buf }
 				keymaps.add({
@@ -156,6 +156,16 @@ return {
 					desc = "Perform code action",
 					opts = opts,
 				})
+
+				local client = vim.lsp.get_client_by_id(ev.data.client_id)
+				if client.name == "clangd" then
+					keymaps.add({
+						mode = "n",
+						keys = "<leader>h",
+						action = ":ClangdSwitchSourceHeader<CR>",
+						desc = "Switch between header and source file",
+					})
+				end
 			end,
 		})
 
