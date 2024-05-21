@@ -99,7 +99,7 @@ function M.setup()
 	keymaps.add({
 		mode = "i",
 		keys = "<S-Insert>",
-		action = '<Esc>"+ps',
+		action = '<Esc>"+pa',
 		desc = "Paste system clipboard with shift insert",
 	})
 
@@ -113,7 +113,7 @@ function M.setup()
 	keymaps.add({
 		mode = "i",
 		keys = "<M-v>",
-		action = '<Esc>"+ps',
+		action = '<Esc>"+pa',
 		desc = "Paste system clipboard with alt v",
 	})
 
