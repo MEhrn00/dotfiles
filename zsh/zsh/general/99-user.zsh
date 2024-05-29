@@ -20,11 +20,8 @@ else
     fi
 fi
 
-# Krew path
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
-
 # Function for running ctags with a derived list of excludes
-tgen() {
+function tgen {
     # Default list of ctags excludes
     local defaultCtagsExcludes=(
         ".git"          # Git metadata
@@ -112,4 +109,23 @@ function bwsshkeys {
 
         env SSH_PASS=$keypasswd SSH_ASKPASS_REQUIRE=force SSH_ASKPASS=/usr/local/bin/auto-sshaskpass.sh ssh-add $keypath
     done
+}
+
+# Helper function which sources a file if it exists or displays a warning
+function test_source {
+    SCRIPT=$([ ! -z "$SCRIPT" ] && echo "$SCRIPT" || echo $PWD | sed -E "s|$HOME|~|g")
+    if [ -z "$1" ]; then
+        echo "[!] (ERROR) $SCRIPT:$LINENO Source file not specified"
+        return
+    fi
+
+    if [ -f $1 ]; then
+        source $1
+    else
+        if [ ! -z "$2" ]; then
+            echo "[*] $SCRIPT: " "$2"
+        else
+            echo "[*] $SCRIPT: Failed to source '$1'"
+        fi
+    fi
 }

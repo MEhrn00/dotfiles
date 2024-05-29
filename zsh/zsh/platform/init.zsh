@@ -1,18 +1,21 @@
 # Platform-specific zsh settings
 
-# A "platform" is defined as a shell session running in a certain environment.
-# An environment can be platform-based such as WSL or application based such as tmux.
-# This will identify what platform the zsh session is running in and source the necessary
-# settings
+# Platform detection routines
+# - WSL
+# - native
 
 
+# Detect platform
 if [[ "$(uname -r | tr '[:upper:]' '[:lower:]')" =~ wsl2?$ ]]; then
-    PLATFORM=wsl
+    _platform=wsl
 else
-    PLATFORM=native
+    _platform=native
 fi
 
-ZSHFILES=($(find ${_zshdir}/platform/${PLATFORM}/ -type f -name "*.zsh" 2>/dev/null | tr '\n' ' '))
-for FILE in $ZSHFILES; do
-    source $FILE
-done
+# Source platform directory if it exists
+if [ -d "${_zshdir}/platform/${_platform}" ]; then
+    _platform_files=(${_zshdir}/platform/${_platform}/*.zsh)
+    for _platform_file in ${_platform_files[@]}; do
+        source $_platform_file
+    done
+fi

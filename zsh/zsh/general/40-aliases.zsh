@@ -20,6 +20,15 @@ alias grep="grep --color=auto"
 # Emacs client
 alias ec="emacsclient"
 
+# Clipboard
+if [ -n "$WAYLAND_DISPLAY" ]; then
+    alias clip="wl-copy"
+    alias clippaste="wl-paste"
+elif [ -n "$DISPLAY" ]; then
+    alias clip="xclip -selection clipboard"
+    alias clippaste="xclip -o -selection clipboard"
+fi
+
 # pwninit with user template
 alias pwninit="pwninit --template-path ${XDG_CONFIG_HOME}/nvim/snippets/pwninit-template.py --template-bin-name e"
 

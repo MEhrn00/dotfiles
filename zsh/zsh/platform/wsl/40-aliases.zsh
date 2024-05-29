@@ -4,18 +4,11 @@ alias code='/mnt/c/Users/matth/AppData/Local/Programs/Microsoft\ VS\ Code/bin/co
 # Share gpg keys with Windows
 #alias gpg='/mnt/c/Program\ Files\ \(x86\)/gnupg/bin/gpg.exe'
 
-# Share podman with Windows
-alias winpodman='/mnt/c/Program\ Files/RedHat/Podman//podman.exe'
-
-# Share ssh-agent with Windows
-#alias ssh=/mnt/c/WINDOWS/System32/OpenSSH//ssh.exe
-#alias ssh-add=/mnt/c/WINDOWS/System32/OpenSSH//ssh-add.exe
-
 alias cmd.exe=/mnt/c/Windows/System32/cmd.exe
 alias cmd=/mnt/c/Windows/System32/cmd.exe
 
-# xdg open
-alias xdg-open='wslview'
+# open
+alias open='wslview'
 
 # Function to display desktop notifications
 function wsl-notify-send {
