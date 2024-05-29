@@ -8,6 +8,7 @@ end
 function M.setup()
 	if not vim.g.neovide then
 		vim.g.fontsize = 5
+		vim.g.neovide_hide_mouse_when_typing = true
 	end
 
 	-- Get the GUI font name for the platform
