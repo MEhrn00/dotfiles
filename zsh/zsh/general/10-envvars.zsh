@@ -40,3 +40,9 @@ export JAVA_HOME=/etc/alternatives/java_sdk_openjdk
 
 # Vagrant
 export VAGRANT_WSL_ENABLE_WINDOWS_ACCESS="1"
+
+# DOCKER_HOST if podman is present but docker is not
+if command -v podman &> /dev/null && ! command -v docker &> /dev/null; then
+    # Use $XDG_RUNTIME_DIR because 'podman info -f' has a performance cost
+    export DOCKER_HOST="unix://${XDG_RUNTIME_DIR%/}/podman/podman.sock"
+fi
