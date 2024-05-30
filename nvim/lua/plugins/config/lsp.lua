@@ -19,6 +19,15 @@ local serveropts = {
 	},
 }
 
+local lsp_installed = {
+	"clangd",
+	"cmake",
+	"gopls",
+	"pylsp",
+	"lua_ls",
+	"rust_analyzer",
+}
+
 return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
@@ -53,7 +62,7 @@ return {
 
 	config = function()
 		require("mason").setup()
-		require("mason-lspconfig").setup()
+		require("mason-lspconfig").setup({ ensure_installed = lsp_installed })
 
 		local cmp = require("cmp")
 		local select_behavior = { behavior = cmp.SelectBehavior.Select }
@@ -158,7 +167,7 @@ return {
 				})
 
 				local client = vim.lsp.get_client_by_id(ev.data.client_id)
-				if client.name == "clangd" then
+				if client and client.name == "clangd" then
 					keymaps.add({
 						mode = "n",
 						keys = "<leader>h",
