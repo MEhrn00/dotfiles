@@ -1,0 +1,8 @@
+[credential]
+	helper = /usr/libexec/git-core/git-credential-libsecret
+[user]
+	name = Matt Ehrnschwender
+	email = matthewe2020@gmail.com
+	signingkey = 8F6BCE74A2BADA27
+[commit]
+	gpgSign = true
