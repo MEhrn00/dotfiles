@@ -29,9 +29,6 @@ tmux set -gq set-titles on
 # Set the title format
 tmux set -gq set-titles-string "#W"
 
-# Set the base window index to 1
-tmux set -gq base-index 1
-
 # Set the base colors
 tmux set -gq status-style bg="$c1",fg="$c2"
 
