@@ -1,4 +1,4 @@
-local serveropts = {
+local globalopts = {
 	lua_ls = {
 		settings = {
 			Lua = {
@@ -19,13 +19,15 @@ local serveropts = {
 	},
 }
 
-local lsp_installed = {
+local installed_servers = {
 	"clangd",
 	"cmake",
 	"gopls",
 	"pylsp",
 	"lua_ls",
 	"rust_analyzer",
+	"jsonls",
+	"yamlls",
 }
 
 return {
@@ -38,6 +40,8 @@ return {
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig",
 		"onsails/lspkind.nvim",
+		"b0o/schemastore.nvim",
+		"someone-stole-my-name/yaml-companion.nvim",
 		{
 			"utilyre/barbecue.nvim",
 			name = "barbecue",
@@ -62,121 +66,12 @@ return {
 
 	config = function()
 		require("mason").setup()
-		require("mason-lspconfig").setup({ ensure_installed = lsp_installed })
+		require("mason-lspconfig").setup({ ensure_installed = installed_servers })
 
 		local cmp = require("cmp")
 		local select_behavior = { behavior = cmp.SelectBehavior.Select }
 		local lspkind = require("lspkind")
-
-		local keymaps = require("general.keymaps")
-
-		keymaps.add({
-			mode = "n",
-			keys = "gl",
-			action = vim.diagnostic.open_float,
-			desc = "Open diagnostic window",
-		})
-
-		keymaps.add({
-			mode = "n",
-			keys = "ge",
-			action = vim.diagnostic.goto_next,
-			desc = "Go to next diagnostic",
-		})
-
-		keymaps.add({
-			mode = "n",
-			keys = "gE",
-			action = vim.diagnostic.goto_prev,
-			desc = "Go to next diagnostic",
-		})
-
-		vim.api.nvim_create_autocmd("LspAttach", {
-			callback = function(ev)
-				local opts = { buffer = ev.buf }
-				keymaps.add({
-					mode = "n",
-					keys = "K",
-					action = vim.lsp.buf.hover,
-					desc = "Display hover information",
-					opts = opts,
-				})
-
-				keymaps.add({
-					mode = "n",
-					keys = "gd",
-					action = vim.lsp.buf.definition,
-					desc = "Go to definition",
-					opts = opts,
-				})
-
-				keymaps.add({
-					mode = "n",
-					keys = "gD",
-					action = vim.lsp.buf.declaration,
-					desc = "Go to declaration",
-					opts = opts,
-				})
-
-				keymaps.add({
-					mode = "n",
-					keys = "gi",
-					action = vim.lsp.buf.implementation,
-					desc = "List implementations",
-					opts = opts,
-				})
-
-				keymaps.add({
-					mode = "n",
-					keys = "go",
-					action = vim.lsp.buf.type_definition,
-					desc = "Go to type definition",
-					opts = opts,
-				})
-
-				keymaps.add({
-					mode = "n",
-					keys = "gr",
-					action = vim.lsp.buf.references,
-					desc = "List references",
-					opts = opts,
-				})
-
-				keymaps.add({
-					mode = "n",
-					keys = "<C-k>",
-					action = vim.lsp.buf.signature_help,
-					desc = "Display signature help",
-					opts = opts,
-				})
-
-				keymaps.add({
-					mode = "n",
-					keys = "crn",
-					action = vim.lsp.buf.rename,
-					desc = "Rename symbol",
-					opts = opts,
-				})
-
-				keymaps.add({
-					mode = "n",
-					keys = "ga",
-					action = vim.lsp.buf.code_action,
-					desc = "Perform code action",
-					opts = opts,
-				})
-
-				local client = vim.lsp.get_client_by_id(ev.data.client_id)
-				if client and client.name == "clangd" then
-					keymaps.add({
-						mode = "n",
-						keys = "<leader>h",
-						action = ":ClangdSwitchSourceHeader<CR>",
-						desc = "Switch between header and source file",
-					})
-				end
-			end,
-		})
+		require("plugins.config.lsp.keybinds").setup()
 
 		cmp.setup({
 			snippet = {
@@ -229,9 +124,37 @@ return {
 
 		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
+		local localopts = {
+			yamlls = require("yaml-companion").setup({
+				lspconfig = {
+					settings = {
+						yaml = {
+							valudate = true,
+							schemaStore = {
+								enabled = false,
+								url = "",
+							},
+							schemas = require("schemastore").yaml.schemas(),
+						},
+					},
+				},
+			}),
+
+			jsonls = {
+				settings = {
+					json = {
+						schemas = require("schemastore").json.schemas(),
+						validate = { enable = true },
+					},
+				},
+			},
+		}
+
 		require("mason-lspconfig").setup_handlers({
 			function(server_name)
-				local opts = serveropts[server_name] or {}
+				local opts =
+					vim.tbl_deep_extend("force", {}, globalopts[server_name] or {}, localopts[server_name] or {})
+
 				opts.capabilities = vim.tbl_deep_extend("force", {}, capabilities, opts.capabilities or {})
 				require("lspconfig")[server_name].setup(opts)
 			end,
