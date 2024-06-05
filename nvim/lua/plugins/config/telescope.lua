@@ -16,6 +16,7 @@ return {
 	branch = "0.1.x",
 	dependencies = {
 		"nvim-lua/plenary.nvim",
+		"someone-stole-my-name/yaml-companion.nvim",
 	},
 
 	opts = {
@@ -35,10 +36,9 @@ return {
 
 	config = function(_, opts)
 		require("telescope").setup(opts)
-
 		local builtin = require("telescope.builtin")
-
 		local keymap = require("general.keymaps")
+		require("telescope").load_extension("yaml_schema")
 
 		keymap.add({
 			mode = "n",

@@ -91,9 +91,20 @@ local function qflist()
 	return string.format("%s%s%s", info, warn, error)
 end
 
+local function get_schema()
+	local schema = require("yaml-companion").get_buf_schema(0)
+	if schema.result[1].name == "none" then
+		return ""
+	end
+	return schema.result[1].name
+end
+
 return {
 	"nvim-lualine/lualine.nvim",
-	dependencies = { "nvim-tree/nvim-web-devicons" },
+	dependencies = {
+		"nvim-tree/nvim-web-devicons",
+		"omeone-stole-my-name/yaml-companion.nvim",
+	},
 	lazy = false,
 	opts = {
 		options = {
@@ -105,7 +116,7 @@ return {
 			lualine_a = { "mode" },
 			lualine_b = { "branch", "diagnostics" },
 			lualine_c = { "filename" },
-			lualine_x = { "encoding", "fileformat", "filetype" },
+			lualine_x = { "encoding", "fileformat", "filetype", get_schema },
 			lualine_y = {
 				{
 					qflist,
