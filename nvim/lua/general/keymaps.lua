@@ -262,7 +262,7 @@ local default_options = {
 -- {
 --   mode = '<mode abbreviation (n, v)>',
 --   keys = '<key combination>',
---   action = '<action top perform>',
+--   action = '<action to perform>',
 --   desc = '<description for the keybind>',
 --
 --   -- Optional extra keybind options :h map-arguments
@@ -283,10 +283,35 @@ function M.add(keymap)
 	vim.keymap.set(keymap["mode"], keymap["keys"], keymap["action"], opts)
 end
 
-function M.setup()
-	for _, keymap in ipairs(keymaps) do
-		M.add(keymap)
+--- Applys an array of keymap tables
+-- @param maptpl array of keymap tables to apply
+--
+-- Format for the table array
+-- ```lua
+-- {
+--   {
+--     mode = '<mode abbreviation (n, v)>',
+--     keys = '<key combination>',
+--     action = '<action to perform>',
+--     desc = '<description for the keybind>',
+--
+--     -- Optional extra keybind options :h map-arguments
+--     opts = {
+--       silent = '<keybind should be silent:bool>',
+--       noremap = '<do not remap exiting keybind:bool>',
+--       expr = '<keybind action is an expression:bool>',
+--     }
+--   },
+-- }
+-- ```
+function M.apply(maptbl)
+	for _, k in ipairs(maptbl) do
+		M.add(k)
 	end
+end
+
+function M.setup()
+	M.apply(keymaps)
 end
 
 return M
