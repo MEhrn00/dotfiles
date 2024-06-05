@@ -19,7 +19,7 @@ function M.setup()
 
 	-- Show trailing whitespaces as '-' and tab characters a '>'
 	vim.opt.list = true
-	vim.opt.listchars = { trail = "-", tab = "> " }
+	vim.opt.listchars = { trail = "-", tab = "│ " }
 
 	-- Turn on the mouse
 	vim.opt.mouse = "a"
