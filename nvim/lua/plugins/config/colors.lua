@@ -18,6 +18,8 @@ return {
 		if not vim.g.neovide and not (vim.fn.has("gui") == 1) then
 			vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 			vim.api.nvim_set_hl(0, "NonText", { bg = "none" })
+			vim.api.nvim_set_hl(0, "LineNr", { fg = "gray", bg = "none" })
+			vim.api.nvim_set_hl(0, "SignColumn", { bg = "none" })
 		end
 	end,
 }
