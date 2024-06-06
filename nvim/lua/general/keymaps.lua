@@ -300,6 +300,7 @@ end
 --       silent = '<keybind should be silent:bool>',
 --       noremap = '<do not remap exiting keybind:bool>',
 --       expr = '<keybind action is an expression:bool>',
+--       buffer = '<keymap is only for current buffer:bool>',
 --     }
 --   },
 -- }
