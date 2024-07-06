@@ -87,3 +87,24 @@ function tgen {
         ctags -R $ctagsExcludesArguments .
     fi
 }
+
+function djwt {
+    if [[ -x $(command -v jq) ]]
+    then
+        if [ -t 0 ]
+        then
+            if [ -z "$1" ]
+            then
+                echo "Token not specified"
+                return 1
+            else
+                token=$1
+            fi
+        else
+            token=$(cat)
+        fi
+        echo -n "$token" | cut -d'.' -f1 | base64 -d -w0 2> /dev/null | jq
+        echo -n "$token" | cut -d'.' -f2 | base64 -d -w0 2> /dev/null | jq
+        true
+    fi
+}
