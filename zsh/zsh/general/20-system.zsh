@@ -16,3 +16,6 @@ fi
 # Set word delimeters to bash word delimeters
 autoload -U select-word-style
 select-word-style bash
+
+# Use emacs keybinds
+set -o emacs
