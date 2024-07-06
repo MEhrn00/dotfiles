@@ -2,3 +2,4 @@ tags
 env
 target
 .ctagsignore
+compile_commands.json
