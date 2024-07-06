@@ -43,3 +43,9 @@ if command -v podman &> /dev/null && ! command -v docker &> /dev/null; then
     # Use $XDG_RUNTIME_DIR because 'podman info -f' has a performance cost
     export DOCKER_HOST="unix://${XDG_RUNTIME_DIR%/}/podman/podman.sock"
 fi
+
+if command -v nvim &> /dev/null; then
+    export EDITOR=$(which nvim)
+elif command -v vim &> /dev/null; then
+    export EDITOR=$(which vim)
+fi
