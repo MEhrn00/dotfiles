@@ -3,4 +3,4 @@ __role_skeleton_required_facts:
   - os_family
   - distribution
   - distribution_major_version
-  - distribution_Version
+  - distribution_version
