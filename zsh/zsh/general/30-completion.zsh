@@ -129,3 +129,8 @@ fi
 if [[ -f /usr/share/bash-completion/completions/azure-cli ]]; then
     source /usr/share/bash-completion/completions/azure-cli
 fi
+
+# Add bws completion
+if command -v bws &> /dev/null; then
+    source <(bws completions zsh)
+fi
