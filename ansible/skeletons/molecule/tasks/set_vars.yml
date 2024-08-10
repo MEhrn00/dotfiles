@@ -1,0 +1,19 @@
+---
+- name: set_vars | Ensure ansible_facts used by role
+  ansible.builtin.setup:
+    gather_subset: "{{ __role_skeleton_required_facts }}"
+  when: not ansible_facts.keys() | list |
+    intersect(__role_skeleton_required_facts) == __role_skeleton_required_facts
+
+- name: set_vars | Include platform/version specific variables
+  ansible.builtin.include_vars: "{{ __role_skeleton_vars_file }}"
+  loop:
+    - "{{ ansible_facts['os_family'] }}.yml"
+    - "{{ ansible_facts['distribution'] }}.yml"
+    - "{{ ansible_facts['distribution'] }}_{{ ansible_facts['distribution_major_version'] }}.yml"
+    - "{{ ansible_facts['distribution'] }}_{{ ansible_facts['distribution_version'] }}.yml"
+  loop_control:
+    loop_var: __role_skeleton_platform_file
+  vars:
+    __role_skeleton_vars_file: "{{ role_path }}/vars/{{ __role_skeleton_platform_file }}"
+  when: __role_skeleton_vars_file is file

@@ -1,0 +1,37 @@
+---
+dependency:
+  name: galaxy
+  options:
+    requirements-file: requirements.yml
+driver:
+  name: podman
+platforms:
+  - name: debian12
+    image: debian:12
+    systemd: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+  # - name: ubuntu24.04
+  #   image: ubuntu:24.04
+  #   systemd: true
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+  # - name: fedora40
+  #   image: fedora:40
+  #   systemd: true
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+  # - name: almalinux9
+  #   image: almalinux:9
+  #   systemd: true
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
+  # - name: rockylinux9
+  #   image: rockylinux:9
+  #   systemd: true
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
