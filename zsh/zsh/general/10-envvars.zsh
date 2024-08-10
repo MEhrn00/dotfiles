@@ -35,9 +35,6 @@ export BITWARDENCLI_APPDATA_DIR="${XDG_CONFIG_HOME}/bitwarden"
 # Set the Bitwarden Secrets Manager CLI config path
 export BWS_CONFIG_FILE="${XDG_CONFIG_HOME}/bws/config"
 
-# Java
-export JAVA_HOME=/etc/alternatives/java_sdk_openjdk
-
 # DOCKER_HOST if podman is present but docker is not
 if command -v podman &> /dev/null && ! command -v docker &> /dev/null; then
     # Use $XDG_RUNTIME_DIR because 'podman info -f' has a performance cost
