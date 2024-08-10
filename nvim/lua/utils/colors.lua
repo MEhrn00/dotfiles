@@ -11,7 +11,10 @@ local transparent_groups = {
 	"VertSplit",
 }
 
-local columnline_color = "darkgray"
+local columnline_color = {
+	bg = "#2d2d2d",
+	blend = 100,
+}
 
 local function apply_columnline_colors(color)
 	if type(color) == "string" then
