@@ -1,0 +1,38 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: true
+  gather_subset:
+    - pkg_mgr
+    - distribution
+  vars:
+    packages:
+      Debian:
+        - systemctl
+      Fedora:
+        - systemd
+  tasks:
+    - name: Update apt cache
+      become: true
+      ansible.builtin.apt:
+        update_cache: true
+      when: ansible_pkg_mgr == "apt"
+
+    - name: Update dnf cache
+      become: true
+      ansible.builtin.apt:
+        update_cache: true
+      when: ansible_pkg_mgr == "dnf"
+
+    - name: Update yum cache
+      become: true
+      ansible.builtin.apt:
+        update_cache: true
+      when: ansible_pkg_mgr == "yum"
+
+    - name: Ensure pre-requisite packages are installed
+      become: true
+      ansible.builtin.package:
+        name: "{{ packages[ansible_facts['distribution']] }}"
+        state: present
+      when: packages[ansible_facts['distribution']] is defined

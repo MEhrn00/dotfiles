@@ -1,0 +1,15 @@
+---
+- name: distro | Set platform/version specific variables
+  ansible.builtin.import_tasks: set_vars.yml
+
+- name: distro | Perform platform/version specific tasks
+  ansible.builtin.include_tasks: "{{ lookup('first_found', __role_skeleton_ff_params) }}"
+  vars:
+    __role_skeleton_ff_params:
+      files:
+        - "{{ ansible_facts['distribution'] }}_{{ ansible_facts['distribution_version'] }}.yml"
+        - "{{ ansible_facts['distribution'] }}_{{ ansible_facts['distribution_major_version'] }}.yml"
+        - "{{ ansible_facts['distribution'] }}.yml"
+        - "{{ ansible_facts['os_family'] }}.yml"
+      paths:
+        - "{{ role_path }}/tasks/distro"

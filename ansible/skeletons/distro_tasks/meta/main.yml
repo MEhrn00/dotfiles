@@ -1,0 +1,25 @@
+galaxy_info:
+  role_name: role_skeleton
+  namespace: mehrn00
+  author: Matt Ehrnschwender <MEhrn00>
+  description: Ansible role skeleton
+  license: ""
+  galaxy_tags: []
+  min_ansible_version: "2.1"
+
+  platforms:
+    - name: Debian
+      versions:
+        - bookworm
+    - name: Ubuntu
+      versions:
+        - noble
+    - name: Fedora
+      versions:
+        - "40"
+    - name: Alma
+      versions:
+        - "9"
+    - name: Rocky
+      versions:
+        - "9"
