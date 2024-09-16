@@ -1,3 +1,36 @@
+local keybinds = {
+	{
+		mode = "n",
+		keys = "<space>t",
+		action = ":ToggleTerm<CR>",
+		desc = "Open terminal",
+	},
+	{
+		mode = "t",
+		keys = "<C-g>",
+		action = "<Cmd>:ToggleTerm<CR>",
+		desc = "Close terminal",
+	},
+	{
+		mode = "t",
+		keys = "<C-w>k",
+		action = "<Cmd>wincmd k<CR>",
+		desc = "Go to above window",
+	},
+	{
+		mode = "t",
+		keys = "<C-w>h",
+		action = "<Cmd>wincmd h<CR>",
+		desc = "Go to left window",
+	},
+	{
+		mode = "t",
+		keys = "<C-w>l",
+		action = "<Cmd>wincmd l<CR>",
+		desc = "Go to right window",
+	},
+}
+
 return {
 	"akinsho/toggleterm.nvim",
 	opts = {
@@ -11,25 +44,12 @@ return {
 
 		shade_terminals = false,
 		open_mapping = [[<F1>]],
-		direction = "float",
+		direction = "horizontal",
 	},
 
 	config = function(_, opts)
 		require("toggleterm").setup(opts)
 		local keymaps = require("utils.keymaps")
-
-		keymaps.add({
-			mode = "n",
-			keys = "<C-\\>",
-			action = ":ToggleTerm<CR>",
-			desc = "Open terminal",
-		})
-
-		keymaps.add({
-			mode = "i",
-			keys = "<C-\\>",
-			action = "<Esc>:ToggleTerm<CR>",
-			desc = "Open terminal",
-		})
+		keymaps.apply(keybinds)
 	end,
 }
