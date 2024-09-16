@@ -42,26 +42,26 @@ return {
 
 		keymap.add({
 			mode = "n",
-			keys = "<leader>f",
+			keys = "<c-p>",
 			action = builtin.find_files,
 			desc = "Find files",
 		})
 
 		keymap.add({
 			mode = "n",
-			keys = "<leader>g",
+			keys = "<leader>s",
 			action = builtin.live_grep,
-			desc = "Grep for specified text",
+			desc = "Search for text",
 		})
 
 		keymap.add({
 			mode = "v",
-			keys = "<leader>g",
+			keys = "<leader>s",
 			action = function()
 				local selectedtext = getVisualSelection()
 				builtin.live_grep({ default_text = selectedtext })
 			end,
-			desc = "Grep for selected word",
+			desc = "Search for selected word",
 		})
 
 		keymap.add({

@@ -5,12 +5,17 @@ local keybinds = {
 		action = ":OverseerToggle<CR>",
 		desc = "Toggle Overseer window",
 	},
-
+	{
+		mode = "n",
+		keys = "<leader>c",
+		action = ":OverseerRun<CR>",
+		desc = "Run Overseer task",
+	},
 	{
 		mode = "n",
 		keys = "<leader>b",
-		action = ":OverseerRun<CR>",
-		desc = "Run Overseer task",
+		action = ":OverseerRestartLast<CR>",
+		desc = "Restart lat Overseer task",
 	},
 }
 
@@ -24,6 +29,7 @@ return {
 	},
 
 	opts = {
+		strategy = "terminal",
 		templates = {
 			"builtin",
 			"custom.cmake",
@@ -55,5 +61,15 @@ return {
 			nargs = "*",
 			bang = true,
 		})
+
+		vim.api.nvim_create_user_command("OverseerRestartLast", function()
+			local overseer = require("overseer")
+			local tasks = overseer.list_tasks({ recent_first = true })
+			if vim.tbl_isempty(tasks) then
+				vim.notify("No tasks found", vim.log.levels.WARN)
+			else
+				overseer.run_action(tasks[1], "restart")
+			end
+		end, {})
 	end,
 }

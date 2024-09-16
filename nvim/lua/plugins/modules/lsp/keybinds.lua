@@ -1,33 +1,8 @@
 local M = {}
 
-local general_keybinds = {
-	{
-		mode = "n",
-		keys = "gl",
-		action = vim.diagnostic.open_float,
-		desc = "Open diagnostic window",
-	},
-	{
-		mode = "n",
-		keys = "ge",
-		action = vim.diagnostic.goto_next,
-		desc = "Go to next diagnostic",
-	},
-	{
-		mode = "n",
-		keys = "gE",
-		action = vim.diagnostic.goto_prev,
-		desc = "Go to previous diagnostic",
-	},
-}
+local general_keybinds = {}
 
 local lsp_keybinds = {
-	{
-		mode = "n",
-		keys = "K",
-		action = vim.lsp.buf.hover,
-		desc = "Display hover information",
-	},
 	{
 		mode = "n",
 		keys = "gd",
@@ -44,7 +19,7 @@ local lsp_keybinds = {
 		mode = "n",
 		keys = "gi",
 		action = vim.lsp.buf.implementation,
-		desc = "List implementations",
+		desc = "Go to implementation",
 	},
 	{
 		mode = "n",
@@ -82,17 +57,9 @@ local lang_keybinds = {
 	clangd = {
 		{
 			mode = "n",
-			keys = "<leader>h",
+			keys = "gh",
 			action = ":ClangdSwitchSourceHeader<CR>",
 			desc = "Switch between header and source file",
-		},
-	},
-	yamlls = {
-		{
-			mode = "n",
-			keys = "<leader>s",
-			action = ":Telescope yaml_schema<CR>",
-			desc = "Select YAML schema",
 		},
 	},
 }

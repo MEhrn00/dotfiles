@@ -8,21 +8,21 @@ return {
 
 			keymap.add({
 				mode = "n",
-				keys = "<leader>hs",
+				keys = "<leader>gs",
 				action = gitsigns.stage_hunk,
 				desc = "Git stage hunk",
 			})
 
 			keymap.add({
 				mode = "n",
-				keys = "<leader>hr",
+				keys = "<leader>gr",
 				action = gitsigns.reset_hunk,
 				desc = "Git reset hunk",
 			})
 
 			keymap.add({
 				mode = "v",
-				keys = "<leader>hs",
+				keys = "<leader>gs",
 				action = function()
 					gitsigns.stage_hunk({
 						vim.fn.line("."),
@@ -34,7 +34,7 @@ return {
 
 			keymap.add({
 				mode = "v",
-				keys = "<leader>hr",
+				keys = "<leader>gr",
 				action = function()
 					gitsigns.reset_hunk({
 						vim.fn.line("."),
@@ -46,35 +46,35 @@ return {
 
 			keymap.add({
 				mode = "n",
-				keys = "<leader>hS",
+				keys = "<leader>gS",
 				action = gitsigns.stage_buffer,
 				desc = "Git stage buffer",
 			})
 
 			keymap.add({
 				mode = "n",
-				keys = "<leader>hu",
+				keys = "<leader>gu",
 				action = gitsigns.undo_stage_hunk,
 				desc = "Git undo previously staged hunk",
 			})
 
 			keymap.add({
 				mode = "n",
-				keys = "<leader>hR",
+				keys = "<leader>gR",
 				action = gitsigns.reset_buffer,
 				desc = "Git reset buffer",
 			})
 
 			keymap.add({
 				mode = "n",
-				keys = "<leader>hp",
+				keys = "<leader>gg",
 				action = gitsigns.preview_hunk,
 				desc = "Git preview hunk",
 			})
 
 			keymap.add({
 				mode = "n",
-				keys = "<leader>hb",
+				keys = "<leader>gb",
 				action = function()
 					gitsigns.blame_line({ full = true })
 				end,
@@ -90,14 +90,14 @@ return {
 
 			keymap.add({
 				mode = "n",
-				keys = "<leader>hd",
+				keys = "<leader>gd",
 				action = gitsigns.diffthis,
 				desc = "Git diff file",
 			})
 
 			keymap.add({
 				mode = "n",
-				keys = "<leader>hD",
+				keys = "<leader>gD",
 				action = function()
 					gitsigns.diffthis("~")
 				end,
@@ -109,6 +109,42 @@ return {
 				keys = "<leader>td",
 				action = gitsigns.toggle_deleted,
 				desc = "Git toggle deleted",
+			})
+
+			keymap.add({
+				mode = "n",
+				keys = "]g",
+				action = function()
+					gitsigns.nav_hunk("next")
+				end,
+				desc = "Git go to next hunk",
+			})
+
+			keymap.add({
+				mode = "n",
+				keys = "[g",
+				action = function()
+					gitsigns.nav_hunk("prev")
+				end,
+				desc = "Git go to previous hunk",
+			})
+
+			keymap.add({
+				mode = "n",
+				keys = "[G",
+				action = function()
+					gitsigns.nav_hunk("first")
+				end,
+				desc = "Git go to first hunk",
+			})
+
+			keymap.add({
+				mode = "n",
+				keys = "]G",
+				action = function()
+					gitsigns.nav_hunk("last")
+				end,
+				desc = "Git go to last hunk",
 			})
 		end,
 	},

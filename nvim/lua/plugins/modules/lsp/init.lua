@@ -17,6 +17,21 @@ local globalopts = {
 			},
 		},
 	},
+
+	pylsp = {
+		settings = {
+			pylsp = {
+				plugins = {
+					ruff = {
+						enabled = true,
+					},
+					pyflakes = {
+						enabled = false,
+					},
+				},
+			},
+		},
+	},
 }
 
 local installed_servers = {
@@ -24,6 +39,8 @@ local installed_servers = {
 	"cmake",
 	"gopls",
 	"pylsp",
+	"ruff",
+	"ruff_lsp",
 	"lua_ls",
 	"rust_analyzer",
 	"jsonls",

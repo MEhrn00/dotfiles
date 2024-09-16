@@ -3,6 +3,9 @@ require("general").setup({
 	statusline = {
 		disabled = true,
 	},
+	commenttoggle = {
+		disabled = true,
+	},
 })
 
 -- Plugin modules
