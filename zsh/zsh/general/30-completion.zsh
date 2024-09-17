@@ -1,8 +1,8 @@
 # ZSH Completion settings
 
 # Load compinit, bashcompinit and complist
-autoload bashcompinit && bashcompinit
 autoload -Uz compinit && compinit
+autoload -Uz bashcompinit && bashcompinit
 zmodload zsh/complist
 
 # Enable _extensions, _complete and _approximate
@@ -90,39 +90,14 @@ zstyle ':completion:*:*:(ssh|scp|sftp|rsync):*' hosts $_h
 # Add make command completion for make targets and variables
 zstyle ':completion::complete:make::' tag-order 'targets variables'
 
-# Add kubectl completions
-if command -v kubectl &> /dev/null; then
-    source <(kubectl completion zsh)
-fi
-
-# Add helm completion
-if command -v helm &> /dev/null; then
-    source <(helm completion zsh)
+# Add awscli completion
+if [ -f /usr/share/zsh/site-functions/_awscli ]; then
+    source /usr/share/zsh/site-functions/_awscli
 fi
 
 # Add terraform completion
 if command -v terraform &> /dev/null; then
     complete -o nospace -C $(which terraform) terraform
-fi
-
-# Add step cli completion
-if command -v step &> /dev/null; then
-    source <(step completion zsh)
-fi
-
-# Add skaffold completion
-if command -v skaffold &> /dev/null; then
-    source <(skaffold completion zsh)
-fi
-
-# Add doctl completion
-if command -v doctl &> /dev/null; then
-    source <(doctl completion zsh)
-fi
-
-# Add awscli completion
-if command -v aws &> /dev/null; then
-    complete -C "$(which aws_completer)" aws
 fi
 
 # Add azure-cli completion
@@ -139,9 +114,4 @@ fi
 if [ -f "${VCPKG_ROOT}/scripts/vcpkg_completion.zsh" ]; then
     # Remove the '--' in the COMPREPLY since it breaks zsh completion: https://github.com/microsoft/vcpkg/issues/32386
     source <(sed 's/^\([ \t]*\)COMPREPLY=\(.*\)\( -- \)\(.*\)/\1COMPREPLY=\2 \4/' "${VCPKG_ROOT}/scripts/vcpkg_completion.zsh")
-fi
-
-# Add bws completion
-if command -v bws &> /dev/null; then
-    source <(bws completions zsh)
 fi
