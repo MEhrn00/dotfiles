@@ -17,7 +17,10 @@ export LESS=-r
 export GPG_TTY=$(tty)
 
 # Add $HOME/.local/bin to $PATH
-export PATH="$PATH:$HOME/.local/bin"
+if [[ "$PATH" != *:"${HOME}/.local/bin":* ]]; then
+    export PATH="$PATH:$HOME/.local/bin"
+fi
+
 
 # Set editor
 if command -v nvim &> /dev/null; then
@@ -28,9 +31,14 @@ fi
 
 # Configure Golang environment variables if Golang is installed
 if [ -d "/usr/local/go" ] && [ -x "/usr/local/go/bin/go" ]; then
-    export PATH="$PATH:/usr/local/go/bin"
+    if [[ "$PATH" != *:"/usr/local/go/bin":* ]]; then
+        export PATH="$PATH:/usr/local/go/bin"
+    fi
+
     export GOPATH="$HOME/.local/go"
-    export PATH="$PATH:$GOPATH/bin"
+    if [[ "$PATH" != *:"$GOPATH/bin":* ]]; then
+        export PATH="$PATH:$GOPATH/bin"
+    fi
 fi
 
 # Use "$XDG_CONFIG_HOME" for AWS CLI
@@ -45,6 +53,16 @@ fi
 if command -v bws &> /dev/null; then
     export BITWARDENCLI_APPDATA_DIR="${XDG_CONFIG_HOME}/bitwarden"
     export BWS_CONFIG_FILE="${XDG_CONFIG_HOME}/bws/config"
+fi
+
+# Use "$XDG_CONFIG_HOME" for Rust
+if command -v rustup &> /dev/null; then
+    export RUSTUP_HOME="${XDG_CONFIG_HOME}/rustup"
+    export CARGO_HOME="${XDG_CONFIG_HOME}/cargo"
+
+    if [[ "$PATH" != *:"${XDG_CONFIG_HOME}/cargo/bin":* ]]; then
+        export PATH="$PATH:${XDG_CONFIG_HOME}/cargo/bin"
+    fi
 fi
 
 # Set DOCKER_HOST if podman is present and docker is not present
