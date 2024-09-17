@@ -23,3 +23,5 @@
 [mergetool]
 	keepBackup = false
 	prompt = false
+[include]
+	path = config.extra
