@@ -7,15 +7,15 @@ local keybinds = {
 	},
 	{
 		mode = "n",
-		keys = "<leader>c",
+		keys = "<leader>bc",
 		action = ":OverseerRun<CR>",
 		desc = "Run Overseer task",
 	},
 	{
 		mode = "n",
-		keys = "<leader>b",
+		keys = "<leader>bb",
 		action = ":OverseerRestartLast<CR>",
-		desc = "Restart lat Overseer task",
+		desc = "Restart last Overseer task",
 	},
 }
 
@@ -29,7 +29,10 @@ return {
 	},
 
 	opts = {
-		strategy = "terminal",
+		strategy = {
+			"toggleterm",
+			quit_on_exit = "success",
+		},
 		templates = {
 			"builtin",
 			"custom.cmake",
