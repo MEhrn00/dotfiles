@@ -126,8 +126,19 @@ if command -v aws &> /dev/null; then
 fi
 
 # Add azure-cli completion
-if [[ -f /usr/share/bash-completion/completions/azure-cli ]]; then
+if [ -f /usr/share/bash-completion/completions/azure-cli ]; then
     source /usr/share/bash-completion/completions/azure-cli
+fi
+
+# Add bazel completion
+if [ -f /usr/share/bash-completion/completions/bazel ]; then
+    source /usr/share/bash-completion/completions/bazel
+fi
+
+# Add vcpkg completion
+if [ -f "${VCPKG_ROOT}/scripts/vcpkg_completion.zsh" ]; then
+    # Remove the '--' in the COMPREPLY since it breaks zsh completion: https://github.com/microsoft/vcpkg/issues/32386
+    source <(sed 's/^\([ \t]*\)COMPREPLY=\(.*\)\( -- \)\(.*\)/\1COMPREPLY=\2 \4/' "${VCPKG_ROOT}/scripts/vcpkg_completion.zsh")
 fi
 
 # Add bws completion
