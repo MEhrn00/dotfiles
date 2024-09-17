@@ -49,7 +49,6 @@ return {
 
 	config = function(_, opts)
 		require("toggleterm").setup(opts)
-		local keymaps = require("utils.keymaps")
-		keymaps.apply(keybinds)
+		require("utils.keymaps").apply(keybinds)
 	end,
 }
