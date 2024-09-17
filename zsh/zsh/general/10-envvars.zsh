@@ -56,7 +56,7 @@ if command -v bws &> /dev/null; then
 fi
 
 # Use "$XDG_CONFIG_HOME" for Rust
-if command -v rustup &> /dev/null; then
+if [ -x "${XDG_CONFIG_HOME}/cargo/bin/rustup" ]; then
     export RUSTUP_HOME="${XDG_CONFIG_HOME}/rustup"
     export CARGO_HOME="${XDG_CONFIG_HOME}/cargo"
 
