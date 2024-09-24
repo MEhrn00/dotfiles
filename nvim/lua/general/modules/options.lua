@@ -43,9 +43,6 @@ function M.setup(_)
 	-- Show a column line at 90 characters by default
 	vim.opt.colorcolumn = "90"
 
-	-- Set the text width to 90 characters by default
-	vim.opt.textwidth = 90
-
 	-- Turn off search highlighting and turn incremental search on
 	vim.opt.hlsearch = false
 	vim.opt.incsearch = true
