@@ -19,7 +19,8 @@
 [core]
 	pager = "less -F -X"
 [merge]
-	tool = "nvimdiff2"
+	tool = nvimdiff
+	conflictstyle = diff3
 [mergetool]
 	keepBackup = false
 	prompt = false
