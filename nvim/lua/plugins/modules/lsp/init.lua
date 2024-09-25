@@ -34,18 +34,7 @@ local globalopts = {
 	},
 }
 
-local installed_servers = {
-	"clangd",
-	"cmake",
-	"gopls",
-	"pylsp",
-	"ruff",
-	"ruff_lsp",
-	"lua_ls",
-	"rust_analyzer",
-	"jsonls",
-	"yamlls",
-}
+local installed_servers = {}
 
 return {
 	"neovim/nvim-lspconfig",
@@ -170,7 +159,7 @@ return {
 		require("mason-lspconfig").setup_handlers({
 			function(server_name)
 				local opts =
-					vim.tbl_deep_extend("force", {}, globalopts[server_name] or {}, localopts[server_name] or {})
+						vim.tbl_deep_extend("force", {}, globalopts[server_name] or {}, localopts[server_name] or {})
 
 				opts.capabilities = vim.tbl_deep_extend("force", {}, capabilities, opts.capabilities or {})
 				require("lspconfig")[server_name].setup(opts)
