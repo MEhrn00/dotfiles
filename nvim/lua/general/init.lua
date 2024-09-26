@@ -8,13 +8,15 @@ function M.setup(opts)
 		return
 	end
 
-	for name, t in vim.fs.dir(configbase .. "/lua/general/modules") do
+	for name, t in vim.fs.dir(configbase .. "/lua/general") do
 		if t == "file" or t == "directory" then
 			name = name:gsub("%.lua$", "")
 
-			local configopts = vim.tbl_deep_extend("keep", opts[name] or {}, { disabled = false })
-			if not configopts.disabled then
-				require("general.modules." .. name).setup(opts[opts])
+			if name ~= "init" then
+				local configopts = vim.tbl_deep_extend("keep", opts[name] or {}, { disabled = false })
+				if not configopts.disabled then
+					require("general." .. name).setup(opts[opts])
+				end
 			end
 		end
 	end
