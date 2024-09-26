@@ -1,8 +1,8 @@
 local M = {}
 
 -- Good default color schemes
--- habamax.vim
--- lunaperche.vim
+-- habamax
+-- lunaperche
 -- retrobox
 -- shine
 -- sorbet
