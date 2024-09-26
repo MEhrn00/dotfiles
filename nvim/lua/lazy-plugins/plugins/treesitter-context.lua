@@ -4,7 +4,7 @@ return {
 	dependencies = {
 		{
 			"nvim-treesitter/nvim-treesitter",
-			import = "plugins.modules.treesitter",
+			import = "lazy-plugins.plugins.treesitter",
 		},
 	},
 	main = "treesitter-context",

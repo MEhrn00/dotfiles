@@ -104,7 +104,6 @@ return {
 	dependencies = {
 		"nvim-tree/nvim-web-devicons",
 		"omeone-stole-my-name/yaml-companion.nvim",
-		{ "stevearc/overseer.nvim", import = "plugins.modules.overseer" },
 	},
 	lazy = false,
 	opts = {
@@ -117,7 +116,7 @@ return {
 			lualine_a = { "mode" },
 			lualine_b = { "branch", "diagnostics" },
 			lualine_c = { "filename" },
-			lualine_x = { "encoding", "fileformat", "filetype", get_schema, "overseer" },
+			lualine_x = { "encoding", "fileformat", "filetype", get_schema, },
 			lualine_y = {
 				{
 					qflist,
