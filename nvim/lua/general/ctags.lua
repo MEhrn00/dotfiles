@@ -1,3 +1,4 @@
+-- TODO: Move to nvim plugin
 local M = {}
 
 local defaultexcludes = {
