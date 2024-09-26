@@ -77,7 +77,7 @@ return {
 		local cmp = require("cmp")
 		local select_behavior = { behavior = cmp.SelectBehavior.Select }
 		local lspkind = require("lspkind")
-		require("plugins.modules.lsp.keybinds").setup()
+		require("lazy-plugins.plugins.lsp.keybinds").setup()
 
 		cmp.setup({
 			snippet = {
