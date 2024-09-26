@@ -1,3 +1,5 @@
+-- TODO: Refactor
+
 local M = {}
 
 local modes = {
@@ -109,48 +111,6 @@ local function indentation()
 	return string.format("%s:%d", tabstyle, vim.bo.tabstop)
 end
 
-local function lspinfo()
-	local count = {}
-	local levels = {
-		errors = "Error",
-		warnings = "Warn",
-	}
-
-	if not vim.lsp.buf.server_ready() then
-		return "%#StatuslineOuterAlt#" .. rarrow
-	end
-
-	for k, level in pairs(levels) do
-		count[k] = vim.tbl_count(vim.diagnostic.get(0, { severity = level }))
-	end
-
-	local errors = "%#StatuslineLspError#✗ "
-	local warnings = "%#StatuslineLspWarning#▲ "
-
-	if count["errors"] ~= 0 then
-		errors = errors .. count["errors"]
-	else
-		errors = errors .. "0"
-	end
-
-	if count["warnings"] ~= 0 then
-		warnings = warnings .. count["warnings"]
-	else
-		warnings = warnings .. count["warnings"]
-	end
-
-	return table.concat({
-		"%#StatuslineOuterTrim#",
-		rarrow,
-		"%#StatuslineTrim#",
-		" ",
-		errors .. " " .. warnings,
-		" ",
-		"%#StatuslineTrimAlt#",
-		rarrow,
-	})
-end
-
 local function encoding()
 	if vim.bo.fileencoding == nil or vim.bo.fileencoding == "" then
 		return ""
@@ -209,7 +169,6 @@ function M.setup()
 			" ",
 			mode(),
 			" ",
-			lspinfo(),
 			"%#Statusline#",
 			" ",
 			filepath(),
