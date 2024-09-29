@@ -76,9 +76,18 @@ return {
 			},
 			{
 				mode = "n",
-				keys = "<leader>b",
-				action = ":make",
-				desc = "Run makeprg",
+				keys = "<leader>S",
+				action = builtin.lsp_workspace_symbols,
+				desc = "LSP workspace symbols",
+			},
+			{
+				mode = "v",
+				keys = "<leader>S",
+				action = function()
+					local selectedtext = getVisualSelection()
+					builtin.live_grep({ default_text = selectedtext })
+				end,
+				desc = "Search for selected symbol",
 			},
 		})
 	end,
