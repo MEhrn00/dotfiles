@@ -4,7 +4,12 @@ require("general").setup({
 	},
 	statusline = {
 		disabled = true,
-	}
+	},
+	bettermake = {
+		config = {
+			backend = "overseer",
+		},
+	},
 })
 
 require("lazy-plugins").setup()
