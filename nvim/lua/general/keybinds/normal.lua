@@ -83,11 +83,4 @@ return {
 		action = ":llast<CR>",
 		desc = "Move to last item in the location list",
 	},
-
-	{
-		mode = "n",
-		keys = "<leader>b",
-		action = ":make<CR>",
-		desc = "Run make",
-	},
 }
