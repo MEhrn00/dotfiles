@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup(opts)
-	require("custom-plugins.bettermake").setup(opts)
+	require("bettermake").setup(opts)
 	require("utils.keymaps").apply({
 		{
 			mode = "n",
