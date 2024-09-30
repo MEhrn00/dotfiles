@@ -3,6 +3,7 @@
 -- backends:
 -- make
 -- neomake
+-- overseer
 
 local M = {}
 
@@ -11,24 +12,59 @@ local defaults = {
 }
 
 local backend_handlers = {
-	make = function(compile_command, project)
-		local varopt = "opt_local"
-		if project then
-			varopt = "opt"
-		end
-
-		local saved_makeprg = vim[varopt].makeprg
-		vim[varopt].makeprg = compile_command
+	make = function()
 		vim.cmd.make()
-		vim[varopt].makeprg = saved_makeprg
 	end,
-	neomake = function(compile_command, _) end,
+	neomake = function()
+		vim.fn["neomake#Make"]({ file_mode = 0 })
+	end,
+	overseer = function(recompile)
+		local overseer = require("overseer")
+
+		if recompile then
+			local tasks = overseer.list_tasks({ recent_first = true })
+			if vim.tbl_isempty(tasks) then
+				vim.notify("No tasks found", vim.log.levels.WARN)
+			else
+				overseer.run_action(tasks[1], "restart")
+			end
+		else
+			local task = overseer.new_task({
+				cmd = vim.fn.expandcmd(vim.opt_local.makeprg:get()),
+				components = {
+					{
+						"on_output_quickfix",
+						open = false,
+						open_height = 10,
+					},
+					"default",
+				},
+			})
+
+			task:start()
+		end
+	end,
 }
 
-local function input_wrap(prompt, default)
-	return vim.ui.input({
-		prompt = prompt,
-		default = default,
+local function do_compile(compile_command, handler, recompile)
+	local saved_makeprg = vim.opt_local.makeprg
+	vim.opt_local.makeprg = compile_command
+	handler(recompile)
+	vim.opt_local.makeprg = saved_makeprg
+end
+
+function M.recompile()
+	if M.compile_command == nil then
+		M.compile()
+	else
+		do_compile(M.compile_command, M.handler, true)
+	end
+end
+
+function M.compile()
+	vim.ui.input({
+		prompt = "Compile command: ",
+		default = M.compile_command or vim.opt_local.makeprg:get(),
 		completion = "shellcmd",
 		cancelreturn = "false",
 	}, function(input)
@@ -37,78 +73,19 @@ local function input_wrap(prompt, default)
 			return
 		end
 
+		M.compile_command = input
 		vim.cmd.redraw()
-		return input
+		do_compile(input, M.handler, false)
 	end)
-end
-
-local function get_compile_command()
-	return input_wrap("Compile command: ", vim.g.bettermake_compile_command or vim.opt_local.makeprg:get())
-end
-
-local function get_project_compile_command()
-	return input_wrap("Project compile command: ", vim.g.bettermake_project_compile_command or vim.opt.makeprg:get())
-end
-
-function M.recompile()
-	local compile_command = vim.g.bettermake_compile_command
-	if compile_command == nil then
-		compile_command = get_compile_command()
-	end
-
-	vim.g.bettermake_handler(compile_command, false)
-end
-
-function M.recompile_project()
-	local compile_command = vim.g.bettermake_project_compile_command
-	if compile_command == nil then
-		compile_command = get_project_compile_command()
-	end
-
-	vim.g.bettermake_handler(compile_command, true)
-end
-
-function M.compile()
-	local compile_command = get_compile_command()
-	vim.g.bettermake_handler(compile_command, false)
-end
-
-function M.compile_project()
-	local compile_command = get_project_compile_command()
-	vim.g.bettermake_handler(compile_command, true)
 end
 
 function M.setup(opts)
 	opts = vim.tbl_deep_extend("keep", opts or {}, defaults)
 
-	vim.g.bettermake_handler = backend_handlers[opts.backend] or backend_handlers[defaults.backend]
+	M.handler = backend_handlers[opts.backend] or backend_handlers[defaults.backend]
 
-	vim.api.nvim_create_user_command("BetterMakeCompile", function(args)
-		if args.bang then
-			M.compile_project()
-		else
-			M.compile()
-		end
-	end, {
-		bang = true,
-	})
-
-	vim.api.nvim_create_user_command("BetterMakeRecompile", function(args)
-		if args.bang then
-			M.recompile_project()
-		else
-			M.recompile()
-		end
-	end, {
-		bang = true,
-	})
-
-	vim.api.nvim_create_user_command("BetterMakeTest", function(args)
-		vim.fn["neomake#Make"]({ file_mode = 0 })
-		--vim.cmd.copen()
-	end, {
-		bang = true,
-	})
+	vim.api.nvim_create_user_command("BetterMakeCompile", M.compile, {})
+	vim.api.nvim_create_user_command("BetterMakeRecompile", M.recompile, {})
 end
 
 return M
