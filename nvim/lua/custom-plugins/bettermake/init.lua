@@ -69,7 +69,6 @@ function M.compile()
 		cancelreturn = "false",
 	}, function(input)
 		if input == nil or (input ~= nil and input == "false") then
-			print("Cancelled")
 			return
 		end
 
