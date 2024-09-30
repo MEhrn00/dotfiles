@@ -116,7 +116,7 @@ return {
 			lualine_a = { "mode" },
 			lualine_b = { "branch", "diagnostics" },
 			lualine_c = { "filename" },
-			lualine_x = { "encoding", "fileformat", "filetype", get_schema, },
+			lualine_x = { "encoding", "fileformat", "filetype", get_schema },
 			lualine_y = {
 				{
 					qflist,

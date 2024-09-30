@@ -68,6 +68,9 @@ function M.setup(_)
 	-- Enable termdebug
 	vim.cmd([[packadd termdebug]])
 	vim.g.termdebug_wide = 1
+
+	-- Set cedit keybind to <C-y>
+	vim.opt.cedit = ""
 end
 
 return M
