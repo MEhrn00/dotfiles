@@ -1,6 +1,6 @@
 require("config.options")
 require("config.keymaps")
-require("config.lazy")
+require("config.autocmds")
 -- require("config.statusline")
 
 if vim.fn.has("gui") == 1 or vim.g.neovide ~= nil then
@@ -8,3 +8,5 @@ if vim.fn.has("gui") == 1 or vim.g.neovide ~= nil then
 end
 
 require("config.custom-plugins")
+
+require("config.lazy")

@@ -8,10 +8,9 @@ vim.cmd.filetype({
 	"on",
 })
 
--- Colorscheme
+-- Colors
 vim.opt.bg = "dark"
 vim.opt.termguicolors = true
-vim.cmd.colorscheme("retrobox")
 
 -- Set the scrolloff to 5 lines
 vim.opt.scrolloff = 5

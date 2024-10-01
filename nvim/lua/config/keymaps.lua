@@ -29,7 +29,7 @@ map("n", "[W", ':lfirst<CR>', { desc = "Move to first location list entry", sile
 map("n", "]W", ':llast<CR>', { desc = "Move to last location list entry", silent = true })
 
 -- Emacs commandline navigation
-map("c", "<C-f>", 'wildmenumode() ? "<lt>Down>" : "<ltRight>"', { desc = "Move forward one character", expr = true })
+map("c", "<C-f>", 'wildmenumode() ? "<lt>Down>" : "<lt>Right>"', { desc = "Move forward one character", expr = true })
 map("c", "<C-b>", 'wildmenumode() ? "<lt>Up>" : "<lt>Left>"', { desc = "Move backward one character", expr = true })
 map("c", "<C-n>", 'wildmenumode() ? "<lt>Right>" : "<lt>Down>"', { desc = "Move down to next wildmenu entry", expr = true })
 map("c", "<C-p>", 'wildmenumode() ? "<lt>Left>" : "<lt>Up>"', { desc = "Move up to previous wildmenu entry", expr = true })
