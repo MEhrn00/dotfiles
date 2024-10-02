@@ -1,7 +1,8 @@
 vim.api.nvim_create_autocmd("FileType", {
-	group = vim.api.nvim_create_augroup("close_with_q", { clear = true }),
+	group = vim.api.nvim_create_augroup("quick_close", { clear = true }),
 	pattern = {
 		"qf",
+		"toggleterm",
 	},
 	callback = function(event)
 		vim.bo[event.buf].buflisted = false

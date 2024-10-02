@@ -2,35 +2,11 @@ local globalopts = {
 	lua_ls = {
 		settings = {
 			Lua = {
-				runtime = { version = "LuaJIT" },
-				workspace = {
-					checkThirdParty = false,
-					library = {
-						"${3rd}/luv/library",
-						unpack(vim.api.nvim_get_runtime_file("", true)),
-					},
-				},
-
-				completion = {
-					callSnippet = "Replace",
-				},
 			},
 		},
 	},
 
 	pylsp = {
-		settings = {
-			pylsp = {
-				plugins = {
-					ruff = {
-						enabled = true,
-					},
-					pyflakes = {
-						enabled = false,
-					},
-				},
-			},
-		},
 	},
 }
 
@@ -47,27 +23,6 @@ return {
 		"williamboman/mason-lspconfig",
 		"onsails/lspkind.nvim",
 		"b0o/schemastore.nvim",
-		"someone-stole-my-name/yaml-companion.nvim",
-		{
-			"utilyre/barbecue.nvim",
-			name = "barbecue",
-			version = "*",
-			dependencies = {
-				"SmiteshP/nvim-navic",
-				"nvim-tree/nvim-web-devicons", -- optional dependency
-			},
-			config = true,
-		},
-		{
-			"j-hui/fidget.nvim",
-			opts = {
-				notification = {
-					window = {
-						winblend = 0,
-					},
-				},
-			},
-		},
 	},
 
 	config = function()
@@ -132,52 +87,10 @@ return {
 
 		local localopts = {
 			yamlls = require("yaml-companion").setup({
-				lspconfig = {
-					settings = {
-						yaml = {
-							valudate = true,
-							schemaStore = {
-								enabled = false,
-								url = "",
-							},
-							schemas = require("schemastore").yaml.schemas(),
-						},
-					},
-				},
 			}),
 
 			jsonls = {
-				settings = {
-					json = {
-						schemas = require("schemastore").json.schemas(),
-						validate = { enable = true },
-					},
-				},
 			},
 		}
-
-		require("mason-lspconfig").setup_handlers({
-			function(server_name)
-				local opts =
-						vim.tbl_deep_extend("force", {}, globalopts[server_name] or {}, localopts[server_name] or {})
-
-				opts.capabilities = vim.tbl_deep_extend("force", {}, capabilities, opts.capabilities or {})
-				require("lspconfig")[server_name].setup(opts)
-			end,
-		})
-
-		local signs = { Error = "󰅚 ", Warn = "󰀪 ", Hint = "󰌶 ", Info = " " }
-		for type, icon in pairs(signs) do
-			local hl = "DiagnosticSign" .. type
-			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-		end
-
-		vim.diagnostic.config({
-			virtual_text = true,
-			signs = true,
-			underline = true,
-			update_in_insert = true,
-			severity_sort = false,
-		})
 	end,
 }

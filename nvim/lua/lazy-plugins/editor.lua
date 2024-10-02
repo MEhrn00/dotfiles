@@ -123,6 +123,8 @@ return {
 			{ "<leader>r", "<Cmd>Telescope lsp_references<CR>", desc = "LSP references" },
 			{ "<leader>;", "<Cmd>Telescope buffers sort_mru=true sort_lastused=true<CR>", desc = "List buffers" },
 			{ "<leader>S", "<Cmd>Telescope lsp_workspace_symbols<CR>", mode = "n", desc = "LSP workspace symbols" },
+			{ "<leader>gd", "<Cmd>Telescope git_bcommits<CR>", mode = "n", desc = "View git history for opened file" },
+			{ "<leader>gb", "<Cmd>Telescope git_branches<CR>", mode = "n", desc = "View git branches" },
 		},
 		opts = {
 			pickers = {
@@ -176,5 +178,36 @@ return {
 			{ "<C-w>h", "<Cmd>wincmd h<CR>", mode = "t", desc = "Go to window left" },
 			{ "<C-w>l", "<Cmd>wincmd l<CR>", mode = "t", desc = "Go to window right" },
 		}
+	},
+
+	{
+		"stevearc/overseer.nvim",
+		dependencies = {
+			"akinsho/toggleterm.nvim",
+			{
+				"stevearc/dressing.nvim",
+				import = "lazy-plugins.ui",
+			},
+		},
+		opts = {
+			strategy = {
+				"toggleterm",
+				quit_on_exit = "never",
+			},
+			templates = {
+				"builtin",
+			},
+		},
+		keys = {
+			{ "<leader>e", "<Cmd>OverseerToggle<CR>", desc = "Toggle Overseer window" },
+			{ "<leader>bc", "<Cmd>BetterMakeCompile<CR>", desc = "Compile project" },
+			{ "<leader>bb", "<Cmd>BetterMakeRecompile<CR>", desc = "Recompile project" },
+		},
+		config = function (_, opts)
+			require("overseer").setup(opts)
+			require("custom-plugins.bettermake").setup({
+				backend = "overseer",
+			})
+		end
 	},
 }
