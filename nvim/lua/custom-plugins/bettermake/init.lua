@@ -11,11 +11,18 @@ local defaults = {
 	backend = "make",
 }
 
+local detectors = {
+	require("custom-plugins.detectors.cmake"),
+	require("custom-plugins.detectors.meson"),
+}
+
+local compile_command = nil
+
 local backend_handlers = {
-	make = function()
+	make = function(_)
 		vim.cmd.make()
 	end,
-	neomake = function()
+	neomake = function(_)
 		vim.fn["neomake#Make"]({ file_mode = 0 })
 	end,
 	overseer = function(recompile)
@@ -46,25 +53,60 @@ local backend_handlers = {
 	end,
 }
 
-local function do_compile(compile_command, handler, recompile)
+local handler = backend_handlers.make
+
+local function do_compile(recompile)
 	local saved_makeprg = vim.opt_local.makeprg
+
+	local compile_prog = ""
+	if compile_command ~= "" then
+		local tokens = {}
+		for token in compile_command:gmatch("[^%s]+") do
+			table.insert(tokens, token)
+		end
+
+		compile_prog = vim.fn.fnamemodify(tokens[1], ":t")
+	end
+
+	local detector = vim.iter(detectors)
+		:find(function(v)
+			return vim.fn.executable(v.program) == 1 and v.enabled() and compile_prog == v.program
+		end)
+
+	if detector ~= nil then
+		detector.set_compiler(compile_command)
+	end
+
 	vim.opt_local.makeprg = compile_command
 	handler(recompile)
 	vim.opt_local.makeprg = saved_makeprg
 end
 
 function M.recompile()
-	if M.compile_command == nil then
+	if compile_command == nil then
 		M.compile()
 	else
-		do_compile(M.compile_command, M.handler, true)
+		do_compile(true)
 	end
 end
 
 function M.compile()
+	local prompt = compile_command
+
+	if prompt == nil then
+		local detector = vim.iter(detectors)
+			:find(function(v) return vim.fn.executable(v.program) == 1 and v.enabled() end)
+
+		if detector ~= nil then
+			prompt = detector.initial_compile_command()
+		else
+			prompt = vim.opt_local.makeprg
+		end
+	end
+
 	vim.ui.input({
 		prompt = "Compile command: ",
-		default = M.compile_command or vim.opt_local.makeprg:get(),
+		default = prompt,
 		completion = "shellcmd",
 		cancelreturn = "false",
 	}, function(input)
@@ -72,16 +114,16 @@ function M.compile()
 			return
 		end
 
-		M.compile_command = input
+		compile_command = input
 		vim.cmd.redraw()
-		do_compile(input, M.handler, false)
+		do_compile(false)
 	end)
 end
 
 function M.setup(opts)
 	opts = vim.tbl_deep_extend("keep", opts or {}, defaults)
 
-	M.handler = backend_handlers[opts.backend] or backend_handlers[defaults.backend]
+	handler = backend_handlers[opts.backend] or backend_handlers[defaults.backend]
 
 	vim.api.nvim_create_user_command("BetterMakeCompile", M.compile, {})
 	vim.api.nvim_create_user_command("BetterMakeRecompile", M.recompile, {})

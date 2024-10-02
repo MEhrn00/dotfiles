@@ -1,7 +1,5 @@
 local M = {}
 
-local general_keybinds = {}
-
 local lsp_keybinds = {
 	{
 		mode = "n",
