@@ -27,14 +27,12 @@ return {
 				"WarningMsg",
 				"EndOfBuffer",
 				"VerSplit",
+				"Directory",
+				"Question",
 			}):each(function(group)
-				vim.api.nvim_set_hl(0,
-					group,
-					vim.tbl_deep_extend("force", vim.api.nvim_get_hl(0, { name = group }), {
-						bg = "none",
-						force = true
-					})
-				)
+				local curr = vim.api.nvim_get_hl(0, { name = group, link = false, create = false })
+				local new = vim.tbl_deep_extend("force", curr or {}, { bg = "none", force = true })
+				vim.api.nvim_set_hl(0, group, new)
 			end)
 		end
 	},
@@ -110,15 +108,19 @@ return {
 				map("n", "<leader>gS", gs.stage_buffer, "Git stage buffer")
 				map("n", "<leader>gR", gs.reset_buffer, "Git reset buffer")
 				map("n", "<leader>gg", gs.preview_hunk, "Git preview")
-				map("n", "<leader>gd", gs.diffthis, "Git diff file")
-				map("n", "<leader>gD", function() gs.diffthis("~") end, "Git diff file to HEAD")
 				map("n", "<leader>gtd", gs.toggle_deleted, "Git toggle deleted")
 			end,
 		}
 	},
 
 	{
-		"lukas-reineke/indent-blankline.nvim", main = "ibl", lazy = false, opts = {
+		"lukas-reineke/indent-blankline.nvim",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+		},
+		main = "ibl",
+		lazy = false,
+		opts = {
 			indent = {
 				char = "┋",
 			},
@@ -126,6 +128,7 @@ return {
 				enabled = true,
 				show_start = false,
 				show_end = false,
+				highlight = "DiagnosticOk",
 			},
 		},
 	},
@@ -139,7 +142,7 @@ return {
 		main = "nvim-treesitter.configs",
 		opts = {
 			auto_install = true,
-			highlight == {
+			highlight = {
 				enable = true,
 			}
 		}
@@ -164,8 +167,6 @@ return {
 			vim.g.lualine_laststatus = vim.o.laststatus
 			if vim.fn.argc(-1) > 0 then
 				vim.o.statusline = " "
-			else
-				vim.o.laststatus = o
 			end
 		end,
 		opts = {
@@ -210,7 +211,7 @@ return {
 				lualine_b = { "branch", "diff", "diagnostics" },
 				lualine_c = { "filename" },
 				lualine_x = { "encoding", "fileformat", "filetype", function()
-					local schema = require("yaml-companion").get_buf_schema(0).result[1]
+					local schema = require("yaml-companion").get_buf_schema(0).result[1].name
 					if schema == "none" then
 						return ""
 					end
