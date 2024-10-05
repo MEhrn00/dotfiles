@@ -27,6 +27,7 @@ return {
 				"WarningMsg",
 				"EndOfBuffer",
 				"VerSplit",
+				"VertSplit",
 				"Directory",
 				"Question",
 			}):each(function(group)
@@ -34,7 +35,9 @@ return {
 				local new = vim.tbl_deep_extend("force", curr or {}, { bg = "none", force = true })
 				vim.api.nvim_set_hl(0, group, new)
 			end)
-		end
+
+			vim.api.nvim_set_hl(0, "ColorColumn", { bg = "NvimDarkGray4" })
+		end,
 	},
 
 	{
@@ -61,16 +64,16 @@ return {
 			{ "<leader>0", "<Cmd>BufferLast<CR>", desc = "Go to last buffer" },
 			{ "<leader>z", "<Cmd>BufferMovePrevious<CR>", desc = "Move buffer left" },
 			{ "<leader>x", "<Cmd>BufferMoveNext<CR>", desc = "Move buffer right" },
-		}
+		},
 	},
 
 	{
 		"stevearc/dressing.nvim",
 		opts = {
 			input = {
-				relative = "win"
-			}
-		}
+				relative = "win",
+			},
+		},
 	},
 
 	{
@@ -86,7 +89,7 @@ return {
 
 				map("n", "]g", function()
 					if vim.wo.diff then
-						vim.cmd.normal({"]c", bang = true })
+						vim.cmd.normal({ "]c", bang = true })
 					else
 						gs.nav_hunk("next")
 					end
@@ -94,23 +97,27 @@ return {
 
 				map("n", "[g", function()
 					if vim.wo.diff then
-						vim.cmd.normal({"[c", bang = true })
+						vim.cmd.normal({ "[c", bang = true })
 					else
 						gs.nav_hunk("prev")
 					end
 				end, "Git previous hunk")
 
-				map("n", "]G", function() gs.nav_hunk("last") end, "Git last hunk")
-				map("n", "[G", function() gs.nav_hunk("first") end, "Git first hunk")
-				map({"n", "v"}, "<leader>gs", gs.stage_hunk, "Git stage hunk")
-				map({"n", "v"}, "<leader>gr", gs.reset_hunk, "Git reset hunk")
+				map("n", "]G", function()
+					gs.nav_hunk("last")
+				end, "Git last hunk")
+				map("n", "[G", function()
+					gs.nav_hunk("first")
+				end, "Git first hunk")
+				map({ "n", "v" }, "<leader>gs", gs.stage_hunk, "Git stage hunk")
+				map({ "n", "v" }, "<leader>gr", gs.reset_hunk, "Git reset hunk")
 				map("n", "<leader>gu", gs.undo_stage_hunk, "Git undo stage hunk")
 				map("n", "<leader>gS", gs.stage_buffer, "Git stage buffer")
 				map("n", "<leader>gR", gs.reset_buffer, "Git reset buffer")
 				map("n", "<leader>gg", gs.preview_hunk, "Git preview")
 				map("n", "<leader>gtd", gs.toggle_deleted, "Git toggle deleted")
 			end,
-		}
+		},
 	},
 
 	{
@@ -144,14 +151,14 @@ return {
 			auto_install = true,
 			highlight = {
 				enable = true,
-			}
-		}
+			},
+		},
 	},
 
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		lazy = false,
-		dependencies = { { "nvim-treesitter/nvim-treesitter", import = "lazy-plugins.ui", } },
+		dependencies = { { "nvim-treesitter/nvim-treesitter", import = "lazy-plugins.ui" } },
 		main = "treesitter-context",
 		config = true,
 	},
@@ -210,20 +217,27 @@ return {
 				lualine_a = { "mode" },
 				lualine_b = { "branch", "diff", "diagnostics" },
 				lualine_c = { "filename" },
-				lualine_x = { "encoding", "fileformat", "filetype", function()
-					local schema = require("yaml-companion").get_buf_schema(0).result[1].name
-					if schema == "none" then
-						return ""
-					end
-					return schema
-				end },
+				lualine_x = {
+					"encoding",
+					"fileformat",
+					"filetype",
+					function()
+						local schema = require("yaml-companion").get_buf_schema(0).result[1].name
+						if schema == "none" then
+							return ""
+						end
+						return schema
+					end,
+				},
 				lualine_y = {
 					{
 						function()
 							local icons = require("lualine.components.diagnostics.config").symbols.icons
 							local qflist = vim.fn.getqflist({ items = 0 })
 							local entries = vim.iter(qflist.items)
-								:filter(function(item) return item.valid == 1 end)
+								:filter(function(item)
+									return item.valid == 1
+								end)
 								:totable()
 
 							if vim.tbl_count(entries) == 0 then
@@ -231,37 +245,52 @@ return {
 							end
 
 							local info = vim.tbl_count(vim.iter(entries)
-								:filter(function(entry) return entry.type == "I" or entry.type == "i" end)
-								:totable()
-							)
+								:filter(function(entry)
+									return entry.type == "I" or entry.type == "i"
+								end)
+								:totable())
 
 							local warnings = vim.tbl_count(vim.iter(entries)
-								:filter(function(entry) return entry.type == "W" or entry.type == "w" end)
-								:totable()
-							)
+								:filter(function(entry)
+									return entry.type == "W" or entry.type == "w"
+								end)
+								:totable())
 
 							local errors = vim.tbl_count(vim.iter(entries)
-								:filter(function(entry) return entry.type == "E" or entry.type == "e" end)
-								:totable()
-							)
+								:filter(function(entry)
+									return entry.type == "E" or entry.type == "e"
+								end)
+								:totable())
 
 							local results = ""
 							if info > 0 then
-								results = results .. "%#lualine_b_diagnostics_info_normal#" .. icons.info .. info .. "%#lualine_b_normal#"
+								results = results
+									.. "%#lualine_b_diagnostics_info_normal#"
+									.. icons.info
+									.. info
+									.. "%#lualine_b_normal#"
 								if warnings > 0 or errors > 0 then
 									results = results .. " "
 								end
 							end
 
 							if warnings > 0 then
-								results = results .. "%#lualine_b_diagnostics_warn_normal#" .. icons.warn .. warnings .. "%#lualine_b_normal#"
+								results = results
+									.. "%#lualine_b_diagnostics_warn_normal#"
+									.. icons.warn
+									.. warnings
+									.. "%#lualine_b_normal#"
 								if errors > 0 then
 									results = results .. " "
 								end
 							end
 
 							if errors > 0 then
-								results = results .. "%#lualine_b_diagnostics_error_normal#" .. icons.error .. errors .. "%#lualine_b_normal#"
+								results = results
+									.. "%#lualine_b_diagnostics_error_normal#"
+									.. icons.error
+									.. errors
+									.. "%#lualine_b_normal#"
 							end
 
 							return results
@@ -273,6 +302,6 @@ return {
 				lualine_z = { "location" },
 			},
 			extensions = { "quickfix", "man", "mason", "overseer", "toggleterm" },
-		}
-	}
+		},
+	},
 }

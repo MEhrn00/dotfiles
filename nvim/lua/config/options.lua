@@ -19,6 +19,9 @@ vim.opt.scrolloff = 5
 vim.opt.list = true
 vim.opt.listchars = { trail = "-", tab = "│ " }
 
+-- Cursor column
+vim.opt.colorcolumn = "90"
+
 -- Enable the mouse
 vim.opt.mouse = "a"
 
