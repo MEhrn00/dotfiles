@@ -14,9 +14,8 @@ end
 return {
 	{
 		"stevearc/conform.nvim",
-		event = { "BufWritePre", },
+		event = { "BufWritePre" },
 		cmd = { "ConformInfo" },
-		lazy = true,
 		opts = {
 			default_format_opts = {
 				timeout_ms = 3000,
@@ -29,22 +28,16 @@ return {
 				go = { "goimports", "gofmt" },
 				cpp = { "clang-format" },
 				c = { "clang-format" },
+				rust = { "rustfmt", lsp_format = "fallback" },
 			},
-			formatters = {
-				rustfmt = {
-					options = {
-						default_edition = "2021",
-					}
-				}
-			}
-		},
 
-		format_on_save = function(bufnr)
-			if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
-				return
-			end
-			return { timeout_ms = 3000, lsp_fallback = true }
-		end,
+			format_on_save = function(bufnr)
+				if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+					return
+				end
+				return { timeout_ms = 500, lsp_fallback = true }
+			end,
+		},
 
 		config = function(_, opts)
 			require("conform").setup(opts)
@@ -83,18 +76,18 @@ return {
 		opts = {
 			graph_style = "unicode",
 			kind = "replace",
-		}
+		},
 	},
 
 	{
-		'toppair/peek.nvim',
-		event = { 'VeryLazy' },
-		build = 'deno task --quiet build:fast',
+		"toppair/peek.nvim",
+		event = { "VeryLazy" },
+		build = "deno task --quiet build:fast",
 		opts = {
-			app = 'browser',
+			app = "browser",
 		},
 		config = function(_, opts)
-			local peek = require('peek')
+			local peek = require("peek")
 			peek.setup(opts)
 
 			vim.api.nvim_create_user_command("PeekOpen", peek.open, {})
@@ -110,7 +103,7 @@ return {
 			"someone-stole-my-name/yaml-companion.nvim",
 		},
 		keys = {
-			{ "<C-p>", "<Cmd>Telescope find_files<CR>", desc = "Find files" },
+			{ "<C-p>", "<Cmd>Telescope find_files<CR>", mode = { "n", "v" }, desc = "Find files" },
 			{ "<leader>s", "<Cmd>Telescope live_grep<CR>", mode = "n", desc = "Search for text" },
 			{
 				"<leader>s",
@@ -136,7 +129,7 @@ return {
 						n = {
 							["<c-d>"] = "delete_buffer",
 						},
-					}
+					},
 				},
 				find_files = {
 					find_command = function()
@@ -151,8 +144,8 @@ return {
 						end
 					end,
 					hidden = true,
-				}
-			}
+				},
+			},
 		},
 	},
 
@@ -177,7 +170,7 @@ return {
 			{ "<C-w>k", "<Cmd>wincmd k<CR>", mode = "t", desc = "Go to window above" },
 			{ "<C-w>h", "<Cmd>wincmd h<CR>", mode = "t", desc = "Go to window left" },
 			{ "<C-w>l", "<Cmd>wincmd l<CR>", mode = "t", desc = "Go to window right" },
-		}
+		},
 	},
 
 	{
@@ -203,11 +196,11 @@ return {
 			{ "<leader>bc", "<Cmd>BetterMakeCompile<CR>", desc = "Compile project" },
 			{ "<leader>bb", "<Cmd>BetterMakeRecompile<CR>", desc = "Recompile project" },
 		},
-		config = function (_, opts)
+		config = function(_, opts)
 			require("overseer").setup(opts)
 			require("custom-plugins.bettermake").setup({
 				backend = "overseer",
 			})
-		end
+		end,
 	},
 }
