@@ -37,6 +37,7 @@ return {
 			end)
 
 			vim.api.nvim_set_hl(0, "ColorColumn", { bg = "NvimDarkGray4" })
+			vim.api.nvim_set_hl(0, "netrwMarkFile", { italic = true, undercurl = true })
 		end,
 	},
 

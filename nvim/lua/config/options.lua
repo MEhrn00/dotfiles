@@ -28,8 +28,11 @@ vim.opt.mouse = "a"
 -- Set the buffer title to display the file name
 vim.opt.title = true
 
--- Disable netrw history
+-- Netrw settings
 vim.g.netrw_dirhistmax = 0
+vim.g.netrw_banner = 0
+vim.g.netrw_liststyle = 1
+vim.api.nvim_set_hl(0, "netrwMarkFile", { italic = true, undercurl = true })
 
 -- Set tabs equal to 4 spaces
 vim.opt.expandtab = true
