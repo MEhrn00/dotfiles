@@ -12,8 +12,8 @@ local defaults = {
 }
 
 local detectors = {
-	require("custom-plugins.detectors.cmake"),
-	require("custom-plugins.detectors.meson"),
+	require("custom-plugins.bettermake.detectors.cmake"),
+	require("custom-plugins.bettermake.detectors.meson"),
 }
 
 local compile_command = nil
@@ -68,10 +68,9 @@ local function do_compile(recompile)
 		compile_prog = vim.fn.fnamemodify(tokens[1], ":t")
 	end
 
-	local detector = vim.iter(detectors)
-		:find(function(v)
-			return vim.fn.executable(v.program) == 1 and v.enabled() and compile_prog == v.program
-		end)
+	local detector = vim.iter(detectors):find(function(v)
+		return vim.fn.executable(v.program) == 1 and v.enabled() and compile_prog == v.program
+	end)
 
 	if detector ~= nil then
 		detector.set_compiler(compile_command)
@@ -94,13 +93,14 @@ function M.compile()
 	local prompt = compile_command
 
 	if prompt == nil then
-		local detector = vim.iter(detectors)
-			:find(function(v) return vim.fn.executable(v.program) == 1 and v.enabled() end)
+		local detector = vim.iter(detectors):find(function(v)
+			return vim.fn.executable(v.program) == 1 and v.enabled()
+		end)
 
 		if detector ~= nil then
 			prompt = detector.initial_compile_command()
 		else
-			prompt = vim.opt_local.makeprg
+			prompt = vim.fn.expandcmd(vim.opt_local.makeprg:get())
 		end
 	end
 
