@@ -151,6 +151,7 @@ return {
 
 	{
 		"akinsho/toggleterm.nvim",
+		cmd = "ToggleTerm",
 		opts = {
 			size = function(term)
 				if term.direction == "horizontal" then
@@ -161,12 +162,13 @@ return {
 			end,
 
 			shade_terminals = false,
-			open_mapping = [[<F1>]],
+			open_mapping = [[<c-`>]],
 			direction = "horizontal",
 		},
 		keys = {
-			{ "<space>t", "<Cmd>ToggleTerm<CR>", desc = "Toggle terminal" },
+			{ "<C-`>", "<Cmd>ToggleTerm<CR>", mode = { "n", "t" }, desc = "Toggle terminal" },
 			{ "<C-g>", "<Cmd>ToggleTerm<CR>", mode = "t", desc = "Toggle terminal" },
+			{ "<C-w><C-w>", "<C-w>", mode = "t", desc = "Delete previous word" },
 			{ "<C-w>k", "<Cmd>wincmd k<CR>", mode = "t", desc = "Go to window above" },
 			{ "<C-w>h", "<Cmd>wincmd h<CR>", mode = "t", desc = "Go to window left" },
 			{ "<C-w>l", "<Cmd>wincmd l<CR>", mode = "t", desc = "Go to window right" },
