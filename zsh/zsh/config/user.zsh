@@ -1,24 +1,4 @@
-# User defined ZSH settings
-
-# pyenv setup
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
-# Set up shared SSH agent
-SSH_SOCK="/run/user/$(id -u)/ssh-agent.socket"
-if [ -S "$SSH_SOCK" ]; then
-    export SSH_AUTH_SOCK=$SSH_SOCK
-    export SSH_AGENT_PID=$(pgrep -f "ssh-agent.*${SSH_SOCK}")
-else
-    # Second, try loading the SSH agent from Gnome keyring daemon
-    SSH_SOCK="/run/user/$(id -u)/gcr/ssh"
-    if [ -S "$SSH_SOCK" ]; then
-        export SSH_AUTH_SOCK=$SSH_SOCK
-        export SSH_AGENT_PID="$(lsof -U | grep "/run/user/1000/gcr/ssh" | grep -v 'systemd' | cut -d' ' -f2)"
-    fi
-fi
+typeset -U path
 
 # Function for running ctags with a derived list of excludes
 function tgen {

@@ -1,5 +1,3 @@
-# ZSH prompt options
-
 # Load prompt customization plugin
 autoload -Uz promptinit
 promptinit
