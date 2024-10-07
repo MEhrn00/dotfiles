@@ -1,9 +1,8 @@
-# ZSH Completion settings
-
 # Load compinit, bashcompinit and complist
-autoload -Uz compinit && compinit
-autoload -Uz bashcompinit && bashcompinit
+
 zmodload zsh/complist
+autoload -Uz compinit && compinit -d $XDG_CACHE_HOME/zsh/.zcompdump
+autoload -Uz bashcompinit && bashcompinit
 
 # Enable _extensions, _complete and _approximate
 zstyle ':completion:*' completer _extensions _complete _approximate
@@ -90,28 +89,16 @@ zstyle ':completion:*:*:(ssh|scp|sftp|rsync):*' hosts $_h
 # Add make command completion for make targets and variables
 zstyle ':completion::complete:make::' tag-order 'targets variables'
 
-# Add awscli completion
-if [ -f /usr/share/zsh/site-functions/_awscli ]; then
-    source /usr/share/zsh/site-functions/_awscli
-fi
+# Completions for programs which cannot get completions right
+[ -f /usr/share/zsh/site-functions/_awscli ] && source /usr/share/zsh/site-functions/_awscli
 
-# Add terraform completion
-if command -v terraform &> /dev/null; then
-    complete -o nospace -C $(which terraform) terraform
-fi
+[ -x /usr/bin/terraform ] && complete -o nospace -C /usr/bin/terraform terraform
 
-# Add azure-cli completion
-if [ -f /usr/share/bash-completion/completions/azure-cli ]; then
-    source /usr/share/bash-completion/completions/azure-cli
-fi
+[ -f /usr/share/bash-completion/completions/azure-cli ] && source /usr/share/bash-completion/completions/azure-cli
 
-# Add bazel completion
-if [ -f /usr/share/bash-completion/completions/bazel ]; then
-    source /usr/share/bash-completion/completions/bazel
-fi
+[ -f /usr/share/bash-completion/completions/bazel ] && source /usr/share/bash-completion/completions/bazel
 
-# Add vcpkg completion
-if [ -f "${VCPKG_ROOT}/scripts/vcpkg_completion.zsh" ]; then
+if [ -f $VCPKG_ROOT/scripts/vcpkg_completion.zsh ]; then
     # Remove the '--' in the COMPREPLY since it breaks zsh completion: https://github.com/microsoft/vcpkg/issues/32386
     source <(sed 's/^\([ \t]*\)COMPREPLY=\(.*\)\( -- \)\(.*\)/\1COMPREPLY=\2 \4/' "${VCPKG_ROOT}/scripts/vcpkg_completion.zsh")
 fi
