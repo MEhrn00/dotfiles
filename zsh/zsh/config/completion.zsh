@@ -1,7 +1,8 @@
 # Load compinit, bashcompinit and complist
 
 zmodload zsh/complist
-autoload -Uz compinit && compinit -d $XDG_CACHE_HOME/zsh/.zcompdump
+autoload -Uz compinit
+[ -f $XDG_CACHE_HOME ] && compinit -C -d $XDG_CACHE_HOME/zsh/.zcompdump || compinit -d $XDG_CACHE_HOME/zsh/.zcompdump
 autoload -Uz bashcompinit && bashcompinit
 
 # Enable _extensions, _complete and _approximate
@@ -93,8 +94,6 @@ zstyle ':completion::complete:make::' tag-order 'targets variables'
 [ -f /usr/share/zsh/site-functions/_awscli ] && source /usr/share/zsh/site-functions/_awscli
 
 [ -x /usr/bin/terraform ] && complete -o nospace -C /usr/bin/terraform terraform
-
-[ -f /usr/share/bash-completion/completions/azure-cli ] && source /usr/share/bash-completion/completions/azure-cli
 
 [ -f /usr/share/bash-completion/completions/bazel ] && source /usr/share/bash-completion/completions/bazel
 
