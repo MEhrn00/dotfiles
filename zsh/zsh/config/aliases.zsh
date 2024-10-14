@@ -11,7 +11,6 @@ alias grep="grep --color=auto"
 alias ec="emacsclient"
 
 alias neogit='nvim -c "Neogit kind=replace"'
-alias vi='nvim'
 
 if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
     alias code='/mnt/c/Users/matth/AppData/Local/Programs/Microsoft\ VS\ Code/bin/code'
