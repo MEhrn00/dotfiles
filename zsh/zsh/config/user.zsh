@@ -88,3 +88,11 @@ function djwt {
         true
     fi
 }
+
+function vi {
+    if [ ! -n "$NVIM_REMOTE_SOCKET" ]; then
+        nvim $@
+    else
+        nvim --server $NVIM_REMOTE_SOCKET --remote $@
+    fi
+}
