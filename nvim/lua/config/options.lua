@@ -72,3 +72,6 @@ vim.opt.icm = "nosplit"
 -- Termdebug
 vim.cmd.packadd("termdebug")
 vim.g.termdebug_wide = 1
+
+-- Set NVIM_REMOTE_SOCKET
+vim.fn.setenv("NVIM_REMOTE_SOCKET", vim.v.servername)
