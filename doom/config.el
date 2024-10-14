@@ -76,25 +76,39 @@
 ;; 5 line scrolloff
 (setq scroll-margin 5)
 
+;; Tabs default to 4 spaces
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 4)
+(setq-default evil-shift-width 4)
+(setq indent-line-function 'insert-tab)
+
+;; C-c to escape
+(map!
+  :i "C-c" 'evil-normal-state
+  :vomr "C-c" 'evil-escape)
+
 ;; Indent bars
-(use-package indent-bars
+(use-package! indent-bars
   :config
   (require 'treesit)
   :custom
   (indent-bars-treesit-support t))
 
-(setq tab-always-indent t)
-(setq indent-line-function 'insert-tab)
-
-;; Ctrl-c to escape evil
-(use-package evil
-  :config
-  (define-key evil-insert-state-map (kbd "C-c") 'evil-normal-state)
-  (define-key evil-visual-state-map (kbd "C-c") 'evil-normal-state)
-  (define-key evil-operator-state-map (kbd "C-c") 'evil-escape)
-  (define-key evil-emacs-state-map (kbd "C-c") 'evil-escape))
+;; Emacs mode config
+(add-hook! emacs-lisp-mode
+  (setq-local tab-width 2)
+  (setq-local evil-shift-width 2))
 
 ;; CMake settings
-(add-hook 'cmake-mode-hook
-          (lambda ()
-            (setq-local indent-bars-spacing-override 2)))
+(add-hook! cmake-mode
+  (setq-local indent-bars-spacing-override 2))
+
+;; Completion config
+(use-package! corfu
+  :custom
+  (corfu-auto t)
+  (corfu-preselect 'directory)
+  (corfu-quit-no-match 'separator)
+
+  :init
+  (global-corfu-mode))
