@@ -13,3 +13,10 @@ vim.api.nvim_create_autocmd("FileType", {
 		})
 	end,
 })
+
+vim.api.nvim_create_autocmd("TermOpen", {
+	group = vim.api.nvim_create_augroup("terminal_numbers", { clear = true }),
+	callback = function(event)
+		vim.opt_local.number = false
+	end,
+})
