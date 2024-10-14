@@ -7,6 +7,8 @@ if vim.fn.has("gui") == 1 or vim.g.neovide ~= nil then
 	require("config.gui")
 end
 
-if not vim.g.vscode then
+if vim.g.vscode then
+	require("config.vscode")
+else
 	require("config.lazy")
 end
