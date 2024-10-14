@@ -52,7 +52,7 @@ return {
 			{ "<leader>[", "<Cmd>BufferPrevious<CR>", desc = "Go to previous buffer" },
 			{ "<leader>]", "<Cmd>BufferNext<CR>", desc = "Go to next buffer" },
 			{ "<leader>d", "<Cmd>BufferClose<CR>", desc = "Delete buffer" },
-			{ "<leader>t", "<Cmd>BufferPick<CR>", desc = "Select buffer" },
+			{ "<leader>p", "<Cmd>BufferPick<CR>", desc = "Select buffer" },
 			{ "<leader>1", "<Cmd>BufferGoto 1<CR>", desc = "Go to buffer 1" },
 			{ "<leader>2", "<Cmd>BufferGoto 2<CR>", desc = "Go to buffer 2" },
 			{ "<leader>3", "<Cmd>BufferGoto 3<CR>", desc = "Go to buffer 3" },
