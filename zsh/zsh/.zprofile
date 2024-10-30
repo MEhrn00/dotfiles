@@ -1,9 +1,10 @@
 [ -x /usr/bin/nvim ] && export EDITOR=/usr/bin/nvim
 
 export JAVA_HOME=${JAVA_HOME:-/etc/alternatives/java_sdk_openjdk}
-export LESS=-r
+export LESS=-R
 export PAGER=less
 export MANPAGER=less
+export GROFF_NO_SGR=1
 
 export AWS_CONFIG_FILE=${AWS_CONFIG_FILE:-$XDG_CONFIG_HOME/aws/config}
 export AWS_SHARED_CREDENTIALS_FILE=${AWS_SHARED_CREDENTIALS_FILE:-$XDG_CONFIG_HOME/aws/credentials}
