@@ -220,15 +220,17 @@ return {
 
 				inlay_hints = {
 					enabled = true,
-					exclude = { "rust_analyzer" },
+					exclude = { "rust_analyzer", "java_language_server", "clangd" },
 				},
 
 				codelens = {
 					enabled = true,
+					exclude = { "java_language_server", "clangd", },
 				},
 
 				document_highlight = {
 					enabled = true,
+					exclude = { "java_language_server", "clangd" },
 				},
 
 				capabilities = {
