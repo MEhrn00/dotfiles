@@ -307,4 +307,18 @@ return {
 			extensions = { "quickfix", "man", "mason", "overseer", "toggleterm" },
 		},
 	},
+
+	{
+		"nvim-neo-tree/neo-tree.nvim",
+		branch = "v3.x",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-web-devicons",
+			"MunifTanjim/nui.nvim",
+		},
+		cmd = { "Neotree" },
+		keys = {
+			{ "<space>f", "<Cmd>Neotree toggle<CR>", desc = "Toggle Neotree" },
+		}
+	},
 }
