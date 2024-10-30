@@ -24,7 +24,7 @@ map("n", "]q", function() vscode.action("editor.action.marker.next") end, { desc
 map("n", "[q", function() vscode.action("editor.action.marker.prev") end, { desc = "Move to previous quickfix list entry", silent = true })
 
 -- Compiling
-map("n", "<leader>b", function() vscode.action("workbench.action.tasks.build") end, { desc = "Run build task", silent = true })
+map("n", "<leader>bb", function() vscode.action("workbench.action.tasks.build") end, { desc = "Run build task", silent = true })
 
 -- Searching
 map("n", "<leader>s", function() vscode.action("workbench.action.findInFiles") end, { desc = "Search for text", silent = true })
@@ -48,3 +48,4 @@ map("n", "<leader>gd", function() vscode.action("gitlens.openFileHistory") end, 
 
 -- LSP
 map("n", "ga", function() vscode.action("editor.action.quickFix") end, { desc = "Select code action", silent = true})
+map("n", "crn", function() vscode.action("editor.action.rename") end, { desc = "Rename symbol", silent = true })
