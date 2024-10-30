@@ -1,4 +1,4 @@
-vim.g.guifontname = "SourceCodePro Nerd Font"
+vim.g.guifontname = "SauceCodePro Nerd Font"
 
 if vim.g.neovide ~= nil then
 	vim.g.fontsize = 9
@@ -9,6 +9,8 @@ end
 vim.g.neovide_hide_mouse_when_typing = true
 vim.g.neovide_remember_window_size = "v:true"
 vim.g.neovide_cursor_animation_length = 0
+vim.g.neovide_scroll_animation_length = 0
+vim.g.neovide_scale_factor = 1.0
 
 vim.opt.guifont = string.format("%s:h%d", vim.g.guifontname, vim.g.fontsize)
 
