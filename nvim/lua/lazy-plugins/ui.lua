@@ -18,23 +18,25 @@ return {
 		config = function()
 			vim.cmd.colorscheme("vscode")
 
-			vim.iter({
-				"Normal",
-				"NonText",
-				"LineNr",
-				"SignColumn",
-				"ErrorMsg",
-				"WarningMsg",
-				"EndOfBuffer",
-				"VerSplit",
-				"VertSplit",
-				"Directory",
-				"Question",
-			}):each(function(group)
-				local curr = vim.api.nvim_get_hl(0, { name = group, link = false, create = false })
-				local new = vim.tbl_deep_extend("force", curr or {}, { bg = "none", force = true })
-				vim.api.nvim_set_hl(0, group, new)
-			end)
+			if not (vim.fn.has("gui") == 1 or vim.g.neovide ~= nil) then
+				vim.iter({
+					"Normal",
+					"NonText",
+					"LineNr",
+					"SignColumn",
+					"ErrorMsg",
+					"WarningMsg",
+					"EndOfBuffer",
+					"VerSplit",
+					"VertSplit",
+					"Directory",
+					"Question",
+				}):each(function(group)
+					local curr = vim.api.nvim_get_hl(0, { name = group, link = false, create = false })
+					local new = vim.tbl_deep_extend("force", curr or {}, { bg = "none", force = true })
+					vim.api.nvim_set_hl(0, group, new)
+				end)
+			end
 
 			vim.api.nvim_set_hl(0, "ColorColumn", { bg = "NvimDarkGray4" })
 			vim.api.nvim_set_hl(0, "netrwMarkFile", { italic = true, undercurl = true })
