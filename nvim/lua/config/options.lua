@@ -73,5 +73,12 @@ vim.opt.icm = "nosplit"
 vim.cmd.packadd("termdebug")
 vim.g.termdebug_wide = 1
 
+-- Cursor
+vim.opt.guicursor = {
+	"n-v-c-ci-sm:block",
+	"i-ve:ver25",
+	"r-cr-o:hor20"
+}
+
 -- Set NVIM_REMOTE_SOCKET
 vim.fn.setenv("NVIM_REMOTE_SOCKET", vim.v.servername)
