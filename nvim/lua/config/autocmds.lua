@@ -17,6 +17,9 @@ vim.api.nvim_create_autocmd("FileType", {
 vim.api.nvim_create_autocmd("TermOpen", {
 	group = vim.api.nvim_create_augroup("terminal_numbers", { clear = true }),
 	callback = function(event)
+		local map = vim.keymap.set
+
 		vim.opt_local.number = false
+		map("n", "<leader>d", "<Cmd>bd!<CR>", { desc = "Delete buffer", silent = true, buffer = event.buf })
 	end,
 })
