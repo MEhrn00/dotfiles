@@ -11,6 +11,7 @@ if [[ $(tput colors 2>/dev/null) == "256" ]]; then
     COLORTERM="truecolor"
 
     export MANPAGER='less -R --use-color -Du51 -Dd83 -DP4.7 -DE4.7 -DS4.7'
+    [ -x /usr/bin/bat ] && export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 fi
 
 # GPG tty
