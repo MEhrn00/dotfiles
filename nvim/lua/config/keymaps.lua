@@ -74,53 +74,10 @@ end, { desc = "Delete to the end of the line", expr = true })
 vim.opt.cedit = ""
 
 -- Compiling
-local function handlemake()
-	local makeprg = vim.o.makeprg
-
-	if makeprg:find("%$%*") ~= nil then
-		vim.fn.inputsave()
-		vim.ui.input({
-			prompt = string.format("Compile args (%s): ", makeprg),
-		}, function(input)
-			vim.fn.inputrestore()
-			vim.cmd.redraw()
-
-			if input == nil then
-				return
-			end
-
-			if input ~= "" then
-				vim.cmd.make { args = { input }, bang = true }
-			else
-				vim.cmd.make { bang = true }
-			end
-		end)
-		return
-	end
-
-	vim.cmd.make { bang = true }
-end
-
-map("n", "<leader>bB", handlemake, { desc = "Run previously set compile command", silent = true })
-
-map("n", "<leader>bb", function()
-	vim.fn.inputsave()
-	vim.ui.input({
-		prompt = "Compile command: ",
-		default = vim.o.makeprg,
-		completion = "shellcmd",
-	}, function(input)
-		vim.fn.inputrestore()
-		vim.cmd.redraw()
-
-		if input == nil then
-			return
-		end
-
-		vim.o.makeprg = input
-		handlemake()
-	end)
-end, { desc = "Set and run compile command", silent = true })
+local compilemode = require("custom-plugins.compilemode")
+compilemode.setup()
+map("n", "<leader>bB", compilemode.recompile, { desc = "Recompile project", silent = true })
+map("n", "<leader>bb", compilemode.compile, { desc = "Compile project", silent = true })
 
 -- Terminal
 map("n", "<space>oT", "<Cmd>terminal<CR><Cmd>startinsert!<CR>", { desc = "Open terminal", silent = true })
