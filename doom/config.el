@@ -112,3 +112,7 @@
 
   :init
   (global-corfu-mode))
+
+;; Treesitter
+(setq major-mode-remap-alist
+      '((rust-mode . rust-ts-mode)))
