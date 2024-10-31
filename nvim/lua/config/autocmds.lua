@@ -14,8 +14,24 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+	group = vim.api.nvim_create_augroup("toggleterm_showmode", { clear = true }),
+	pattern = "toggleterm",
+	callback = function(_)
+		vim.opt_local.showmode = true
+	end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+	group = vim.api.nvim_create_augroup("quickfix_nocolumn", { clear = true }),
+	pattern = "qf",
+	callback = function(_)
+		vim.opt_local.colorcolumn = "0"
+	end,
+})
+
 vim.api.nvim_create_autocmd("TermOpen", {
-	group = vim.api.nvim_create_augroup("terminal_numbers", { clear = true }),
+	group = vim.api.nvim_create_augroup("terminal_options", { clear = true }),
 	callback = function(event)
 		local map = vim.keymap.set
 
