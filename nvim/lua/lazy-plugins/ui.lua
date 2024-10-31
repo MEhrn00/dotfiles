@@ -77,6 +77,7 @@ return {
 				relative = "win",
 			},
 		},
+		lazy = false,
 	},
 
 	{
