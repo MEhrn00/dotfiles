@@ -3,6 +3,8 @@ vim.api.nvim_create_autocmd("FileType", {
 	pattern = {
 		"qf",
 		"toggleterm",
+		"git",
+		"help",
 	},
 	callback = function(event)
 		vim.bo[event.buf].buflisted = false
@@ -23,8 +25,12 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("FileType", {
-	group = vim.api.nvim_create_augroup("quickfix_nocolumn", { clear = true }),
-	pattern = "qf",
+	group = vim.api.nvim_create_augroup("nocolumn_line", { clear = true }),
+	pattern = {
+		"qf",
+		"git",
+		"help",
+	},
 	callback = function(_)
 		vim.opt_local.colorcolumn = "0"
 	end,
