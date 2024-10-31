@@ -53,7 +53,51 @@ return {
 		opts = {
 			graph_style = "unicode",
 			kind = "replace",
+			mappings = {
+				commit_editor = {
+					["<c-x><c-c>"] = "Submit",
+					["<c-c><c-c>"] = false,
+					["<c-x><c-k>"] = "Abort",
+					["<c-c><c-k>"] = false,
+				},
+				commit_editor_I = {
+					["<c-x><c-c>"] = "Submit",
+					["<c-c><c-c>"] = false,
+					["<c-x><c-k>"] = "Abort",
+					["<c-c><c-k>"] = false,
+				},
+				rebase_editor = {
+					["<c-x><c-c>"] = "Submit",
+					["<c-c><c-c>"] = false,
+					["<c-x><c-k>"] = "Abort",
+					["<c-c><c-k>"] = false,
+				},
+				rebase_editor_I = {
+					["<c-x><c-c>"] = "Submit",
+					["<c-c><c-c>"] = false,
+					["<c-x><c-k>"] = "Abort",
+					["<c-c><c-k>"] = false,
+				},
+			},
 		},
+		config = function(_, opts)
+			require("neogit").setup(opts)
+
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("nocolumn_line", { clear = false }),
+				pattern = "NeogitStatus",
+				callback = function(_) vim.opt_local.colorcolumn = "0" end,
+			})
+
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("neogit_commit_options", { clear = true }),
+				pattern = "NeogitCommitMessage",
+				callback = function(_)
+					vim.opt_local.colorcolumn = "72"
+					vim.opt_local.textwidth = 72
+				end,
+			})
+		end,
 	},
 
 	{
