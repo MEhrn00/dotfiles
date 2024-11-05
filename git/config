@@ -41,6 +41,8 @@
 					$(printf {} | grep -o \"[^ ]\\+$\") || \
 				git diff --color $(printf {} | grep -o \"[^ ]\\+$\" | sed \"s/remotes\\///\" | tr -d \"\n\")...HEAD' ; \
 		}; f"
+
+	worktree-clone = "!sh $XDG_CONFIG_HOME/git/worktree-clone.sh"
 [init]
 	defaultBranch = main
 [filter "lfs"]
