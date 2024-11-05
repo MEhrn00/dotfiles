@@ -2,14 +2,13 @@
 set nocompatible
 set backspace=indent,eol,start
 
-" Set the color to something more pleasing
-colo slate
+" Filetype plugins
+filetype plugin on
 
 " Syntax highlighting
 syntax on
 
-" Add line numbers (number)
-set nu
+set background=dark
 
 " Convert tabs to spaces (expandtab)
 set et
@@ -71,3 +70,6 @@ let g:netrw_dirhistmax=0
 
 " Enable vim wildmenu
 set wildmenu
+
+" Omnifunc
+set omnifunc=syntaxcomplete#Complete
