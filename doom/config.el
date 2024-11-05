@@ -82,6 +82,9 @@
 (setq-default evil-shift-width 4)
 (setq indent-line-function 'insert-tab)
 
+;; Window title format
+(setq frame-title-format "%b - Emacs")
+
 ;; C-c to escape
 (map!
   :i "C-c" 'evil-normal-state
