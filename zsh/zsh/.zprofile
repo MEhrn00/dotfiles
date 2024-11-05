@@ -2,7 +2,7 @@
 
 export JAVA_HOME=${JAVA_HOME:-/etc/alternatives/java_sdk_openjdk}
 export LESS=-R
-export PAGER=less
+export PAGER='less -F'
 export MANPAGER=less
 export GROFF_NO_SGR=1
 
