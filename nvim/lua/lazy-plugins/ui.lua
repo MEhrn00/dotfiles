@@ -118,7 +118,7 @@ return {
 				map("n", "<leader>gu", gs.undo_stage_hunk, "Git undo stage hunk")
 				map("n", "<leader>gS", gs.stage_buffer, "Git stage buffer")
 				map("n", "<leader>gR", gs.reset_buffer, "Git reset buffer")
-				map("n", "<leader>gg", gs.preview_hunk, "Git preview")
+				map("n", "<leader>gp", gs.preview_hunk, "Git preview")
 				map("n", "<leader>gtd", gs.toggle_deleted, "Git toggle deleted")
 			end,
 		},
