@@ -80,6 +80,9 @@ return {
 				},
 			},
 		},
+		keys = {
+			{ "<leader>gg", "<Cmd>Neogit<CR>", desc = "Open Neogit" },
+		},
 		config = function(_, opts)
 			require("neogit").setup(opts)
 
