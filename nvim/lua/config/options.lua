@@ -82,3 +82,20 @@ vim.opt.guicursor = {
 
 -- Set NVIM_REMOTE_SOCKET
 vim.fn.setenv("NVIM_REMOTE_SOCKET", vim.v.servername)
+
+-- Open the quick/location lists in a full window
+vim.api.nvim_create_user_command("Copew", function(opts)
+	if opts.args ~= nil and opts.args:len() > 0 then
+		vim.cmd('botright copen ' .. opts.args)
+	else
+		vim.cmd('botright copen')
+	end
+end, { nargs = '*' })
+
+vim.api.nvim_create_user_command("Lopew", function(opts)
+	if opts.args ~= nil and opts.args:len() > 0 then
+		vim.cmd('botright lopen ' .. opts.args)
+	else
+		vim.cmd('botright lopen')
+	end
+end, { nargs = '*' })
