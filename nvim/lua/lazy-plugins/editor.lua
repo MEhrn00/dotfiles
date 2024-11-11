@@ -96,7 +96,7 @@ return {
 				group = vim.api.nvim_create_augroup("neogit_commit_options", { clear = true }),
 				pattern = "NeogitCommitMessage",
 				callback = function(_)
-					vim.opt_local.colorcolumn = "72"
+					vim.opt_local.colorcolumn = "50,72"
 					vim.opt_local.textwidth = 72
 				end,
 			})
