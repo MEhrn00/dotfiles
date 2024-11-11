@@ -85,6 +85,9 @@
 ;; Window title format
 (setq frame-title-format "%b - Emacs")
 
+;; Projects path
+(setq projectile-project-search-path '(("~/Documents/dev" . 3)))
+
 ;; C-c to escape
 (map!
   :i "C-c" 'evil-normal-state
@@ -105,6 +108,11 @@
 ;; CMake settings
 (add-hook! cmake-mode
   (setq-local indent-bars-spacing-override 2))
+
+(setq projectile-enable-cmake-presets t)
+
+;; C
+(setq-default c-basic-offset 4)
 
 ;; Completion config
 (use-package! corfu
