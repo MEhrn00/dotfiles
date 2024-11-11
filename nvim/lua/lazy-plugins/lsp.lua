@@ -260,6 +260,28 @@ return {
 			require("mason").setup()
 			require("mason-lspconfig").setup()
 
+			vim.api.nvim_create_user_command("LspSetqflist", function() vim.diagnostic.setqflist({ open = false }) end, {})
+			vim.api.nvim_create_user_command("Lcope", function() vim.diagnostic.setqflist() end, {})
+			vim.api.nvim_create_user_command("Lcopew", function(cmd)
+				vim.diagnostic.setqflist({ open = false })
+				if cmd.args ~= nil and cmd.args:len() > 0 then
+					vim.cmd('botright copen ' .. cmd.args)
+				else
+					vim.cmd('botright copen')
+				end
+			end, { nargs = '*' })
+
+			vim.api.nvim_create_user_command("LspSetloclist", function() vim.diagnostic.setloclist({ open = false }) end, {})
+			vim.api.nvim_create_user_command("Llope", function() vim.diagnostic.setqflist() end, {})
+			vim.api.nvim_create_user_command("Llopew", function(cmd)
+				vim.diagnostic.setqflist({ open = false })
+				if cmd.args ~= nil and cmd.args:len() > 0 then
+					vim.cmd('botright lopen ' .. cmd.args)
+				else
+					vim.cmd('botright lopen')
+				end
+			end, { nargs = '*' })
+
 			local cmp_lsp = require("cmp_nvim_lsp")
 			local capabilities = vim.tbl_deep_extend(
 				"force",
