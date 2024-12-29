@@ -322,4 +322,23 @@ return {
 			{ "<space>f", "<Cmd>Neotree toggle<CR>", desc = "Toggle Neotree" },
 		}
 	},
+
+	{
+		'kevinhwang91/nvim-bqf',
+		dependencies = {
+			'junegunn/fzf',
+		},
+		opts = {
+			auto_enable = true,
+			filter = {
+				fzf = {
+					extra_opts = {'--bind', 'ctrl-o:toggle-all', '--delimiter', '│'}
+				}
+			}
+		},
+		config = function(_, opts)
+			require('bqf').setup(opts)
+			vim.api.nvim_set_hl(0, 'BqfPreviewFloat', { bg = '#222324', force = true })
+		end,
+	}
 }
