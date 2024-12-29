@@ -18,17 +18,33 @@ map("n", "<leader>;", ":buffers<CR>", { desc = "List buffers", silent = true })
 map("v", "<", "<gv", { desc = "Shift text left", silent = true })
 map("v", ">", ">gv", { desc = "Shift text right", silent = true })
 
--- Quickfix navigation
+-- Quickfix list
 map("n", "]q", ":cnext<CR>", { desc = "Move to next quickfix list entry", silent = true })
 map("n", "[q", ":cprev<CR>", { desc = "Move to previous quickfix list entry", silent = true })
 map("n", "[Q", ":cfirst<CR>", { desc = "Move to first quickfix list entry", silent = true })
 map("n", "]Q", ":clast<CR>", { desc = "Move to last quickfix list entry", silent = true })
+map("n", "<leader>q", function()
+	local qfwin = vim.fn.getqflist({ winid = 1}).winid
+	if qfwin > 0 then
+		vim.api.nvim_win_close(qfwin, false)
+	else
+		vim.cmd('botright copen 15')
+	end
+end, { desc = "Toggle the quickfix list window", silent = true })
 
--- Location list navigation
+-- Location list
 map("n", "]w", ":lnext<CR>", { desc = "Move to next location list entry", silent = true })
 map("n", "[w", ":lprev<CR>", { desc = "Move to previous location list entry", silent = true })
 map("n", "[W", ":lfirst<CR>", { desc = "Move to first location list entry", silent = true })
 map("n", "]W", ":llast<CR>", { desc = "Move to last location list entry", silent = true })
+map("n", "<leader>w", function()
+	local llwin = vim.fn.getloclist(1).winid
+	if llwin > 0 then
+		vim.api.nvim_win_close(llwin, false)
+	else
+		vim.cmd('botright lopen 15')
+	end
+end, { desc = "Toggle the location list window", silent = true })
 
 -- Emacs commandline navigation
 map("c", "<C-f>", 'wildmenumode() ? "<lt>Down>" : "<lt>Right>"', { desc = "Move forward one character", expr = true })
