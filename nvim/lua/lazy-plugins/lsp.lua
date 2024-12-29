@@ -230,7 +230,7 @@ return {
 
 				document_highlight = {
 					enabled = true,
-					exclude = { "java_language_server", "clangd" },
+					exclude = { "java_language_server" },
 				},
 
 				capabilities = {
@@ -261,26 +261,15 @@ return {
 			require("mason-lspconfig").setup()
 
 			vim.api.nvim_create_user_command("LspSetqflist", function() vim.diagnostic.setqflist({ open = false }) end, {})
-			vim.api.nvim_create_user_command("Lcope", function() vim.diagnostic.setqflist() end, {})
-			vim.api.nvim_create_user_command("Lcopew", function(cmd)
-				vim.diagnostic.setqflist({ open = false })
-				if cmd.args ~= nil and cmd.args:len() > 0 then
-					vim.cmd('botright copen ' .. cmd.args)
-				else
-					vim.cmd('botright copen')
+			vim.keymap.set("n", "<leader>Q", function()
+				local qfwin = vim.fn.getqflist({ winid = 1}).winid
+				if qfwin > 0 then
+					vim.api.nvim_win_close(qfwin, false)
 				end
-			end, { nargs = '*' })
 
-			vim.api.nvim_create_user_command("LspSetloclist", function() vim.diagnostic.setloclist({ open = false }) end, {})
-			vim.api.nvim_create_user_command("Llope", function() vim.diagnostic.setqflist() end, {})
-			vim.api.nvim_create_user_command("Llopew", function(cmd)
 				vim.diagnostic.setqflist({ open = false })
-				if cmd.args ~= nil and cmd.args:len() > 0 then
-					vim.cmd('botright lopen ' .. cmd.args)
-				else
-					vim.cmd('botright lopen')
-				end
-			end, { nargs = '*' })
+				vim.cmd('botright copen 15')
+			end, { desc = "Send LSP diagnostics to quickfix list", silent = true })
 
 			local cmp_lsp = require("cmp_nvim_lsp")
 			local capabilities = vim.tbl_deep_extend(
