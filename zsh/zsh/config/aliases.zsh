@@ -16,3 +16,5 @@ if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
     alias cmd=/mnt/c/Windows/System32/cmd.exe
     alias open='wslview'
 fi
+
+alias soft="ssh gitserver"
