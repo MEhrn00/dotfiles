@@ -15,7 +15,7 @@ return {
 	{
 		"stevearc/conform.nvim",
 		event = { "BufWritePre" },
-		cmd = { "ConformInfo", "Format" },
+		cmd = { "ConformInfo", "Format", "FormatDisable", "FormatEnable" },
 		opts = {
 			default_format_opts = {
 				timeout_ms = 3000,
