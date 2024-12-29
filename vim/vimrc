@@ -9,6 +9,7 @@ filetype plugin on
 syntax on
 
 set background=dark
+set nu
 
 " Convert tabs to spaces (expandtab)
 set et
