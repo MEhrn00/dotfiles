@@ -30,6 +30,13 @@ return {
 				c = { "clang-format" },
 				rust = { "rustfmt", lsp_format = "fallback" },
 			},
+
+			format_on_save = function(bufnr)
+				if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+					return
+				end
+				return { timeout_ms = 500, lsp_fallback = true }
+			end,
 		},
 
 		config = function(_, opts)
@@ -39,6 +46,28 @@ return {
 				require("conform").format()
 			end, {
 				desc = "Format buffer",
+			})
+
+			vim.api.nvim_create_user_command("FormatDisable", function(args)
+				if args.bang then
+					vim.g.disable_autoformat = true
+				else
+					vim.b.disable_autoformat = true
+				end
+			end, {
+				desc = "Disable autoformat on save",
+				bang = true,
+			})
+
+			vim.api.nvim_create_user_command("FormatEnable", function(args)
+				if args.bang then
+					vim.g.disable_autoformat = false
+				else
+					vim.b.disable_autoformat = false
+				end
+			end, {
+				desc = "Enable autoformat on save",
+				bang = true,
 			})
 		end,
 	},
@@ -89,7 +118,9 @@ return {
 			vim.api.nvim_create_autocmd("FileType", {
 				group = vim.api.nvim_create_augroup("nocolumn_line", { clear = false }),
 				pattern = "NeogitStatus",
-				callback = function(_) vim.opt_local.colorcolumn = "0" end,
+				callback = function(_)
+					vim.opt_local.colorcolumn = "0"
+				end,
 			})
 
 			vim.api.nvim_create_autocmd("FileType", {
@@ -143,7 +174,12 @@ return {
 			{ "<leader>fi", "<Cmd>Telescope lsp_implementations<CR>", desc = "Find LSP implementations" },
 			{ "<leader>ft", "<Cmd>Telescope tags<CR>", desc = "Find tags" },
 			{ "<leader>;", "<Cmd>Telescope buffers sort_mru=true sort_lastused=true<CR>", desc = "List buffers" },
-			{ "<leader>fs", "<Cmd>Telescope lsp_workspace_symbols<CR>", mode = "n", desc = "Find workspace LSP symbols" },
+			{
+				"<leader>fs",
+				"<Cmd>Telescope lsp_workspace_symbols<CR>",
+				mode = "n",
+				desc = "Find workspace LSP symbols",
+			},
 			{ "<leader>gd", "<Cmd>Telescope git_bcommits<CR>", mode = "n", desc = "View git history for opened file" },
 			{ "<leader>gb", "<Cmd>Telescope git_branches<CR>", mode = "n", desc = "View git branches" },
 		},
