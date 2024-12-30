@@ -81,7 +81,6 @@ return {
 		cmd = "Neogit",
 		opts = {
 			graph_style = "unicode",
-			kind = "replace",
 			mappings = {
 				commit_editor = {
 					["<c-x><c-c>"] = "Submit",
