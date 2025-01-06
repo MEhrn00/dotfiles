@@ -39,7 +39,9 @@ return {
 					local luasnip = require("luasnip")
 					return {
 						snippet = {
-							expand = function(args) luasnip.lsp_expand(args.body) end,
+							expand = function(args)
+								luasnip.lsp_expand(args.body)
+							end,
 						},
 
 						mapping = cmp.mapping.preset.insert({
@@ -63,7 +65,8 @@ return {
 
 						enabled = function()
 							local context = require("cmp.config.context")
-							return not context.in_treesitter_capture("comment") and not context.in_syntax_group("Comment")
+							return not context.in_treesitter_capture("comment")
+								and not context.in_syntax_group("Comment")
 						end,
 
 						formatting = {
@@ -111,7 +114,7 @@ return {
 
 					rust_analyzer = {
 						settings = {
-							['rust-analyzer'] = {
+							["rust-analyzer"] = {
 								check = {
 									command = "clippy",
 								},
@@ -143,7 +146,7 @@ return {
 									},
 								},
 							},
-						}
+						},
 					},
 
 					pylsp = {
@@ -225,7 +228,7 @@ return {
 
 				codelens = {
 					enabled = true,
-					exclude = { "java_language_server", "clangd", },
+					exclude = { "java_language_server", "clangd", "rust_analyzer" },
 				},
 
 				document_highlight = {
@@ -239,17 +242,17 @@ return {
 							didRename = true,
 							willRename = true,
 						},
-					}
+					},
 				},
 
 				keys = {
-					{"n", "gd", vim.lsp.buf.definition, { desc = "Go to definition", silent = true }},
-					{"n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration", silent = true }},
-					{"n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation", silent = true }},
-					{"n", "go", vim.lsp.buf.type_definition, { desc = "Go to type definition", silent = true }},
-					{"n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Display signature help", silent = true }},
-					{"n", "crn", vim.lsp.buf.rename, { desc = "Rename symbol", silent = true }},
-					{"n", "ga", vim.lsp.buf.code_action, { desc = "Select code action", silent = true }},
+					{ "n", "gd", vim.lsp.buf.definition, { desc = "Go to definition", silent = true } },
+					{ "n", "gD", vim.lsp.buf.declaration, { desc = "Go to declaration", silent = true } },
+					{ "n", "gi", vim.lsp.buf.implementation, { desc = "Go to implementation", silent = true } },
+					{ "n", "go", vim.lsp.buf.type_definition, { desc = "Go to type definition", silent = true } },
+					{ "n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Display signature help", silent = true } },
+					{ "n", "crn", vim.lsp.buf.rename, { desc = "Rename symbol", silent = true } },
+					{ "n", "ga", vim.lsp.buf.code_action, { desc = "Select code action", silent = true } },
 				},
 
 				setup = {},
@@ -260,15 +263,17 @@ return {
 			require("mason").setup()
 			require("mason-lspconfig").setup()
 
-			vim.api.nvim_create_user_command("LspSetqflist", function() vim.diagnostic.setqflist({ open = false }) end, {})
+			vim.api.nvim_create_user_command("LspSetqflist", function()
+				vim.diagnostic.setqflist({ open = false })
+			end, {})
 			vim.keymap.set("n", "<leader>Q", function()
-				local qfwin = vim.fn.getqflist({ winid = 1}).winid
+				local qfwin = vim.fn.getqflist({ winid = 1 }).winid
 				if qfwin > 0 then
 					vim.api.nvim_win_close(qfwin, false)
 				end
 
 				vim.diagnostic.setqflist({ open = false })
-				vim.cmd('botright copen 15')
+				vim.cmd("botright copen 15")
 			end, { desc = "Send LSP diagnostics to quickfix list", silent = true })
 
 			local cmp_lsp = require("cmp_nvim_lsp")
@@ -282,7 +287,8 @@ return {
 
 			require("mason-lspconfig").setup_handlers({
 				function(server_name)
-					local server_opts = vim.tbl_deep_extend("force",
+					local server_opts = vim.tbl_deep_extend(
+						"force",
 						{ capabilities = vim.deepcopy(capabilities) },
 						opts.servers[server_name] or {}
 					)
@@ -314,40 +320,52 @@ return {
 					local client = vim.lsp.get_client_by_id(args.data.client_id)
 					if client ~= nil then
 						if opts.document_highlight.enabled then
-							if not vim.iter(opts.document_highlight.exclude or {}):any(function(v) return v == client.name end) then
+							if
+								not vim.iter(opts.document_highlight.exclude or {}):any(function(v)
+									return v == client.name
+								end)
+							then
 								if client.server_capabilities.documentHighlightProvider then
 									vim.api.nvim_create_augroup("lsp_document_highlight", { clear = false })
 
-									vim.api.nvim_clear_autocmds { buffer = args.buf, group = "lsp_document_highlight" }
-									vim.api.nvim_create_autocmd({"CursorHold", "CursorHoldI"}, {
-											callback = vim.lsp.buf.document_highlight,
-											buffer = args.buf,
-											group = "lsp_document_highlight",
-											desc = "Document Highlight",
+									vim.api.nvim_clear_autocmds({ buffer = args.buf, group = "lsp_document_highlight" })
+									vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+										callback = vim.lsp.buf.document_highlight,
+										buffer = args.buf,
+										group = "lsp_document_highlight",
+										desc = "Document Highlight",
 									})
 
-									vim.api.nvim_create_autocmd({"CursorMoved", "CursorMovedI"}, {
-											callback = vim.lsp.buf.clear_references,
-											buffer = args.buf,
-											group = "lsp_document_highlight",
-											desc = "Clear All the References",
+									vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+										callback = vim.lsp.buf.clear_references,
+										buffer = args.buf,
+										group = "lsp_document_highlight",
+										desc = "Clear All the References",
 									})
 								end
 							end
 						end
 
 						if opts.inlay_hints.enabled then
-							if not vim.iter(opts.inlay_hints.exclude or {}):any(function(v) return v == client.name end) then
+							if
+								not vim.iter(opts.inlay_hints.exclude or {}):any(function(v)
+									return v == client.name
+								end)
+							then
 								if client.server_capabilities.inlayHintProvider then
-									vim.lsp.inlay_hint.enable(true, { bufnr = args.buf})
+									vim.lsp.inlay_hint.enable(true, { bufnr = args.buf })
 								end
 							end
 						end
 
 						if opts.codelens.enabled then
-							if not vim.iter(opts.codelens.exclude or {}):any(function(v) return v == client.name end) then
+							if
+								not vim.iter(opts.codelens.exclude or {}):any(function(v)
+									return v == client.name
+								end)
+							then
 								if client.server_capabilities.codeLensProvider then
-									vim.api.nvim_create_autocmd({"BufEnter", "CursorHold", "InsertLeave"}, {
+									vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
 										buffer = args.buf,
 										callback = vim.lsp.codelens.refresh,
 									})
