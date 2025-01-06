@@ -73,11 +73,14 @@ vim.opt.icm = "nosplit"
 vim.cmd.packadd("termdebug")
 vim.g.termdebug_wide = 1
 
+-- Quickfix filter
+vim.cmd.packadd("cfilter")
+
 -- Cursor
 vim.opt.guicursor = {
 	"n-v-c-ci-sm:block",
 	"i-ve:ver25",
-	"r-cr-o:hor20"
+	"r-cr-o:hor20",
 }
 
 -- Set NVIM_REMOTE_SOCKET
@@ -86,16 +89,16 @@ vim.fn.setenv("NVIM_REMOTE_SOCKET", vim.v.servername)
 -- Open the quick/location lists in a full window
 vim.api.nvim_create_user_command("Copew", function(opts)
 	if opts.args ~= nil and opts.args:len() > 0 then
-		vim.cmd('botright copen ' .. opts.args)
+		vim.cmd("botright copen " .. opts.args)
 	else
-		vim.cmd('botright copen 15')
+		vim.cmd("botright copen 15")
 	end
-end, { nargs = '*' })
+end, { nargs = "*" })
 
 vim.api.nvim_create_user_command("Lopew", function(opts)
 	if opts.args ~= nil and opts.args:len() > 0 then
-		vim.cmd('botright lopen ' .. opts.args)
+		vim.cmd("botright lopen " .. opts.args)
 	else
-		vim.cmd('botright lopen 15')
+		vim.cmd("botright lopen 15")
 	end
-end, { nargs = '*' })
+end, { nargs = "*" })
