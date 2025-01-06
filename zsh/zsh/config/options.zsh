@@ -7,10 +7,9 @@ SAVEHIST=1000
 setopt share_history
 
 # Truecolor support
-if [[ $(tput colors 2>/dev/null) == "256" ]]; then
-    COLORTERM="truecolor"
-
+if [[ $COLORTERM = *(24bit|truecolor)* ]]; then
     export MANPAGER='less -R --use-color -Du51 -Dd83 -DP4.7 -DE4.7 -DS4.7'
+    zmodload zsh/nearcolor
 fi
 
 # Use Neovim for man pages
