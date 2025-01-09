@@ -93,13 +93,6 @@
   :i "C-c" 'evil-normal-state
   :vomr "C-c" 'evil-escape)
 
-;; Indent bars
-(use-package! indent-bars
-  :config
-  (require 'treesit)
-  :custom
-  (indent-bars-treesit-support t))
-
 ;; Emacs mode config
 (add-hook! emacs-lisp-mode
   (setq-local tab-width 2)
