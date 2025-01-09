@@ -101,3 +101,5 @@ if [ -f $VCPKG_ROOT/scripts/vcpkg_completion.zsh ]; then
     # Remove the '--' in the COMPREPLY since it breaks zsh completion: https://github.com/microsoft/vcpkg/issues/32386
     source <(sed 's/^\([ \t]*\)COMPREPLY=\(.*\)\( -- \)\(.*\)/\1COMPREPLY=\2 \4/' "${VCPKG_ROOT}/scripts/vcpkg_completion.zsh")
 fi
+
+# [ -s $NVM_DIR/bash_completion ] && source $NVM_DIR/bash_completion

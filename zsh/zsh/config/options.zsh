@@ -30,3 +30,17 @@ select-word-style bash
 
 # Use emacs keybinds
 set -o emacs
+
+# Connect to existing SSH agent if not already connected
+if [ -z $SSH_AUTH_SOCK ]; then
+    if [ -S $XDG_RUNTIME_DIR/ssh-agent.socket ]; then
+        export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/ssh-agent.socket
+        export SSH_AGENT_PID=$(pgrep -f "ssh-agent.*$SSH_AUTH_SOCK")
+    elif [ -S $XDG_RUNTIME_DIR/gcr/ssh ]; then
+        export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/gcr/ssh
+        export SSH_AGENT_PID=$(lsof -U | grep $SSH_AUTH_SOCK | grep -v systemd | cut -d' ' -f2)
+    elif [ -S $XDG_RUNTIME_DIR/openssh_agent ]; then
+        export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/openssh_agent
+        export SSH_AGENT_PID=$(pgrep -f "ssh-agent.*$SSH_AUTH_SOCK")
+    fi
+fi

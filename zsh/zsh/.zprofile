@@ -36,7 +36,14 @@ if [ -S $XDG_RUNTIME_DIR/ssh-agent.socket ]; then
 elif [ -S $XDG_RUNTIME_DIR/gcr/ssh ]; then
     export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/gcr/ssh
     export SSH_AGENT_PID=$(lsof -U | grep $SSH_AUTH_SOCK | grep -v systemd | cut -d' ' -f2)
+elif [ -S $XDG_RUNTIME_DIR/openssh_agent ]; then
+    export SSH_AUTH_SOCK=$XDG_RUNTIME_DIR/openssh_agent
+    export SSH_AGENT_PID=$(pgrep -f "ssh-agent.*$SSH_AUTH_SOCK")
 fi
+
+# nvm
+export NVM_DIR=${NVM_DIR:-$XDG_CONFIG_HOME/nvm}
+[ -s $NVM_DIR/nvm.sh ] && source $NVM_DIR/nvm.sh
 
 # Configure path
 typeset -U path
