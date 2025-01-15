@@ -7,13 +7,13 @@ SAVEHIST=1000
 setopt share_history
 
 # Truecolor support
-if [[ $COLORTERM = *(24bit|truecolor)* ]]; then
+if [[ $COLORTERM = *(24bit|truecolor)* ]] || tput colors 2>/dev/null | grep -q '256'; then
     export MANPAGER='less -R --use-color -Du51 -Dd83 -DP4.7 -DE4.7 -DS4.7'
     zmodload zsh/nearcolor
 fi
 
 # Use Neovim for man pages
-[ -x /usr/bin/nvim ] && export MANPAGER='nvim +Man!'
+[ -x /usr/bin/nvim ] || [ -x /usr/local/bin/nvim ] && export MANPAGER='nvim +Man!'
 
 # GPG tty
 GPG_TTY=$(tty)
