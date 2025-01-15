@@ -113,7 +113,7 @@ IndentCaseBlocks: false
 IndentCaseLabels: false
 IndentExternBlock: AfterExternBlock
 IndentGotoLabels: false
-IndentPPDirectives: None
+IndentPPDirectives: AfterHash
 IndentRequiresClause: false
 IndentWidth: 4
 IndentWrappedFunctionNames: false
@@ -150,7 +150,7 @@ PenaltyExcessCharacter: 1000000
 PenaltyIndentedWhitespace: 0
 PenaltyReturnTypeOnItsOwnLine: 60
 PointerAlignment: Right
-PPIndentWidth: -1
+PPIndentWidth: 2
 QualifierAlignment: Leave
 ReferenceAlignment: Left
 ReflowComments: true
