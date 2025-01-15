@@ -15,7 +15,7 @@ color_reset="%{$reset_color%}"
 # Load vcs info
 autoload -Uz vcs_info
 setopt promptsubst
-zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' check-for-staged-changes true
 zstyle ':vcs_info:git:*' formats "${color_yellow}(%s)-[%b]%u%c"
 zstyle ':vcs_info:git:*' actionformats "${color_yellow}(%s)-[%b]%u%c-[%a]"
 zstyle ':vcs_info:hg:*' formats "${color_yellow}(%s)-[%b]%u%c"
