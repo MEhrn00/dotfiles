@@ -12,3 +12,7 @@ if vim.g.vscode then
 else
 	require("config.lazy")
 end
+
+if vim.fn.has("win64") == 1 or vim.fn.has("win32") == 1 then
+	require("config.windows")
+end
