@@ -1,10 +1,6 @@
-vim.g.guifontname = "SauceCodePro Nerd Font"
+vim.g.guifontname = "SauceCodePro_NF"
 
-if vim.g.neovide ~= nil then
-	vim.g.fontsize = 9
-else
-	vim.g.fontsize = 5
-end
+vim.g.fontsize = 9
 
 vim.g.neovide_hide_mouse_when_typing = true
 vim.g.neovide_remember_window_size = "v:true"
