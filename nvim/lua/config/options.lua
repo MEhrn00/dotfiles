@@ -32,7 +32,11 @@ vim.opt.title = true
 vim.g.netrw_dirhistmax = 0
 vim.g.netrw_banner = 0
 vim.g.netrw_liststyle = 1
-vim.api.nvim_set_hl(0, "netrwMarkFile", { italic = true, undercurl = true })
+vim.api.nvim_set_hl(0, "netrwMarkFile", {
+	italic = true,
+	undercurl = true,
+	bg = "NvimDarkGrey3",
+})
 
 -- Set tabs equal to 4 spaces
 vim.opt.expandtab = true
