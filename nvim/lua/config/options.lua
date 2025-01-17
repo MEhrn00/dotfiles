@@ -80,13 +80,6 @@ vim.g.termdebug_wide = 1
 -- Quickfix filter
 vim.cmd.packadd("cfilter")
 
--- Cursor
-vim.opt.guicursor = {
-	"n-v-c-ci-sm:block",
-	"i-ve:ver25",
-	"r-cr-o:hor20",
-}
-
 -- Set NVIM_REMOTE_SOCKET
 vim.fn.setenv("NVIM_REMOTE_SOCKET", vim.v.servername)
 
