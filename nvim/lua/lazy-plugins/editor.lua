@@ -172,7 +172,7 @@ return {
 			{ "<leader>fd", "<Cmd>Telescope lsp_definitions<CR>", desc = "Find LSP definitions" },
 			{ "<leader>fi", "<Cmd>Telescope lsp_implementations<CR>", desc = "Find LSP implementations" },
 			{ "<leader>ft", "<Cmd>Telescope tags<CR>", desc = "Find tags" },
-			{ "<leader>;", "<Cmd>Telescope buffers sort_mru=true sort_lastused=true<CR>", desc = "List buffers" },
+			{ "<space>,", "<Cmd>Telescope buffers sort_mru=true sort_lastused=true<CR>", desc = "List buffers" },
 			{
 				"<leader>fs",
 				"<Cmd>Telescope lsp_workspace_symbols<CR>",

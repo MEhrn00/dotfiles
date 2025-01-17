@@ -12,7 +12,7 @@ map("n", "]b", ":bn<CR>", { desc = "Switch to next buffer", silent = true })
 map("n", "[b", ":bp<CR>", { desc = "Switch to previous buffer", silent = true })
 map("n", "<leader>d", ":bp|bd #<CR>", { desc = "Delete buffer", silent = true })
 map("n", "<leader>D", ":bp|bd! #<CR>", { desc = "Force delete buffer", silent = true })
-map("n", "<leader>fb", ":buffers<CR>", { desc = "List buffers", silent = true })
+map("n", "<space>,", ":buffers<CR>", { desc = "List buffers", silent = true })
 
 -- Repeated text shift in visual mode
 map("v", "<", "<gv", { desc = "Shift text left", silent = true })
