@@ -169,7 +169,6 @@ return {
 				desc = "Grep for selected text",
 			},
 			{ "<leader>fr", "<Cmd>Telescope lsp_references<CR>", desc = "Find LSP references" },
-			{ "<leader>fd", "<Cmd>Telescope lsp_definitions<CR>", desc = "Find LSP definitions" },
 			{ "<leader>fi", "<Cmd>Telescope lsp_implementations<CR>", desc = "Find LSP implementations" },
 			{ "<leader>ft", "<Cmd>Telescope tags<CR>", desc = "Find tags" },
 			{ "<space>,", "<Cmd>Telescope buffers sort_mru=true sort_lastused=true<CR>", desc = "List buffers" },
