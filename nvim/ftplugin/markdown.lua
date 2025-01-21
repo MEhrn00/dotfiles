@@ -1,5 +1,6 @@
--- Add spellcheck since markdown is mostly English
-vim.opt_local.spell = true
+if not vim.g.vscode then
+	vim.opt_local.spell = true
+end
 
 -- Set tabs equal to 2 spaces
 vim.opt_local.tabstop = 2
