@@ -1,4 +1,13 @@
-[ -x /usr/bin/nvim ] && export EDITOR=/usr/bin/nvim
+editor_paths=(
+    "/usr/bin/nvim"
+    "/usr/local/bin/nvim"
+)
+for editor_path in $editor_paths; do
+    if [ -x $editor_path ]; then
+        export EDITOR=$editor_path
+        break
+    fi
+done
 
 export JAVA_HOME=${JAVA_HOME:-/etc/alternatives/java_sdk_openjdk}
 export LESS=-R
