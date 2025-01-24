@@ -10,7 +10,7 @@ alias neogit='nvim -c "Neogit kind=replace"'
 alias t="tmux"
 
 # In WSL
-if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ]; then
+if [ -f /proc/sys/fs/binfmt_misc/WSLInterop ] || [ -f /proc/sys/fs/binfmt_misc/WSLInterop-late ]; then
     alias code='/mnt/c/Users/matth/AppData/Local/Programs/Microsoft\ VS\ Code/bin/code'
     alias cmd.exe=/mnt/c/Windows/System32/cmd.exe
     alias cmd=/mnt/c/Windows/System32/cmd.exe
