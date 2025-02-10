@@ -24,13 +24,6 @@ for __plugin_path in "${__autosuggestions_paths[@]}"; do
     fi
 done
 
-for __plugin_path in "${__syntax_highlighting_paths[@]}"; do
-    if [ -f $__plugin_path ]; then
-        source $__plugin_path
-        break
-    fi
-done
-
 for __plugin_path in "${__command_not_found_paths[@]}"; do
     if [ -f $__plugin_path ]; then
         source $__plugin_path
@@ -44,3 +37,11 @@ for __plugin_path in "${__fzf_keybinds_paths[@]}"; do
         break
     fi
 done
+
+for __plugin_path in "${__syntax_highlighting_paths[@]}"; do
+    if [ -f $__plugin_path ]; then
+        source $__plugin_path
+        break
+    fi
+done
+
