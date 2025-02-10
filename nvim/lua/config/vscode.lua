@@ -16,11 +16,11 @@ end
 
 -- Buffer handling
 map("n", "]b", function()
-  vscode.action("workbench.action.quickOpenNavigateNextInEditorPicker")
+  vscode.action("workbench.action.nextEditorInGroup")
 end, { desc = "Switch to next tab", silent = true })
 
 map("n", "[b", function()
-  vscode.action("workbench.action.quickOpenNavigatePreviousInEditorPicker")
+  vscode.action("workbench.action.previousEditorInGroup")
 end, { desc = "Switch to previous tab", silent = true })
 
 map("n", "<leader>d", "<Cmd>q", { desc = "Close file", silent = true })
@@ -125,3 +125,8 @@ end, { desc = "Go to previous LSP diagnostic", silent = true })
 map("n", "<space>ot", function()
   vscode.action("workbench.action.terminal.toggleTerminal")
 end, { desc = "Open terminal", silent = true })
+
+-- File explorer
+map("n", "<space>f", function()
+  vscode.action("workbench.view.explorer")
+end, { desc = "Show file explorer", silent = true })
