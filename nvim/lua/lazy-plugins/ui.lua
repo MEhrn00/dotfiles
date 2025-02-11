@@ -122,7 +122,7 @@ return {
 				map("n", "<leader>gu", gs.undo_stage_hunk, "Git undo stage hunk")
 				map("n", "<leader>gS", gs.stage_buffer, "Git stage buffer")
 				map("n", "<leader>gR", gs.reset_buffer, "Git reset buffer")
-				map("n", "<C-w>g", gs.preview_hunk, "Git show preview")
+				map("n", "<leader>gp", gs.preview_hunk, "Git preview")
 				map("n", "<leader>gtd", gs.toggle_deleted, "Git toggle deleted")
 			end,
 		},
@@ -323,7 +323,7 @@ return {
 		},
 		cmd = { "Neotree" },
 		keys = {
-			{ "<space>op", "<Cmd>Neotree toggle<CR>", desc = "Toggle Neotree" },
+			{ "<space>f", "<Cmd>Neotree toggle<CR>", desc = "Toggle Neotree" },
 		}
 	},
 
