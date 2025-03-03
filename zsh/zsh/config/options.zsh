@@ -12,8 +12,15 @@ if [[ $COLORTERM = *(24bit|truecolor)* ]] || tput colors 2>/dev/null | grep -q '
     zmodload zsh/nearcolor
 fi
 
-# Use Neovim for man pages
-[ -x /usr/bin/nvim ] || [ -x /usr/local/bin/nvim ] && export MANPAGER='nvim +Man!'
+# Use bat as a regular pager
+if [ -x /usr/bin/bat ] || [ -x /usr/local/bin/bat ]; then
+    export PAGER='bat'
+fi
+
+# Use nvim as a man page pager
+if [ -x /usr/bin/nvim ] || [ -x /usr/local/bin/nvim ]; then
+    export MANPAGER='nvim +Man!'
+fi
 
 # GPG tty
 GPG_TTY=$(tty)
