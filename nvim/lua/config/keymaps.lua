@@ -24,11 +24,11 @@ map("n", "[q", ":cprev<CR>", { desc = "Move to previous quickfix list entry", si
 map("n", "[Q", ":cfirst<CR>", { desc = "Move to first quickfix list entry", silent = true })
 map("n", "]Q", ":clast<CR>", { desc = "Move to last quickfix list entry", silent = true })
 map("n", "<leader>q", function()
-	local qfwin = vim.fn.getqflist({ winid = 1}).winid
+	local qfwin = vim.fn.getqflist({ winid = 1 }).winid
 	if qfwin > 0 then
 		vim.api.nvim_win_close(qfwin, false)
 	else
-		vim.cmd('botright copen 15')
+		vim.cmd("botright copen 15")
 	end
 end, { desc = "Toggle the quickfix list window", silent = true })
 
@@ -42,7 +42,7 @@ map("n", "<leader>w", function()
 	if llwin > 0 then
 		vim.api.nvim_win_close(llwin, false)
 	else
-		vim.cmd('botright lopen 15')
+		vim.cmd("botright lopen 15")
 	end
 end, { desc = "Toggle the location list window", silent = true })
 
@@ -103,3 +103,58 @@ map("t", "<C-w>h", "<Cmd>wincmd h<CR>", { desc = "Go to window left", silent = t
 map("t", "<C-w>j", "<Cmd>wincmd j<CR>", { desc = "Go to window below", silent = true })
 map("t", "<C-w>k", "<Cmd>wincmd k<CR>", { desc = "Go to window above", silent = true })
 map("t", "<C-w>l", "<Cmd>wincmd l<CR>", { desc = "Go to window right", silent = true })
+
+-- Execute command helpers
+map("n", "<leader>!r", function()
+	vim.fn.inputsave()
+
+	vim.ui.input({
+		prompt = "Command: ",
+		completion = "shellcmd",
+	}, function(input)
+		vim.fn.inputrestore()
+		vim.cmd.redraw()
+
+		if input == nil then
+			return
+		end
+
+		vim.cmd("enew | 0r! " .. input)
+	end)
+end, { desc = "Run command and read results into a new buffer", silent = true })
+
+map("n", "<leader>!v", function()
+	vim.fn.inputsave()
+
+	vim.ui.input({
+		prompt = "Command :",
+		completion = "shellcmd",
+	}, function(input)
+		vim.fn.inputrestore()
+		vim.cmd.redraw()
+
+		if input == nil then
+			return
+		end
+
+		vim.cmd("vert new | 0r! " .. input)
+	end)
+end, { desc = "Run command and read results into a vertical split", silent = true })
+
+map("n", "<leader>!s", function()
+	vim.fn.inputsave()
+
+	vim.ui.input({
+		prompt = "Command :",
+		completion = "shellcmd",
+	}, function(input)
+		vim.fn.inputrestore()
+		vim.cmd.redraw()
+
+		if input == nil then
+			return
+		end
+
+		vim.cmd("new | 0r! " .. input)
+	end)
+end, { desc = "Run command and read results into a horizontal split", silent = true })
