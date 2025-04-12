@@ -45,6 +45,7 @@
 		}; f"
 
 	worktree-clone = "!sh $XDG_CONFIG_HOME/git/worktree-clone.sh"
+	changelog = "shortlog --format='* %s. (%h)'"
 [init]
 	defaultBranch = main
 [filter "lfs"]
