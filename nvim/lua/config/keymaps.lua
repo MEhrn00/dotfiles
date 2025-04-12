@@ -105,7 +105,7 @@ map("t", "<C-w>k", "<Cmd>wincmd k<CR>", { desc = "Go to window above", silent = 
 map("t", "<C-w>l", "<Cmd>wincmd l<CR>", { desc = "Go to window right", silent = true })
 
 -- Execute command helpers
-map("n", "<leader>!r", function()
+map("n", "<leader>cc", function()
 	vim.fn.inputsave()
 
 	vim.ui.input({
@@ -121,9 +121,9 @@ map("n", "<leader>!r", function()
 
 		vim.cmd("enew | 0r! " .. input)
 	end)
-end, { desc = "Run command and read results into a new buffer", silent = true })
+end, { desc = "Run command and return the results in a new buffer", silent = true })
 
-map("n", "<leader>!v", function()
+map("n", "<leader>cv", function()
 	vim.fn.inputsave()
 
 	vim.ui.input({
@@ -139,9 +139,9 @@ map("n", "<leader>!v", function()
 
 		vim.cmd("vert new | 0r! " .. input)
 	end)
-end, { desc = "Run command and read results into a vertical split", silent = true })
+end, { desc = "Run command and return the results in a vertical split", silent = true })
 
-map("n", "<leader>!s", function()
+map("n", "<leader>cs", function()
 	vim.fn.inputsave()
 
 	vim.ui.input({
@@ -157,4 +157,4 @@ map("n", "<leader>!s", function()
 
 		vim.cmd("new | 0r! " .. input)
 	end)
-end, { desc = "Run command and read results into a horizontal split", silent = true })
+end, { desc = "Run command and return the results in a horizontal split", silent = true })
