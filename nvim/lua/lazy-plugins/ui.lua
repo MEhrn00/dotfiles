@@ -1,4 +1,4 @@
-local colors = {
+local lualinecolors = {
 	white = "#ffffff",
 	darkgray = "#262626",
 	lightgray = "#373737",
@@ -188,33 +188,33 @@ return {
 			options = {
 				theme = {
 					normal = {
-						a = { bg = colors.darkblue, fg = colors.white, gui = "bold" },
-						b = { bg = colors.lightgray, fg = colors.darkblue },
-						c = { bg = colors.darkgray, fg = colors.white },
+						a = { bg = lualinecolors.darkblue, fg = lualinecolors.white, gui = "bold" },
+						b = { bg = lualinecolors.lightgray, fg = lualinecolors.darkblue },
+						c = { bg = lualinecolors.darkgray, fg = lualinecolors.white },
 					},
 					insert = {
-						a = { bg = colors.turquoise, fg = colors.darkgray, gui = "bold" },
-						b = { bg = colors.lightgray, fg = colors.turquoise },
-						c = { bg = colors.darkgray, fg = colors.white },
+						a = { bg = lualinecolors.turquoise, fg = lualinecolors.darkgray, gui = "bold" },
+						b = { bg = lualinecolors.lightgray, fg = lualinecolors.turquoise },
+						c = { bg = lualinecolors.darkgray, fg = lualinecolors.white },
 					},
 					visual = {
-						a = { bg = colors.yellow, fg = colors.darkgray, gui = "bold" },
-						b = { bg = colors.darkgray, fg = colors.yellow },
+						a = { bg = lualinecolors.yellow, fg = lualinecolors.darkgray, gui = "bold" },
+						b = { bg = lualinecolors.darkgray, fg = lualinecolors.yellow },
 					},
 					replace = {
-						a = { bg = colors.red, fg = colors.darkgray, gui = "bold" },
-						b = { bg = colors.lightgray, fg = colors.red },
-						c = { bg = colors.darkgray, fg = colors.white },
+						a = { bg = lualinecolors.red, fg = lualinecolors.darkgray, gui = "bold" },
+						b = { bg = lualinecolors.lightgray, fg = lualinecolors.red },
+						c = { bg = lualinecolors.darkgray, fg = lualinecolors.white },
 					},
 					command = {
-						a = { bg = colors.white, fg = colors.darkgray, gui = "bold" },
-						b = { bg = colors.lightgray, fg = colors.white },
-						c = { bg = colors.darkgray, fg = colors.white },
+						a = { bg = lualinecolors.white, fg = lualinecolors.darkgray, gui = "bold" },
+						b = { bg = lualinecolors.lightgray, fg = lualinecolors.white },
+						c = { bg = lualinecolors.darkgray, fg = lualinecolors.white },
 					},
 					inactive = {
-						a = { bg = colors.darkgray, fg = colors.white, gui = "bold" },
-						b = { bg = colors.darkgray, fg = colors.dimgray },
-						c = { bg = colors.darkgray, fg = colors.dimgray },
+						a = { bg = lualinecolors.darkgray, fg = lualinecolors.white, gui = "bold" },
+						b = { bg = lualinecolors.darkgray, fg = lualinecolors.dimgray },
+						c = { bg = lualinecolors.darkgray, fg = lualinecolors.dimgray },
 					},
 				},
 				icons_enabled = true,
@@ -320,11 +320,38 @@ return {
 			"nvim-lua/plenary.nvim",
 			"nvim-tree/nvim-web-devicons",
 			"MunifTanjim/nui.nvim",
+			{
+				"s1n7ax/nvim-window-picker",
+				name = "window-picker",
+				event = "VeryLazy",
+				version = "2.*",
+				opts = {
+					hint = "floating-letter",
+					filter_rules = {
+						include_current_win = false,
+						autoselect_one = true,
+						bo = {
+							filetype = { "neo-tree", "neo-tree-popup", "notify" },
+							buftype = { "terminal", "quickfix" },
+						},
+					},
+				},
+			},
 		},
 		cmd = { "Neotree" },
 		keys = {
 			{ "<space>f", "<Cmd>Neotree toggle<CR>", desc = "Toggle Neotree" },
 		},
+	},
+
+	{
+		"antosha417/nvim-lsp-file-operations",
+		name = "lsp-file-operations",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-neo-tree/neo-tree.nvim",
+		},
+		config = true,
 	},
 
 	{
