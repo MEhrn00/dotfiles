@@ -47,46 +47,58 @@ map("n", "<leader>w", function()
 end, { desc = "Toggle the location list window", silent = true })
 
 -- Emacs readline command mode navigation
-map("c", "<C-f>", 'wildmenumode() ? "<lt>Down>" : "<lt>Right>"', { desc = "Move forward one character", expr = true })
-map("c", "<C-b>", 'wildmenumode() ? "<lt>Up>" : "<lt>Left>"', { desc = "Move backward one character", expr = true })
-map(
-	"c",
-	"<C-n>",
-	'wildmenumode() ? "<lt>Right>" : "<lt>Down>"',
-	{ desc = "Move down to next wildmenu entry", expr = true }
-)
-map(
-	"c",
-	"<C-p>",
-	'wildmenumode() ? "<lt>Left>" : "<lt>Up>"',
-	{ desc = "Move up to previous wildmenu entry", expr = true }
-)
-map(
-	"c",
-	"<C-a>",
-	'wildmenumode() ? "<lt>C-a>" : "<lt>Home>"',
-	{ desc = "Move to the beginning of the line", expr = true }
-)
-map("c", "<C-e>", 'wildmenumode() ? "<lt>C-e>" : "<lt>End>"', { desc = "Move to the end of the line", expr = true })
-map("c", "<esc>f", 'wildmenumode() ? "" : "<lt>S-Right>"', { desc = "Move foward one word", expr = true })
-map("c", "<esc>b", 'wildmenumode() ? "" : "<lt>S-Left>"', { desc = "Move backward one word", expr = true })
-map(
-	"c",
-	"<C-d>",
-	'wildmenumode() ? "<lt>C-d>" : "<lt>Del>"',
-	{ desc = "Delete the character after point", expr = true }
-)
+map("c", "<C-f>", function()
+	if vim.fn.pumvisible() == 0 then
+		return "<Right>"
+	end
+end, { desc = "Move forward one character", expr = true })
+
+map("c", "<C-b>", function()
+	if vim.fn.pumvisible() == 0 then
+		return "<Left>"
+	end
+end, { desc = "Move backward one character", expr = true })
+
+map("c", "<C-a>", function()
+	if vim.fn.pumvisible() == 0 then
+		return "<Home>"
+	end
+end, { desc = "Move to the beginning of the line", expr = true })
+
+map("c", "<C-e>", function()
+	if vim.fn.pumvisible() == 0 then
+		return "<End>"
+	end
+end, { desc = "Move to the end of the line", expr = true })
+
+map("c", "<esc>f", function()
+	if vim.fn.pumvisible() == 0 then
+		return "<S-Right>"
+	end
+end, { desc = "Move foward one word", expr = true })
+
+map("c", "<esc>b", function()
+	if vim.fn.pumvisible() == 0 then
+		return "<S-Left>"
+	end
+end, { desc = "Move backward one word", expr = true })
+
+map("c", "<C-d>", function()
+	if vim.fn.pumvisible() == 0 then
+		return "<Del>"
+	end
+end, { desc = "Delete the character after point", expr = true })
+
 map("c", "<C-k>", function()
-	local idx = vim.fn.getcmdpos()
+	local cursorpos = vim.fn.getcmdpos()
 	local cmdlen = vim.fn.getcmdline():len()
-	if cmdlen == idx then
+	if cmdlen == cursorpos then
 		return ""
 	end
 
-	return string.rep("<Del>", cmdlen - idx + 1)
+	return string.rep("<Del>", cmdlen - cursorpos + 1)
 end, { desc = "Delete to the end of the line", expr = true })
 
--- Set commandline cedit keybind to <C-y>
 vim.opt.cedit = ""
 
 -- Keybinds for compiling/recompiling code
