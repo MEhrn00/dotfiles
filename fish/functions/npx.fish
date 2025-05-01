@@ -7,5 +7,5 @@ function node
         nvm use node >/dev/null
     end
 
-    $NVM_BIN/npx $args
+    $NVM_BIN/npx $argv
 end
