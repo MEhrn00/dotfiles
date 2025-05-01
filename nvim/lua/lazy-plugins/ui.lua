@@ -11,6 +11,7 @@ local lualinecolors = {
 }
 
 return {
+	-- Color scheme
 	{
 		"Mofiqul/vscode.nvim",
 		lazy = false,
@@ -18,26 +19,6 @@ return {
 		config = function()
 			vim.cmd.colorscheme("vscode")
 
-			-- if not (vim.fn.has("gui") == 1 or vim.g.neovide ~= nil) then
-			-- 	vim.iter({
-			-- 		"Normal",
-			-- 		"NonText",
-			-- 		"LineNr",
-			-- 		"SignColumn",
-			-- 		"ErrorMsg",
-			-- 		"WarningMsg",
-			-- 		"EndOfBuffer",
-			-- 		"VerSplit",
-			-- 		"VertSplit",
-			-- 		"Directory",
-			-- 		"Question",
-			-- 	}):each(function(group)
-			-- 		local curr = vim.api.nvim_get_hl(0, { name = group, link = false, create = false })
-			-- 		local new = vim.tbl_deep_extend("force", curr or {}, { bg = "none", force = true })
-			-- 		vim.api.nvim_set_hl(0, group, new)
-			-- 	end)
-			-- end
-			--
 			vim.api.nvim_set_hl(0, "ColorColumn", { bg = "NvimDarkGray4" })
 			vim.api.nvim_set_hl(0, "netrwMarkFile", {
 				italic = true,
@@ -47,6 +28,7 @@ return {
 		end,
 	},
 
+	-- Open buffer navigation bar
 	{
 		"romgrk/barbar.nvim",
 		dependencies = {
@@ -74,6 +56,7 @@ return {
 		},
 	},
 
+	-- Floating vim.ui windows. TODO: Migrate to snacks.nvim https://github.com/stevearc/dressing.nvim/issues/190
 	{
 		"stevearc/dressing.nvim",
 		opts = {
@@ -84,6 +67,7 @@ return {
 		lazy = false,
 	},
 
+	-- Git buffer integration. Changes in column and git operations
 	{
 		"lewis6991/gitsigns.nvim",
 		opts = {
@@ -128,6 +112,7 @@ return {
 		},
 	},
 
+	-- Visual indentation lines
 	{
 		"lukas-reineke/indent-blankline.nvim",
 		dependencies = {
@@ -148,6 +133,7 @@ return {
 		},
 	},
 
+	-- Highlight TODO-style comments
 	{ "folke/todo-comments.nvim", dependencies = { "nvim-lua/plenary.nvim" }, config = true },
 
 	{
@@ -163,6 +149,7 @@ return {
 		},
 	},
 
+	-- Sticky code scope context at the top of the window
 	{
 		"nvim-treesitter/nvim-treesitter-context",
 		lazy = false,
@@ -171,6 +158,7 @@ return {
 		config = true,
 	},
 
+	-- Status line
 	{
 		"nvim-lualine/lualine.nvim",
 		dependencies = {
@@ -313,6 +301,7 @@ return {
 		},
 	},
 
+	-- File tree
 	{
 		"nvim-neo-tree/neo-tree.nvim",
 		branch = "v3.x",
@@ -344,6 +333,7 @@ return {
 		},
 	},
 
+	-- LSP status in the file tree
 	{
 		"antosha417/nvim-lsp-file-operations",
 		name = "lsp-file-operations",
@@ -354,6 +344,7 @@ return {
 		config = true,
 	},
 
+	-- Better quickfix list window
 	{
 		"kevinhwang91/nvim-bqf",
 		dependencies = {
