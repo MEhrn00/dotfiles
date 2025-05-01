@@ -60,6 +60,7 @@ vim.opt.path = { ".", "**" }
 
 -- Wildmenu
 vim.opt.wildmenu = true
+vim.opt.wildmode = "longest:full,full"
 
 -- Natural splits
 vim.opt.splitbelow = true
