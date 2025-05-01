@@ -56,15 +56,68 @@ return {
 		},
 	},
 
-	-- Floating vim.ui windows. TODO: Migrate to snacks.nvim https://github.com/stevearc/dressing.nvim/issues/190
+	-- Floating vim.ui windows.
 	{
-		"stevearc/dressing.nvim",
+		"folke/snacks.nvim",
+		priority = 1000,
+		lazy = false,
 		opts = {
+			dashboard = { enabled = false },
+			explorer = { enabled = false },
+			indent = { enabled = false },
+			picker = { enabled = false },
+			notifier = { enabled = false },
+			quickfile = { enabled = false },
+			scope = { enabled = false },
+			scroll = { enabled = false },
+			statuscolumn = { enabled = false },
+			words = { enabled = false },
+
+			-- Handling of large files.
+			bigfile = {
+				enabled = true,
+				notify = true,
+				-- 1.5mb threshold
+				size = 1.5 * 1024 * 1024,
+				line_length = 1000,
+			},
+
+			-- Floating input window
 			input = {
-				relative = "win",
+				enabled = true,
+			},
+
+			-- Window styles
+			styles = {
+				input = {
+					row = 15,
+					keys = {
+						-- Keybinds for the input window
+						["<C-c>"] = { "cancel", mode = "i" },
+						["<C-f>"] = { "<Right>", mode = "i", expr = true },
+						["<C-b>"] = { "<Left>", mode = "i", expr = true },
+						["<C-a>"] = { "<Home>", mode = "i", expr = true },
+						["<C-e>"] = { "<End>", mode = "i", expr = true },
+						["<esc>f"] = { "<S-Right>", mode = "i", expr = true },
+						["<esc>b"] = { "<S-Left>", mode = "i", expr = true },
+						["<C-d>"] = { "<Del>", mode = "i", expr = true },
+						["<C-k>"] = {
+							function()
+								local _, _, currentcol, _, _ = table.unpack(vim.fn.getcurpos())
+								local linelen = vim.fn.getline(1):len()
+								if linelen == currentcol then
+									return ""
+								end
+
+								return string.rep("<Del>", linelen - currentcol + 1)
+							end,
+							mode = "i",
+							expr = true,
+						},
+					},
+				},
 			},
 		},
-		lazy = false,
 	},
 
 	-- Git buffer integration. Changes in column and git operations
