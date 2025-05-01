@@ -101,11 +101,56 @@ end, { desc = "Delete to the end of the line", expr = true })
 
 vim.opt.cedit = ""
 
--- Keybinds for compiling/recompiling code
-local compilemode = require("custom-plugins.compilemode")
-compilemode.setup()
-map("n", "<leader>bB", compilemode.recompile, { desc = "Recompile project", silent = true })
-map("n", "<leader>bb", compilemode.compile, { desc = "Compile project", silent = true })
+-- Emacs compile mode emulation using makeprg
+local function compile_project()
+	local makeprg = vim.o.makeprg
+	if makeprg:find("%$%*") ~= nil then
+		vim.fn.inputsave()
+
+		vim.ui.input({
+			prompt = string.format("Compile args (%s): ", makeprg),
+		}, function(input)
+			vim.fn.inputrestore()
+			vim.cmd.redraw()
+
+			if input == nil then
+				return
+			end
+
+			if input ~= "" then
+				vim.cmd.make({ args = { input }, bang = true })
+			else
+				vim.cmd.make({ bang = true })
+			end
+		end)
+	else
+		vim.cmd.make({ bang = true })
+	end
+end
+
+map("n", "<leader>bb", function()
+	vim.fn.inputsave()
+
+	vim.ui.input({
+		prompt = "Compile command: ",
+		default = vim.o.makeprg,
+		completion = "shellcmd",
+	}, function(input)
+		vim.fn.inputrestore()
+		vim.cmd.redraw()
+
+		if input == nil then
+			return
+		end
+
+		vim.o.makeprg = input
+		compile_project()
+	end)
+end, { desc = "Compile project", silent = true })
+
+map("n", "<leader>bB", function()
+	compile_project()
+end, { desc = "Recompile project", silent = true })
 
 -- Terminal keybinds
 map("n", "<space>oT", "<Cmd>terminal<CR><Cmd>startinsert!<CR>", { desc = "Open terminal", silent = true })
