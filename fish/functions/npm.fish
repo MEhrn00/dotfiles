@@ -1,4 +1,4 @@
-function node
+function npm
     if not set -q NVM_CD_FLAGS
         nvm --version >/dev/null
     end
@@ -7,5 +7,5 @@ function node
         nvm use node >/dev/null
     end
 
-    $NVM_BIN/npm $args
+    $NVM_BIN/npm $argv
 end
