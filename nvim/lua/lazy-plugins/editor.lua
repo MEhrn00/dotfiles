@@ -158,10 +158,11 @@ return {
 		},
 		cmd = { "Telescope" },
 		keys = {
-			{ "<leader>ff", "<Cmd>Telescope find_files<CR>", mode = { "n", "v" }, desc = "Find files" },
-			{ "<leader>fg", "<Cmd>Telescope live_grep<CR>", mode = "n", desc = "Grep for text" },
+			{ "<space>.", "<Cmd>Telescope find_files<CR>", mode = { "n", "v" }, desc = "Find files" },
+			{ "<space>,", "<Cmd>Telescope buffers sort_mru=true sort_lastused=true<CR>", desc = "Jump to buffer" },
+			{ "<space>/", "<Cmd>Telescope live_grep<CR>", mode = "n", desc = "Grep for text" },
 			{
-				"<leader>fg",
+				"<leader>/",
 				function()
 					require("telescope.builtin").live_grep({ default_text = getVisualSelection() })
 				end,
@@ -171,7 +172,6 @@ return {
 			{ "<leader>fr", "<Cmd>Telescope lsp_references<CR>", desc = "Find LSP references" },
 			{ "<leader>fi", "<Cmd>Telescope lsp_implementations<CR>", desc = "Find LSP implementations" },
 			{ "<leader>ft", "<Cmd>Telescope tags<CR>", desc = "Find tags" },
-			{ "<space>,", "<Cmd>Telescope buffers sort_mru=true sort_lastused=true<CR>", desc = "List buffers" },
 			{
 				"<leader>fs",
 				"<Cmd>Telescope lsp_workspace_symbols<CR>",
