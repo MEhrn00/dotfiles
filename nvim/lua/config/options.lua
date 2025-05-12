@@ -72,7 +72,7 @@ vim.opt.completeopt = "menuone,longest,noselect,noinsert"
 vim.opt.shortmess = "filnxtToOFc"
 
 -- Live search and replace
-vim.opt.icm = "nosplit"
+vim.opt.icm = "split"
 
 -- Termdebug
 vim.cmd.packadd("termdebug")

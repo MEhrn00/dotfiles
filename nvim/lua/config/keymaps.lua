@@ -101,9 +101,53 @@ end, { desc = "Delete to the end of the line", expr = true })
 
 vim.opt.cedit = ""
 
--- Emacs compile mode emulation using makeprg
+-- Emacs compile mode emulation
+local function do_compile_project(command)
+	local efm = vim.bo.efm
+	if efm == nil or efm == "" then
+		efm = vim.o.efm
+	end
+
+	local bufnr = vim.api.nvim_create_buf(false, true)
+	local winid = vim.api.nvim_open_win(bufnr, true, {
+		split = "below",
+		height = 20,
+		win = -1,
+	})
+
+	vim.keymap.set("n", "q", "<Cmd>close<CR>", {
+		buffer = bufnr,
+		silent = true,
+		desc = "Close buffer",
+	})
+
+	vim.keymap.set("n", "<CR>", function()
+		local qfwin = vim.fn.getqflist({ winid = 1 }).winid
+		if qfwin == 0 then
+			vim.api.nvim_win_hide(winid)
+			vim.cmd("botright copen 20")
+		end
+	end, { buffer = bufnr, silent = true, desc = "Open quickfix list" })
+
+	vim.api.nvim_set_current_buf(bufnr)
+
+	local jid = vim.fn.jobstart(command, {
+		term = true,
+		on_exit = function(_)
+			vim.fn.setqflist({}, "r", {
+				title = command,
+				lines = vim.api.nvim_buf_get_lines(bufnr, 0, -2, false),
+				efm = efm,
+			})
+		end,
+	})
+
+	vim.api.nvim_buf_set_name(bufnr, string.format("(%d) %s", jid, command))
+end
+
 local function compile_project()
 	local makeprg = vim.o.makeprg
+
 	if makeprg:find("%$%*") ~= nil then
 		vim.fn.inputsave()
 
@@ -118,13 +162,13 @@ local function compile_project()
 			end
 
 			if input ~= "" then
-				vim.cmd.make({ args = { input }, bang = true })
-			else
-				vim.cmd.make({ bang = true })
+				makeprg = makeprg:gsub("%$%*", input)
 			end
+
+			do_compile_project(makeprg)
 		end)
 	else
-		vim.cmd.make({ bang = true })
+		do_compile_project(makeprg)
 	end
 end
 
