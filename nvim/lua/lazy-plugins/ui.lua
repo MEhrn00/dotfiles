@@ -400,9 +400,7 @@ return {
 	-- Better quickfix list window
 	{
 		"kevinhwang91/nvim-bqf",
-		dependencies = {
-			"junegunn/fzf",
-		},
+		dependencies = { { "junegunn/fzf", import = "lazy-plugins.editor" } },
 		opts = {
 			auto_enable = true,
 			filter = {

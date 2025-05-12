@@ -211,6 +211,13 @@ return {
 		},
 	},
 
+	-- fzf
+	{
+		"junegunn/fzf",
+		opts = {},
+		config = function(_, opts) end,
+	},
+
 	{
 		"akinsho/toggleterm.nvim",
 		cmd = "ToggleTerm",
