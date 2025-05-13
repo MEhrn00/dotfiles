@@ -61,14 +61,25 @@ vim.opt.path = { ".", "**" }
 -- Wildmenu
 vim.opt.wildmenu = true
 vim.opt.wildmode = "longest:full,full"
+vim.opt.wildoptions = {
+	"fuzzy",
+	"pum"
+}
+vim.opt.pumheight = 20
 
 -- Natural splits
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
 -- Completion settings
-vim.opt.omnifunc = "syntaxcomplete#Complete"
-vim.opt.completeopt = "menuone,longest,noselect,noinsert"
+vim.opt.omnifunc = "v:lua.vim.lsp.omnifunc"
+vim.opt.completeopt = {
+	"menu",
+	"fuzzy",
+	"noselect",
+	"popup"
+}
+
 vim.opt.shortmess = "filnxtToOFc"
 
 -- Live search and replace
@@ -83,20 +94,3 @@ vim.cmd.packadd("cfilter")
 
 -- Set NVIM_REMOTE_SOCKET
 vim.fn.setenv("NVIM_REMOTE_SOCKET", vim.v.servername)
-
--- Open the quick/location lists in a full window
-vim.api.nvim_create_user_command("Copew", function(opts)
-	if opts.args ~= nil and opts.args:len() > 0 then
-		vim.cmd("botright copen " .. opts.args)
-	else
-		vim.cmd("botright copen 15")
-	end
-end, { nargs = "*" })
-
-vim.api.nvim_create_user_command("Lopew", function(opts)
-	if opts.args ~= nil and opts.args:len() > 0 then
-		vim.cmd("botright lopen " .. opts.args)
-	else
-		vim.cmd("botright lopen 15")
-	end
-end, { nargs = "*" })

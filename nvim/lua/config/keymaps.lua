@@ -259,3 +259,16 @@ map("n", "<leader>cs", function()
 		vim.cmd("new | 0r! " .. input)
 	end)
 end, { desc = "Run command and return the results in a horizontal split", silent = true })
+
+--- LSP keybinds
+map("n", "<leader>Q", function()
+	local qfwin = vim.fn.getqflist({ winid = 1 }).winid
+	if qfwin > 0 then
+		vim.api.nvim_win_close(qfwin, false)
+	end
+
+	vim.diagnostic.setqflist({ open = false })
+	vim.cmd("botright copen 15")
+end, { desc = "Send LSP diagnostics to quickfix list", silent = true })
+
+map("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Display signature help", silent = true})
