@@ -271,4 +271,5 @@ map("n", "<leader>Q", function()
 	vim.cmd("botright copen 15")
 end, { desc = "Send LSP diagnostics to quickfix list", silent = true })
 
-map("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Display signature help", silent = true})
+map("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Display signature help", silent = true })
+map("n", "ga", vim.lsp.buf.code_action, { desc = "Code action", silent = true })
