@@ -267,9 +267,27 @@ map("n", "<leader>Q", function()
 		vim.api.nvim_win_close(qfwin, false)
 	end
 
-	vim.diagnostic.setqflist({ open = false })
+	vim.diagnostic.setqflist({
+		title = "Project LSP Diagnostics",
+		open = false,
+	})
+
 	vim.cmd("botright copen 15")
-end, { desc = "Send LSP diagnostics to quickfix list", silent = true })
+end, { desc = "Send project LSP diagnostics to quickfix list", silent = true })
+
+map("n", "<leader>E", function()
+	local qfwin = vim.fn.getqflist({ winid = 1 }).winid
+	if qfwin > 0 then
+		vim.api.nvim_win_close(qfwin, false)
+	end
+
+	vim.fn.setqflist({}, "r", {
+		title = "Buffer LSP Diagnostics",
+		items = vim.diagnostic.toqflist(vim.diagnostic.get(0)),
+	})
+
+	vim.cmd("botright copen 15")
+end, { desc = "Send buffer LSP diagnostics to quickfix list", silent = true })
 
 map("n", "<C-k>", vim.lsp.buf.signature_help, { desc = "Display signature help", silent = true })
 map("n", "ga", vim.lsp.buf.code_action, { desc = "Code action", silent = true })
