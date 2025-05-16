@@ -62,8 +62,7 @@ return {
 
 				enabled = function()
 					local context = require("cmp.config.context")
-					return not context.in_treesitter_capture("comment")
-							and not context.in_syntax_group("Comment")
+					return not context.in_treesitter_capture("comment") and not context.in_syntax_group("Comment")
 				end,
 
 				formatting = {
@@ -99,10 +98,10 @@ return {
 		opts = {
 			automatic_enable = {
 				exclude = {
-					"rust_analyzer"
-				}
-			}
-		}
+					"rust_analyzer",
+				},
+			},
+		},
 	},
 
 	{
@@ -111,5 +110,5 @@ return {
 			{ "hrsh7th/nvim-cmp", import = "lazy-plugins.lsp" },
 		},
 		config = false,
-	}
+	},
 }
