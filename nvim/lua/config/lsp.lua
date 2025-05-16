@@ -3,6 +3,7 @@ local M = {}
 M.enabled_servers = {
 	"rust_analyzer",
 	"lua_ls",
+	"clangd",
 }
 
 local providers = {

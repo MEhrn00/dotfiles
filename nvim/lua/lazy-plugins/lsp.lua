@@ -90,22 +90,6 @@ return {
 	},
 
 	{
-		"williamboman/mason-lspconfig.nvim",
-		dependencies = {
-			{ "neovim/nvim-lspconfig", import = "lazy-plugins.lsp" },
-			{ "williamboman/mason.nvim", import = "lazy-plugins.lsp" },
-		},
-		opts = {
-			automatic_enable = {
-				exclude = {
-					"rust_analyzer",
-					"lua_ls",
-				},
-			},
-		},
-	},
-
-	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
 			{ "hrsh7th/nvim-cmp", import = "lazy-plugins.lsp" },
