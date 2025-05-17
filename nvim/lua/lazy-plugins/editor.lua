@@ -157,43 +157,109 @@ return {
 			"someone-stole-my-name/yaml-companion.nvim",
 		},
 		cmd = { "Telescope" },
-		keys = {
-			{ "<space>.", "<Cmd>Telescope find_files<CR>", mode = { "n", "v" }, desc = "Find files" },
-			{ "<space>,", "<Cmd>Telescope buffers sort_mru=true sort_lastused=true<CR>", desc = "Jump to buffer" },
-			{ "<space>/", "<Cmd>Telescope live_grep<CR>", mode = "n", desc = "Grep for text" },
-			{
-				"<leader>/",
-				function()
-					require("telescope.builtin").live_grep({ default_text = getVisualSelection() })
-				end,
-				mode = "v",
-				desc = "Grep for selected text",
-			},
-			{ "<leader>fr", "<Cmd>Telescope lsp_references<CR>", desc = "Find LSP references" },
-			{ "<leader>fi", "<Cmd>Telescope lsp_implementations<CR>", desc = "Find LSP implementations" },
-			{ "<leader>ft", "<Cmd>Telescope tags<CR>", desc = "Find tags" },
-			{
-				"<leader>fs",
-				"<Cmd>Telescope lsp_workspace_symbols<CR>",
-				mode = "n",
-				desc = "Find workspace LSP symbols",
-			},
-			{ "<leader>gd", "<Cmd>Telescope git_bcommits<CR>", mode = "n", desc = "View git history for opened file" },
-			{ "<leader>gb", "<Cmd>Telescope git_branches<CR>", mode = "n", desc = "View git branches" },
-		},
+		keys = function()
+			local builtin = require("telescope.builtin")
+			return {
+				{ "<space>.", builtin.find_files, desc = "Find files" },
+				{
+					"<space>.",
+					function()
+						builtin.find_files({
+							search_file = getVisualSelection()
+						})
+					end,
+					mode = "v",
+					desc = "Find selected text as file",
+				},
+				{
+					"<space>,",
+					function()
+						builtin.buffers({
+							sort_mru = true,
+							sort_lastused = true,
+						})
+					end,
+					desc = "Jump to buffer"
+				},
+				{ "<space>/", builtin.live_grep,  desc = "Grep for text" },
+				{
+					"<leader>/",
+					function()
+						builtin.live_grep({
+							default_text = getVisualSelection()
+						})
+					end,
+					mode = "v",
+					desc = "Grep for selected text",
+				},
+				{ "<leader>fr", builtin.lsp_references,        desc = "Find LSP references" },
+				{ "<leader>fi", builtin.lsp_implementations,   desc = "Find LSP implementations" },
+				{ "<leader>ft", builtin.tags,                  desc = "Find tags" },
+				{ "<leader>fm", builtin.marks,                 desc = "List marks" },
+				{ "<leader>fs", builtin.lsp_workspace_symbols, desc = "Find workspace LSP symbols" },
+				{ "<leader>gd", builtin.git_bcommits,          desc = "View git history for opened file" },
+				{ "<leader>gb", builtin.git_branches,          desc = "View git branches" },
+			}
+		end,
 		opts = {
+			defaults = {
+				mappings = {
+					i = {
+						-- Emacs keybindings for insert mode
+						["<c-f>"] = { "<Right>", type = "command" },
+						["<c-b>"] = { "<Left>", type = "command" },
+						["<c-a>"] = { "<Home>", type = "command" },
+						["<c-e>"] = { "<End>", type = "command" },
+						["<esc>f"] = { "<S-Right>", type = "command" },
+						["<esc>b"] = { "<S-Left>", type = "command" },
+						["<c-d>"] = { "<Del><Del>", type = "command" },
+						["<c-u>"] = {
+							function()
+								local _, _, currentcol, _, _ = table.unpack(vim.fn.getcurpos())
+								local linelen = vim.fn.getline(1):len()
+								if linelen == currentcol then
+									return ""
+								end
+
+								return string.rep("<BS>", currentcol)
+							end,
+							type = "command",
+							opts = {
+								expr = true,
+							},
+						},
+						["<c-k>"] = {
+							function()
+								local _, _, currentcol, _, _ = table.unpack(vim.fn.getcurpos())
+								local linelen = vim.fn.getline(1):len()
+								if linelen == currentcol then
+									return ""
+								end
+
+								return string.rep("<Del>", linelen - currentcol + 1)
+							end,
+							type = "command",
+							opts = {
+								expr = true,
+							},
+						},
+					},
+				},
+			},
 			pickers = {
 				buffers = {
 					mappings = {
 						i = {
-							["<c-d>"] = "delete_buffer",
-						},
-						n = {
-							["<c-d>"] = "delete_buffer",
+							["<c-x>"] = "delete_buffer",
 						},
 					},
 				},
 				find_files = {
+					mappings = {
+						i = {
+							["<c-s>"] = "file_split",
+						},
+					},
 					find_command = function()
 						if vim.fn.executable("fd") == 1 then
 							return { "fd", "--type", "f", "--color", "never", "-E", ".git" }
@@ -207,6 +273,13 @@ return {
 					end,
 					hidden = true,
 				},
+				marks = {
+					mappings = {
+						i = {
+							["<c-x>"] = "delete_mark",
+						},
+					},
+				},
 			},
 		},
 	},
@@ -215,7 +288,7 @@ return {
 	{
 		"junegunn/fzf",
 		opts = {},
-		config = function(_, opts) end,
+		config = function() end,
 	},
 
 	{
@@ -235,7 +308,7 @@ return {
 		},
 		keys = {
 			{ "<space>ot", "<Cmd>ToggleTerm<CR>", mode = "n", desc = "Toggle terminal" },
-			{ "<C-j>", "<Cmd>ToggleTerm<CR>", mode = "t", desc = "Toggle terminal" },
+			{ "<C-j>",     "<Cmd>ToggleTerm<CR>", mode = "t", desc = "Toggle terminal" },
 		},
 	},
 }
