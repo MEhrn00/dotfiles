@@ -392,8 +392,9 @@ return {
 		name = "lsp-file-operations",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"nvim-neo-tree/neo-tree.nvim",
+			{ "nvim-neo-tree/neo-tree.nvim", import = "lazy-plugins.ui" },
 		},
+		main = "lsp-file-operations",
 		config = true,
 	},
 
