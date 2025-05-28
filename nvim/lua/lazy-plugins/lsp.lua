@@ -82,18 +82,18 @@ return {
 	},
 
 	{
-		"williamboman/mason.nvim",
+		"mason-org/mason-lspconfig.nvim",
+		opts = {},
 		dependencies = {
-			{ "neovim/nvim-lspconfig", import = "lazy-plugins.lsp" },
-		},
-		config = true,
-	},
+			{ "mason-org/mason.nvim", opts = {} },
 
-	{
-		"neovim/nvim-lspconfig",
-		dependencies = {
-			{ "hrsh7th/nvim-cmp", import = "lazy-plugins.lsp" },
+			{
+				"neovim/nvim-lspconfig",
+				dependencies = {
+					{ "hrsh7th/nvim-cmp", import = "lazy-plugins.lsp" },
+				},
+				config = false,
+			},
 		},
-		config = false,
 	},
 }

@@ -86,7 +86,6 @@ vim.opt.shortmess = "filnxtToOFc"
 vim.opt.icm = "split"
 
 -- Termdebug
-vim.cmd.packadd("termdebug")
 vim.g.termdebug_wide = 1
 
 -- Quickfix filter
