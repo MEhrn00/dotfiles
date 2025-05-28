@@ -63,7 +63,7 @@ vim.opt.wildmenu = true
 vim.opt.wildmode = "longest:full,full"
 vim.opt.wildoptions = {
 	"fuzzy",
-	"pum"
+	"pum",
 }
 vim.opt.pumheight = 20
 
@@ -77,7 +77,7 @@ vim.opt.completeopt = {
 	"menu",
 	"fuzzy",
 	"noselect",
-	"popup"
+	"popup",
 }
 
 vim.opt.shortmess = "filnxtToOFc"
