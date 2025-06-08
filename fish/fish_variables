@@ -7,7 +7,7 @@ SETUVAR --export XDG_CACHE_HOME:/home/matt/\x2ecache
 SETUVAR --export XDG_CONFIG_HOME:/home/matt/\x2econfig
 SETUVAR --export XDG_DATA_HOME:/home/matt/\x2elocal/share
 SETUVAR --export XDG_STATE_HOME:/home/matt/\x2elocal/state
-SETUVAR __fish_initialized:3400
+SETUVAR __fish_initialized:3800
 SETUVAR fish_color_autosuggestion:brblack
 SETUVAR fish_color_cancel:\x2dr
 SETUVAR fish_color_command:blue
@@ -36,4 +36,4 @@ SETUVAR fish_pager_color_description:yellow\x1e\x2di
 SETUVAR fish_pager_color_prefix:normal\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
 SETUVAR fish_pager_color_selected_background:\x2dr
-SETUVAR fish_user_paths:/home/matt/\x2elocal/bin\x1e/opt/gradle\x2d8\x2e14/bin\x1e/home/matt/\x2elocal/share/go/bin\x1e/home/matt/\x2econfig/cargo/bin
+SETUVAR fish_user_paths:/home/matt/\x2econfig/cargo/bin
