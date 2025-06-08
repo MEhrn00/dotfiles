@@ -134,19 +134,10 @@ return {
 	},
 
 	{
-		"toppair/peek.nvim",
-		event = { "VeryLazy" },
-		build = "deno task --quiet build:fast",
-		opts = {
-			app = "browser",
-		},
-		config = function(_, opts)
-			local peek = require("peek")
-			peek.setup(opts)
-
-			vim.api.nvim_create_user_command("PeekOpen", peek.open, {})
-			vim.api.nvim_create_user_command("PeekClose", peek.close, {})
-		end,
+		"iamcco/markdown-preview.nvim",
+		cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+		ft = { "markdown" },
+		build = function() vim.fn["mkdp#util#install"]() end,
 	},
 
 	{

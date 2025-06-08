@@ -1,5 +1,6 @@
 if not vim.g.vscode then
 	vim.opt_local.spell = true
+	vim.opt_local.conceallevel = 2
 end
 
 -- Set tabs equal to 2 spaces
