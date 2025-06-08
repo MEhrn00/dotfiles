@@ -4,6 +4,6 @@ function nvm
     bass source $NVM_DIR/nvm.sh --no-use ';' nvm $argv
 end
 
-if not set -q NVM_BIN
+if not set -q NVM_BIN; and test -f "$NVM_DIR/nvm.sh"
     nvm use default --silent
 end
