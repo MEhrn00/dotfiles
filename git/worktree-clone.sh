@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+
+# TODO: Move to lua
+
 # Script for cloning git repositories into worktree projects.
 #
 # From https://morgan.cugerone.com/blog/workarounds-to-git-worktree-using-bare-repository-and-cannot-fetch-remote-branches/

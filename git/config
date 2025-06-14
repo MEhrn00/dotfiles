@@ -9,40 +9,6 @@
 	st = status -s
 	graph = log --graph --date=format-local:%c --format=tformat:'%C(bold blue)%h%C(reset) - %C(bold green)(%ad, %ar)%C(reset) %s %C(dim white)- %an%C(reset) %C(auto)%d%C(reset)' --all
 	glog = log --graph --abbrev-commit --decorate
-	ilog = "!f() { \
-		git log --graph --color --format='%C(bold blue)%h%C(reset) - %C(bold green)(%as, %ar)%C(reset) %s %C(dim white)- %an%C(reset) %C(auto)%d%C(reset)' -- $1 \
-		| fzf --ansi --no-sort --border --track \
-			--height 75% \
-			--layout reverse \
-			--prompt 'Git History > ' \
-			--header 'ENTER: Checkout commit, CTRL-Y: Copy commit hash, TAB: Full screen' \
-			--bind 'enter:become(git checkout $(printf {} | grep -o \"[a-f0-9]\\{7\\}\"))' \
-			--bind 'ctrl-y:execute-silent(git rev-parse $(printf {} | grep -o \"[a-f0-9]\\{7\\}\") | tr -d \"\n\" | wl-copy)' \
-			--bind 'tab:execute(git show --color $(printf {} | grep -o \"[a-f0-9]\\{7\\}\") | less)' \
-			--preview='git show --color $(printf {} | grep -o \"[a-f0-9]\\{7\\}\")'; \
-		}; f"
-	ibranch = "!f() { \
-		git branch -ra --color \
-		| fzf --ansi --no-sort --border --track \
-			--height 75% \
-			--layout reverse \
-			--prompt 'Git Branches > ' \
-			--header 'ENTER: Checkout branch, CTRL-Y: Copy branch name, CTRL-T: Switch history/diff view' \
-			--bind 'enter:become(git checkout $(printf {} | grep -o \"[^ ]\\+$\" | sed \"s/remotes\\///\" | tr -d \"\n\"))' \
-			--bind 'ctrl-y:execute-silent(printf {} | grep -o \"[^ ]\\+$\" | sed \"s/remotes\\///\" | tr -d \"\n\" | wl-copy)' \
-			--preview-label='Branch History' \
-			--bind 'ctrl-t:transform:[[ ! $FZF_PREVIEW_LABEL =~ History ]] && \
-				printf \"change-preview-label(Branch History)+refresh-preview\" || \
-				printf \"change-preview-label(Branch Diff)+refresh-preview\"' \
-			--preview '[[ $FZF_PREVIEW_LABEL =~ History ]] && \
-				git log --graph --color \
-					--date=format-local:%c \
-					--format=tformat:\"%C(bold blue)%h%C(reset) - %C(bold green)(%as)%C(reset) %s %C(dim white)- %an%C(reset) %C(auto)%d%C(reset)\" \
-					$(printf {} | grep -o \"[^ ]\\+$\") || \
-				git diff --color $(printf {} | grep -o \"[^ ]\\+$\" | sed \"s/remotes\\///\" | tr -d \"\n\")...HEAD' ; \
-		}; f"
-
-	worktree-clone = "!sh $XDG_CONFIG_HOME/git/worktree-clone.sh"
 	changelog = "shortlog --format='* %s. (%h)'"
 [init]
 	defaultBranch = main
@@ -51,14 +17,9 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
-[core]
-	pager = "bat"
-	autocrlf = true
 [merge]
-	tool = nvimdiff
 	conflictstyle = diff3
-[mergetool]
-	keepBackup = false
-	prompt = false
 [include]
-	path = config.extra
+	path = extra.gitconfig
+	path = ~/.config/git/linux.gitconfig
+	path = ~/AppData/Local/git/windows.gitconfig

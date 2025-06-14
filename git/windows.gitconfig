@@ -1,0 +1,6 @@
+[core]
+	pager = bat --style=changes
+	autocrlf = true
+	sshCommand = 'C:\\WINDOWS\\System32\\OpenSSH\\ssh.exe'
+[gpg]
+	program = C:\\Program Files (x86)\\GnuPG\\bin\\gpg.exe
