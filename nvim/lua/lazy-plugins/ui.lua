@@ -32,27 +32,27 @@ return {
 	{
 		"romgrk/barbar.nvim",
 		dependencies = {
-			{ "lewis6991/gitsigns.nvim", import = "lazy-plugins.ui" },
+			{ "lewis6991/gitsigns.nvim",    import = "lazy-plugins.ui" },
 			{ "nvim-tree/nvim-web-devicons" },
 		},
 		lazy = false,
 		keys = {
-			{ "[b", "<Cmd>BufferPrevious<CR>", desc = "Go to previous buffer" },
-			{ "]b", "<Cmd>BufferNext<CR>", desc = "Go to next buffer" },
-			{ "<leader>d", "<Cmd>BufferClose<CR>", desc = "Delete buffer" },
-			{ "<leader>p", "<Cmd>BufferPick<CR>", desc = "Select buffer" },
-			{ "<leader>1", "<Cmd>BufferGoto 1<CR>", desc = "Go to buffer 1" },
-			{ "<leader>2", "<Cmd>BufferGoto 2<CR>", desc = "Go to buffer 2" },
-			{ "<leader>3", "<Cmd>BufferGoto 3<CR>", desc = "Go to buffer 3" },
-			{ "<leader>4", "<Cmd>BufferGoto 4<CR>", desc = "Go to buffer 4" },
-			{ "<leader>5", "<Cmd>BufferGoto 5<CR>", desc = "Go to buffer 5" },
-			{ "<leader>6", "<Cmd>BufferGoto 6<CR>", desc = "Go to buffer 6" },
-			{ "<leader>6", "<Cmd>BufferGoto 7<CR>", desc = "Go to buffer 7" },
-			{ "<leader>8", "<Cmd>BufferGoto 8<CR>", desc = "Go to buffer 8" },
-			{ "<leader>9", "<Cmd>BufferGoto 9<CR>", desc = "Go to buffer 9" },
-			{ "<leader>0", "<Cmd>BufferLast<CR>", desc = "Go to last buffer" },
+			{ "[b",        "<Cmd>BufferPrevious<CR>",     desc = "Go to previous buffer" },
+			{ "]b",        "<Cmd>BufferNext<CR>",         desc = "Go to next buffer" },
+			{ "<leader>d", "<Cmd>BufferClose<CR>",        desc = "Delete buffer" },
+			{ "<leader>p", "<Cmd>BufferPick<CR>",         desc = "Select buffer" },
+			{ "<leader>1", "<Cmd>BufferGoto 1<CR>",       desc = "Go to buffer 1" },
+			{ "<leader>2", "<Cmd>BufferGoto 2<CR>",       desc = "Go to buffer 2" },
+			{ "<leader>3", "<Cmd>BufferGoto 3<CR>",       desc = "Go to buffer 3" },
+			{ "<leader>4", "<Cmd>BufferGoto 4<CR>",       desc = "Go to buffer 4" },
+			{ "<leader>5", "<Cmd>BufferGoto 5<CR>",       desc = "Go to buffer 5" },
+			{ "<leader>6", "<Cmd>BufferGoto 6<CR>",       desc = "Go to buffer 6" },
+			{ "<leader>6", "<Cmd>BufferGoto 7<CR>",       desc = "Go to buffer 7" },
+			{ "<leader>8", "<Cmd>BufferGoto 8<CR>",       desc = "Go to buffer 8" },
+			{ "<leader>9", "<Cmd>BufferGoto 9<CR>",       desc = "Go to buffer 9" },
+			{ "<leader>0", "<Cmd>BufferLast<CR>",         desc = "Go to last buffer" },
 			{ "<leader>z", "<Cmd>BufferMovePrevious<CR>", desc = "Move buffer left" },
-			{ "<leader>x", "<Cmd>BufferMoveNext<CR>", desc = "Move buffer right" },
+			{ "<leader>x", "<Cmd>BufferMoveNext<CR>",     desc = "Move buffer right" },
 		},
 	},
 
@@ -284,10 +284,10 @@ return {
 							local icons = require("lualine.components.diagnostics.config").symbols.icons
 							local qflist = vim.fn.getqflist({ items = 0 })
 							local entries = vim.iter(qflist.items)
-								:filter(function(item)
-									return item.valid == 1
-								end)
-								:totable()
+									:filter(function(item)
+										return item.valid == 1
+									end)
+									:totable()
 
 							if vim.tbl_count(entries) == 0 then
 								return ""
@@ -314,10 +314,10 @@ return {
 							local results = ""
 							if info > 0 then
 								results = results
-									.. "%#lualine_b_diagnostics_info_normal#"
-									.. icons.info
-									.. info
-									.. "%#lualine_b_normal#"
+										.. "%#lualine_b_diagnostics_info_normal#"
+										.. icons.info
+										.. info
+										.. "%#lualine_b_normal#"
 								if warnings > 0 or errors > 0 then
 									results = results .. " "
 								end
@@ -325,10 +325,10 @@ return {
 
 							if warnings > 0 then
 								results = results
-									.. "%#lualine_b_diagnostics_warn_normal#"
-									.. icons.warn
-									.. warnings
-									.. "%#lualine_b_normal#"
+										.. "%#lualine_b_diagnostics_warn_normal#"
+										.. icons.warn
+										.. warnings
+										.. "%#lualine_b_normal#"
 								if errors > 0 then
 									results = results .. " "
 								end
@@ -336,10 +336,10 @@ return {
 
 							if errors > 0 then
 								results = results
-									.. "%#lualine_b_diagnostics_error_normal#"
-									.. icons.error
-									.. errors
-									.. "%#lualine_b_normal#"
+										.. "%#lualine_b_diagnostics_error_normal#"
+										.. icons.error
+										.. errors
+										.. "%#lualine_b_normal#"
 							end
 
 							return results
@@ -366,7 +366,7 @@ return {
 				"s1n7ax/nvim-window-picker",
 				name = "window-picker",
 				event = "VeryLazy",
-				version = "2.*",
+				version = "v3.x",
 				opts = {
 					hint = "floating-letter",
 					filter_rules = {
@@ -381,6 +381,7 @@ return {
 			},
 		},
 		cmd = { "Neotree" },
+		lazy = false,
 		keys = {
 			{ "<space>f", "<Cmd>Neotree toggle<CR>", desc = "Toggle Neotree" },
 		},
