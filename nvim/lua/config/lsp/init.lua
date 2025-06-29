@@ -4,6 +4,8 @@ local enabled_servers = {
 	"lua_ls",
 }
 
+vim.lsp.set_log_level("off")
+
 for _, server in ipairs(enabled_servers or {}) do
 	local ok, config = pcall(require, "config.lsp." .. server)
 	if ok then
