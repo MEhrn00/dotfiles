@@ -15,12 +15,14 @@ local ansi_reset = string.char(27) .. "[0m"
 
 vim.ui.select = function(items, opts, on_choice)
 	local labels = {}
-	for i, item in ipairs(items) do
-		table.insert(labels, string.format("%s%d.%s %s", ansi_color, i, ansi_reset, opts.format_item(item)))
+
+	local format_item = function(item) return item end
+	if opts.format_item ~= nil then
+		format_item = opts.format_item
 	end
 
-	if opts.kind ~= nil then
-		vim.print(opts.kind)
+	for i, item in ipairs(items) do
+		table.insert(labels, string.format("%s%d.%s %s", ansi_color, i, ansi_reset, format_item(item)))
 	end
 
 	local cancel_callback = function()
@@ -28,8 +30,7 @@ vim.ui.select = function(items, opts, on_choice)
 	end
 
 	local choice_callback = function(label)
-		local period = string.find(label, ".")
-		local lnum = tonumber(string.sub(label, 1, period - 1))
+		local lnum = tonumber(label:match("(%d+)%."))
 		local item = items[lnum]
 		on_choice(item, lnum)
 	end
