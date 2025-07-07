@@ -1,0 +1,385 @@
+{
+  // General settings
+  "telemetry.telemetryLevel": "off",
+  "workbench.panel.defaultLocation": "bottom",
+  "window.restoreWindows": "none",
+  "git.confirmSync": false,
+  "extensions.ignoreRecommendations": true,
+  "git.openRepositoryInParentFolders": "never",
+  "workbench.startupEditor": "none",
+  // Font settings
+  "editor.fontFamily": "SauceCodePro Nerd Font",
+  "editor.fontSize": 12,
+  "terminal.integrated.fontFamily": "SauceCodePro Nerd Font Mono",
+  "editor.inlayHints.fontFamily": "SauceCodePro Nerd Font",
+  "terminal.integrated.fontSize": 12,
+  // Editor settings
+  "editor.stickyScroll.enabled": true,
+  "editor.minimap.enabled": false,
+  "editor.cursorBlinking": "solid",
+  "editor.inlayHints.enabled": "offUnlessPressed",
+  "editor.renderWhitespace": "trailing",
+  "editor.rulers": [
+    90
+  ],
+  "editor.cursorSurroundingLines": 5,
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": true,
+  "files.insertFinalNewline": true,
+  // Integrated terminal settings
+  "terminal.integrated.allowChords": false,
+  "terminal.integrated.commandsToSkipShell": [
+    "-workbench.action.terminal.focusFind",
+    "-workbench.action.quickOpen"
+  ],
+  "accessibility.signals.terminalBell": {
+    "sound": "off"
+  },
+  // Vim keybinds
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "]",
+        "b"
+      ],
+      "commands": [
+        ":bn"
+      ],
+      "silent": true,
+    },
+    {
+      "before": [
+        "[",
+        "b"
+      ],
+      "commands": [
+        ":bp"
+      ],
+      "silent": true,
+    },
+    {
+      "before": [
+        "<space>",
+        "."
+      ],
+      "commands": [
+        "workbench.action.quickOpen"
+      ]
+    },
+    {
+      "before": [
+        "<space>",
+        "/"
+      ],
+      "commands": [
+        "workbench.action.findInFiles"
+      ]
+    },
+    {
+      "before": [
+        "K"
+      ],
+      "after": [
+        "g",
+        "h"
+      ],
+      "silent": true,
+    },
+    {
+      "before": [
+        "<leader>",
+        "b",
+        "b"
+      ],
+      "commands": [
+        "workbench.action.tasks.build"
+      ],
+      "silent": true,
+    },
+    {
+      "before": [
+        "<space>",
+        "f",
+        "t"
+      ],
+      "when": "viewContainer.workbench.view.explorer.enabled",
+      "commands": [
+        "workbench.view.explorer"
+      ],
+      "silent": true
+    },
+    {
+      "before": [
+        "g",
+        "c"
+      ],
+      "when": "editorTextFocus && vim.active && !inDebugRepl && !editorReadonly",
+      "commands": [
+        "editor.action.commentLine",
+        "extension.vim_escape"
+      ],
+      "silent": true,
+    },
+    {
+      "before": [
+        "g",
+        "a"
+      ],
+      "when": "editorHasCodeActionsProvider && textInputFocus && !editorReadonly",
+      "commands": [
+        "editor.action.quickFix"
+      ],
+      "silent": true,
+    },
+    {
+      "before": [
+        "g",
+        "r",
+        "n"
+      ],
+      "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly",
+      "commands": [
+        "editor.action.rename"
+      ],
+      "silent": true,
+    },
+    {
+      "before": [
+        "]",
+        "d",
+      ],
+      "when": "editorFocus",
+      "commands": [
+        "editor.action.marker.next"
+      ],
+      "silent": true,
+    },
+    {
+      "before": [
+        "[",
+        "d",
+      ],
+      "when": "editorFocus",
+      "commands": [
+        "editor.action.marker.prev"
+      ],
+      "silent": true,
+    }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<leader>",
+        "y"
+      ],
+      "after": [
+        "\"",
+        "+",
+        "y"
+      ],
+      "silent": true,
+    },
+    {
+      "before": [
+        "g",
+        "c"
+      ],
+      "when": "editorTextFocus && vim.active && !inDebugRepl && !editorReadonly",
+      "commands": [
+        "editor.action.commentLine",
+        "extension.vim_escape"
+      ],
+      "silent": true,
+    },
+    {
+      "before": [
+        "<"
+      ],
+      "after": [
+        "<",
+        "g",
+        "v"
+      ],
+      "silent": true,
+    },
+    {
+      "before": [
+        ">"
+      ],
+      "after": [
+        ">",
+        "g",
+        "v"
+      ],
+      "silent": true,
+    }
+  ],
+  // Language specific settings
+  "[ansible]": {
+    "editor.detectIndentation": true,
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.quickSuggestions": {
+      "comments": true,
+      "other": true,
+      "strings": true
+    },
+  },
+  "[go]": {
+    "editor.insertSpaces": false,
+    "editor.formatOnSave": false
+  },
+  "[c]": {
+    "editor.defaultFormatter": "xaver.clang-format"
+  },
+  "[cpp]": {
+    "editor.defaultFormatter": "xaver.clang-format"
+  },
+  "[cmake]": {
+    "editor.tabSize": 2,
+    "editor.formatOnSave": false,
+  },
+  "[html]": {
+    "editor.tabSize": 2,
+    "editor.rulers": [
+      0
+    ]
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features",
+    "editor.tabSize": 2
+  },
+  "[json]": {
+    "editor.tabSize": 2
+  },
+  "[lua]": {
+    "editor.tabSize": 2
+  },
+  "[makefile]": {
+    "editor.insertSpaces": false
+  },
+  "[markdown]": {
+    "editor.tabSize": 2,
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.unicodeHighlight.invisibleCharacters": false,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.wordWrap": "on",
+    "editor.quickSuggestions": {
+      "comments": "off",
+      "strings": "off",
+      "other": "off"
+    }
+  },
+  "[meson]": {
+    "editor.formatOnSave": false
+  },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "[rust]": {
+    "editor.rulers": [
+      80
+    ]
+  },
+  "[terraform]": {
+    "editor.tabSize": 2
+  },
+  "[toml]": {
+    "editor.tabSize": 2
+  },
+  "[yaml]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced",
+    "diffEditor.ignoreTrimWhitespace": false
+  },
+  "clang-format.language.proto.enable": false,
+  "clangd.arguments": [
+    "--clang-tidy"
+  ],
+  "cmake.allowCommentsInPresetsFile": true,
+  "cmake.configureOnOpen": false,
+  "cmake.buildDirectory": "${workspaceFolder}/build",
+  "cmake.options.statusBarVisibility": "compact",
+  "cmake.preferredGenerators": [
+    "Ninja Multi-Config"
+  ],
+  "mesonbuild.downloadLanguageServer": true,
+  "python.terminal.activateEnvironment": false,
+  "clangd.checkUpdates": false,
+  "cmake.pinnedCommands": [
+    "workbench.action.tasks.configureTaskRunner",
+    "workbench.action.tasks.runTask"
+  ],
+  "cmake.configureOnEdit": false,
+  "cmake.showConfigureWithDebuggerNotification": false,
+  "mesonbuild.configureOnOpen": false,
+  "mesonbuild.modifySettings": false,
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "doxdocgen.generic.briefTemplate": "",
+  "rust-analyzer.check.command": "clippy",
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell"
+    },
+    "Command Prompt": {
+      "path": [
+        "${env:windir}\\Sysnative\\cmd.exe",
+        "${env:windir}\\System32\\cmd.exe"
+      ],
+      "args": [],
+      "icon": "terminal-cmd"
+    },
+    "Developer PowerShell for VS 2022 (amd64)": {
+      "path": "pwsh",
+      "args": [
+        "-NoExit",
+        "-Command",
+        "$vsPath = & \"${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe\" -property installationpath; Import-Module \"$vsPath/Common7/Tools/Microsoft.VisualStudio.DevShell.dll\"; Enter-VsDevShell -VsInstallPath $vsPath -SkipAutomaticLocation -Arch amd64"
+      ],
+      "overrideName": true,
+      "icon": "terminal-powershell",
+    },
+    "Developer PowerShell for VS 2022 (x86)": {
+      "path": "pwsh",
+      "args": [
+        "-NoExit",
+        "-Command",
+        "$vsPath = & \"${env:ProgramFiles(x86)}/Microsoft Visual Studio/Installer/vswhere.exe\" -property installationpath; Import-Module \"$vsPath/Common7/Tools/Microsoft.VisualStudio.DevShell.dll\"; Enter-VsDevShell -VsInstallPath $vsPath -SkipAutomaticLocation -Arch x86"
+      ],
+      "overrideName": true,
+      "icon": "terminal-powershell",
+    },
+    "Msys2 Shell": {
+      "path": "${env:USERPROFILE}\\scoop\\shims\\msys2.cmd",
+      "overrideName": true,
+      "icon": "terminal-bash"
+    },
+    "Mingw64 Shell": {
+      "path": "${env:USERPROFILE}\\scoop\\shims\\msys2.cmd",
+      "args": [
+        "-mingw64"
+      ],
+      "overrideName": true,
+      "icon": "terminal-bash"
+    },
+    "Ucrt64 Shell": {
+      "path": "${env:USERPROFILE}\\scoop\\shims\\msys2.cmd",
+      "args": [
+        "-ucrt64"
+      ],
+      "overrideName": true,
+      "icon": "terminal-bash"
+    }
+  },
+  "clang-format.executable.windows": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\Llvm\\x64\\bin\\clang-format.exe",
+  "cmake.configureArgs": [
+    "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON"
+  ],
+  "cmake.copyCompileCommands": "compile_commands.json",
+  "editor.formatOnSave": true,
+}
